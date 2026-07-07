@@ -902,8 +902,7 @@
         <script>
             (function () {
                 "use strict";
-                var K = "",
-                    U = "https://api.deepseek.com/chat/completions",
+                var U = "/api/chat",
                     VK = "jp_vocabulary";
                 var Q = "",
                     W = false;
@@ -1129,7 +1128,6 @@
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
-                            Authorization: "Bearer " + K,
                         },
                         body: JSON.stringify({
                             model: "deepseek-v4-flash",
