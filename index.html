@@ -1,0 +1,1816 @@
+<!doctype html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Belajar Bahasa Jepang</title>
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            :root {
+                --bg: #0f0f1a;
+                --surface: #1a1a2e;
+                --surface2: #16213e;
+                --primary: #e63946;
+                --accent: #f0c27f;
+                --success: #22c55e;
+                --danger: #ef4444;
+                --text: #f1f1f6;
+                --text-muted: #9ca3af;
+                --border: #2a2a4a;
+                --radius: 16px;
+                --radius-sm: 10px;
+            }
+            body {
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                    "Helvetica Neue", Arial, sans-serif;
+                background: var(--bg);
+                color: var(--text);
+                min-height: 100vh;
+                min-height: 100dvh;
+            }
+            .page {
+                display: none !important;
+            }
+            .page.active {
+                display: flex !important;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+
+            #homePage {
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 40px 24px;
+                background: radial-gradient(
+                    ellipse at 50% 0%,
+                    #1a1a3e 0%,
+                    #0f0f1a 60%
+                );
+            }
+            .hero-icon {
+                font-size: 64px;
+                margin-bottom: 8px;
+                animation: float 3s ease-in-out infinite;
+            }
+            @keyframes float {
+                0%,
+                100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+            }
+            .hero-title {
+                font-size: 36px;
+                font-weight: 800;
+                background: linear-gradient(
+                    135deg,
+                    var(--accent),
+                    var(--primary)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin-bottom: 8px;
+            }
+            .hero-sub {
+                font-size: 15px;
+                color: var(--text-muted);
+                margin-bottom: 36px;
+                max-width: 320px;
+            }
+            .home-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                width: 100%;
+                max-width: 320px;
+            }
+            .btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                padding: 16px 28px;
+                border: none;
+                border-radius: var(--radius);
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition:
+                    transform 0.15s,
+                    box-shadow 0.2s;
+                color: #fff;
+            }
+            .btn:active {
+                transform: scale(0.97);
+            }
+            .btn-primary {
+                background: linear-gradient(135deg, var(--primary), #d62828);
+                box-shadow: 0 4px 20px rgba(230, 57, 70, 0.35);
+            }
+            .btn-primary:hover {
+                box-shadow: 0 6px 28px rgba(230, 57, 70, 0.5);
+            }
+            .btn-secondary {
+                background: var(--surface2);
+                border: 1px solid var(--border);
+            }
+            .btn-secondary:hover {
+                background: #1a2a4e;
+            }
+            .badge {
+                background: var(--primary);
+                color: #fff;
+                font-size: 11px;
+                font-weight: 700;
+                min-width: 22px;
+                height: 22px;
+                border-radius: 11px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0 6px;
+                margin-left: auto;
+            }
+            .hero-footer {
+                margin-top: 48px;
+                font-size: 12px;
+                color: var(--text-muted);
+            }
+
+            .page-header {
+                background: var(--surface);
+                border-bottom: 1px solid var(--border);
+                padding: 14px 20px;
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                flex-shrink: 0;
+            }
+            .btn-back {
+                background: transparent;
+                border: 1px solid var(--border);
+                color: var(--text);
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                cursor: pointer;
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.15s;
+                flex-shrink: 0;
+            }
+            .btn-back:hover {
+                background: var(--border);
+            }
+            .page-header h2 {
+                font-size: 17px;
+                font-weight: 600;
+            }
+
+            #practicePage {
+                background: var(--bg);
+            }
+            .practice-body {
+                flex: 1;
+                padding: 24px 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                max-width: 600px;
+                width: 100%;
+                margin: 0 auto;
+            }
+            .question-card {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                padding: 32px 24px;
+                text-align: center;
+                animation: fadeUp 0.35s ease-out;
+            }
+            @keyframes fadeUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(16px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .question-label {
+                font-size: 13px;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 14px;
+            }
+            .question-text {
+                font-size: 22px;
+                font-weight: 600;
+                line-height: 1.5;
+            }
+            .answer-area {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .answer-area input {
+                width: 100%;
+                padding: 16px 20px;
+                border-radius: var(--radius-sm);
+                border: 2px solid var(--border);
+                background: var(--surface);
+                color: var(--text);
+                font-size: 18px;
+                outline: none;
+                transition: border-color 0.2s;
+            }
+            .answer-area input:focus {
+                border-color: var(--accent);
+            }
+            .answer-area input::placeholder {
+                color: var(--text-muted);
+                font-size: 15px;
+            }
+            .answer-area input:disabled {
+                opacity: 0.5;
+            }
+            .answer-area .btn-send {
+                padding: 14px;
+                border: none;
+                border-radius: var(--radius-sm);
+                background: var(--primary);
+                color: #fff;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.15s;
+            }
+            .answer-area .btn-send:hover {
+                background: #c1121f;
+            }
+            .answer-area .btn-send:disabled {
+                background: var(--border);
+                cursor: not-allowed;
+            }
+            .feedback {
+                border-radius: var(--radius);
+                padding: 20px 24px;
+                animation: fadeUp 0.3s ease-out;
+                text-align: center;
+            }
+            .feedback.correct {
+                background: rgba(34, 197, 94, 0.12);
+                border: 1px solid rgba(34, 197, 94, 0.3);
+            }
+            .feedback.wrong {
+                background: rgba(239, 68, 68, 0.12);
+                border: 1px solid rgba(239, 68, 68, 0.3);
+            }
+            .feedback .icon {
+                font-size: 36px;
+                margin-bottom: 8px;
+            }
+            .feedback .title {
+                font-size: 18px;
+                font-weight: 700;
+                margin-bottom: 6px;
+            }
+            .feedback.correct .title {
+                color: var(--success);
+            }
+            .feedback.wrong .title {
+                color: var(--danger);
+            }
+            .feedback .detail {
+                font-size: 14px;
+                line-height: 1.6;
+                color: var(--text-muted);
+            }
+            .feedback .detail strong {
+                color: var(--text);
+            }
+            .btn-next {
+                margin-top: 14px;
+                padding: 12px 32px;
+                border: none;
+                border-radius: var(--radius-sm);
+                background: var(--success);
+                color: #fff;
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+            .btn-next:hover {
+                background: #16a34a;
+            }
+            .loading-box {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                padding: 40px;
+                color: var(--text-muted);
+                font-size: 15px;
+            }
+            .loading-box .spinner {
+                width: 20px;
+                height: 20px;
+                border: 3px solid var(--border);
+                border-top-color: var(--accent);
+                border-radius: 50%;
+                animation: spin 0.7s linear infinite;
+            }
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            #vocabPage {
+                background: var(--bg);
+            }
+            .vocab-body {
+                flex: 1;
+                padding: 20px;
+                max-width: 600px;
+                width: 100%;
+                margin: 0 auto;
+            }
+            .vocab-empty {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 60px 20px;
+                text-align: center;
+                color: var(--text-muted);
+                gap: 12px;
+            }
+            .vocab-empty .icon {
+                font-size: 48px;
+            }
+            .vocab-empty h3 {
+                font-size: 18px;
+                color: var(--text);
+            }
+            .vocab-list {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+            .vocab-item {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-sm);
+                padding: 18px 20px;
+                animation: fadeUp 0.25s ease-out;
+            }
+            .vocab-item .indonesian {
+                font-size: 15px;
+                color: var(--text-muted);
+                margin-bottom: 8px;
+            }
+            .vocab-item .correct {
+                font-size: 17px;
+                font-weight: 600;
+                color: var(--success);
+                margin-bottom: 4px;
+            }
+            .vocab-item .romaji {
+                font-size: 14px;
+                color: var(--accent);
+                margin-bottom: 6px;
+                font-style: italic;
+            }
+            .vocab-item .wrong {
+                font-size: 14px;
+                color: var(--danger);
+                margin-bottom: 8px;
+            }
+            .vocab-item .wrong span {
+                text-decoration: line-through;
+            }
+            .vocab-item .meta {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 12px;
+                color: var(--text-muted);
+            }
+            .vocab-item .btn-delete {
+                background: transparent;
+                border: 1px solid var(--border);
+                color: var(--danger);
+                padding: 4px 12px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 12px;
+            }
+            .vocab-item .btn-delete:hover {
+                background: rgba(239, 68, 68, 0.1);
+            }
+            .vocab-footer {
+                padding: 16px 0;
+                display: flex;
+                justify-content: center;
+            }
+            .btn-clear-all {
+                padding: 10px 24px;
+                border: 1px solid rgba(239, 68, 68, 0.3);
+                border-radius: var(--radius-sm);
+                background: transparent;
+                color: var(--danger);
+                font-size: 14px;
+                cursor: pointer;
+            }
+            .btn-clear-all:hover {
+                background: rgba(239, 68, 68, 0.1);
+            }
+
+            /* Mensetsu Renshuu */
+            .btn-mensetsu {
+                border: 2px solid var(--accent) !important;
+                background: transparent !important;
+                color: var(--accent) !important;
+                font-weight: 700 !important;
+            }
+            .btn-mensetsu:hover {
+                background: rgba(240, 194, 127, 0.1) !important;
+            }
+            .mensetsu-sub {
+                display: none;
+                flex-direction: column;
+                gap: 8px;
+                padding: 4px 0;
+            }
+            .mensetsu-sub.show {
+                display: flex;
+            }
+            .mensetsu-sub-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                padding: 14px 24px;
+                border: 1px solid var(--border);
+                border-radius: var(--radius-sm);
+                background: var(--surface2);
+                color: var(--text);
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .mensetsu-sub-btn:hover {
+                background: #1a2a4e;
+                border-color: var(--accent);
+            }
+
+            /* Mensetsu Page */
+            #mensetsuPage {
+                background: var(--bg);
+            }
+            .mensetsu-body {
+                flex: 1;
+                padding: 20px;
+                max-width: 600px;
+                width: 100%;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+            .mensetsu-step {
+                font-size: 13px;
+                color: var(--accent);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-weight: 700;
+            }
+            .mensetsu-prompt {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                padding: 24px 20px;
+                font-size: 16px;
+                line-height: 1.6;
+                color: var(--text);
+                text-align: center;
+            }
+            .mensetsu-input-area {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .mensetsu-input-area textarea {
+                width: 100%;
+                min-height: 120px;
+                max-height: 400px;
+                padding: 16px 20px;
+                border-radius: var(--radius-sm);
+                border: 2px solid var(--border);
+                background: var(--surface);
+                color: var(--text);
+                font-size: 16px;
+                line-height: 1.6;
+                outline: none;
+                resize: vertical;
+                font-family: inherit;
+                transition: border-color 0.2s;
+            }
+            .mensetsu-input-area textarea:focus {
+                border-color: var(--accent);
+            }
+            .mensetsu-input-area textarea::placeholder {
+                color: var(--text-muted);
+                font-size: 14px;
+            }
+            .mensetsu-send-btn {
+                padding: 16px 24px;
+                border: none;
+                border-radius: 14px;
+                background: linear-gradient(135deg, var(--accent), #e6a84d);
+                color: #1a1a2e;
+                font-size: 16px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.25s ease;
+                box-shadow: 0 4px 16px rgba(240, 194, 127, 0.3);
+                letter-spacing: 0.3px;
+                text-transform: uppercase;
+            }
+            .mensetsu-send-btn:hover {
+                transform: translateY(-2px) scale(1.01);
+                box-shadow: 0 6px 24px rgba(240, 194, 127, 0.45);
+            }
+            .mensetsu-send-btn:active {
+                transform: translateY(0) scale(0.98);
+            }
+            .mensetsu-send-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                transform: none !important;
+                box-shadow: none !important;
+            }
+            .mensetsu-result {
+                border-radius: var(--radius);
+                padding: 20px 24px;
+                animation: fadeUp 0.3s ease-out;
+                text-align: left;
+                background: rgba(34, 197, 94, 0.08);
+                border: 1px solid rgba(34, 197, 94, 0.2);
+            }
+            .mensetsu-result .similarity,
+            .mensetsu-result .similarity-label {
+                text-align: center;
+            }
+            .mensetsu-result .missing-title {
+                text-align: center;
+            }
+            .mensetsu-result .similarity {
+                font-size: 42px;
+                font-weight: 800;
+                color: var(--success);
+                margin-bottom: 4px;
+            }
+            .mensetsu-result .similarity-label {
+                font-size: 14px;
+                color: var(--text-muted);
+                margin-bottom: 12px;
+            }
+            .mensetsu-result .missing-title {
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--danger);
+                margin: 14px 0 6px;
+            }
+            .mensetsu-result .missing-text {
+                font-size: 14px;
+                color: var(--text-muted);
+                line-height: 1.6;
+                background: rgba(239, 68, 68, 0.08);
+                border-radius: 8px;
+                padding: 12px 16px;
+            }
+            .mensetsu-result .feedback-text {
+                font-size: 15px;
+                color: var(--text);
+                margin: 14px 0 0;
+                padding: 12px 16px;
+                background: rgba(240, 194, 127, 0.08);
+                border-radius: 8px;
+                line-height: 1.5;
+            }
+            .mensetsu-line-results {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin: 16px 0 8px;
+                text-align: left;
+            }
+            .mensetsu-line-item {
+                border-radius: 8px;
+                padding: 12px 14px;
+                border: 1px solid;
+            }
+            .mensetsu-line-item.ok {
+                background: rgba(34, 197, 94, 0.06);
+                border-color: rgba(34, 197, 94, 0.2);
+            }
+            .mensetsu-line-item.ng {
+                background: rgba(239, 68, 68, 0.06);
+                border-color: rgba(239, 68, 68, 0.2);
+            }
+            .line-header {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 4px;
+            }
+            .line-icon {
+                font-size: 16px;
+            }
+            .line-sim {
+                font-size: 13px;
+                font-weight: 700;
+                color: var(--text);
+                min-width: 36px;
+            }
+            .line-label {
+                font-size: 13px;
+                color: var(--text-muted);
+                font-weight: 600;
+            }
+            .line-missing {
+                font-size: 13px;
+                color: var(--danger);
+                margin: 4px 0 2px;
+                line-height: 1.5;
+            }
+            .line-missing strong {
+                color: var(--text);
+                font-weight: 600;
+            }
+            .line-ref {
+                font-size: 13px;
+                color: var(--text-muted);
+                line-height: 1.5;
+            }
+            .line-ref em {
+                color: var(--accent);
+                font-style: italic;
+            }
+            .ai-corrections {
+                margin-top: 16px;
+                padding: 14px 16px;
+                border-radius: 8px;
+                background: rgba(147, 51, 234, 0.06);
+                border: 1px solid rgba(147, 51, 234, 0.2);
+            }
+            .ai-checking {
+                font-size: 14px;
+                color: var(--text-muted);
+                text-align: center;
+            }
+            .ai-checking.done {
+                color: var(--success);
+            }
+            .ai-title {
+                font-size: 14px;
+                font-weight: 700;
+                color: rgba(147, 51, 234, 1);
+                margin-bottom: 8px;
+            }
+            .ai-correction {
+                font-size: 14px;
+                padding: 6px 10px;
+                margin: 4px 0;
+                background: rgba(147, 51, 234, 0.04);
+                border-radius: 6px;
+                line-height: 1.5;
+            }
+            .ai-wrong {
+                color: var(--danger);
+                text-decoration: line-through;
+            }
+            .ai-right {
+                color: var(--success);
+                font-weight: 600;
+            }
+            .mensetsu-actions {
+                display: flex;
+                gap: 10px;
+                justify-content: center;
+            }
+            .mensetsu-actions .btn-next {
+                flex: 1;
+                max-width: 220px;
+            }
+            .syst-result-header {
+                font-size: 15px;
+                font-weight: 700;
+                color: var(--text);
+                margin-bottom: 14px;
+                padding-bottom: 8px;
+            }
+            .btn-original {
+                background: transparent;
+                border: 1px solid var(--border);
+                color: var(--text-muted);
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                cursor: pointer;
+                font-size: 15px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.2s;
+                margin-left: auto;
+                flex-shrink: 0;
+            }
+            .btn-original:hover {
+                background: var(--border);
+                color: var(--accent);
+            }
+            .mensetsu-original-text {
+                display: none;
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-sm);
+                padding: 16px 20px;
+                font-size: 14px;
+                line-height: 1.8;
+                color: var(--text-muted);
+                white-space: pre-wrap;
+                word-break: break-word;
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            @media (max-width: 480px) {
+                .hero-title {
+                    font-size: 28px;
+                }
+                .question-text {
+                    font-size: 19px;
+                }
+                .practice-body {
+                    padding: 16px 14px;
+                }
+                .question-card {
+                    padding: 24px 16px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- HOMEPAGE -->
+        <div class="page active" id="homePage">
+            <div class="hero-icon">🗾</div>
+            <h1 class="hero-title">Belajar Bahasa Jepang</h1>
+            <p class="hero-sub">
+                Latihan terjemahan dengan AI. Ketik jawaban dalam huruf Jepang
+                atau romaji.
+            </p>
+            <div class="home-buttons">
+                <button class="btn btn-primary" id="btnStart">
+                    🎯 Mulai Latihan
+                </button>
+                <button class="btn btn-secondary" id="btnVocab">
+                    📖 Vocabulary <span class="badge" id="vocabBadge">0</span>
+                </button>
+                <button class="btn btn-mensetsu" id="btnMensetsu">
+                    🎤 Mensetsu Renshuu
+                </button>
+                <div class="mensetsu-sub" id="mensetsuSub">
+                    <button class="mensetsu-sub-btn" id="btnJikoshokai">
+                        🗣️ Mukti Jikoshokai
+                    </button>
+                    <button class="mensetsu-sub-btn" id="btnNande">
+                        ❓ Nande Nihon e Ikitai
+                    </button>
+                </div>
+            </div>
+            <div class="hero-footer">Powered by DeepSeek AI</div>
+        </div>
+        <!-- PRACTICE PAGE -->
+        <div class="page" id="practicePage">
+            <div class="page-header">
+                <button class="btn-back" id="btnBackFromPractice">←</button>
+                <h2>Latihan</h2>
+            </div>
+            <div class="practice-body" id="practiceBody">
+                <div class="loading-box" id="practiceLoading">
+                    <div class="spinner"></div>
+                    <span>Menyiapkan soal...</span>
+                </div>
+                <div
+                    class="question-card"
+                    id="questionCard"
+                    style="display: none"
+                >
+                    <div class="question-label">
+                        Terjemahkan ke Bahasa Jepang
+                    </div>
+                    <div class="question-text" id="questionText"></div>
+                </div>
+                <div class="answer-area" id="answerArea" style="display: none">
+                    <input
+                        type="text"
+                        id="answerInput"
+                        placeholder="Ketik jawaban (huruf Jepang / romaji)..."
+                        autocomplete="off"
+                    />
+                    <button class="btn-send" id="sendBtn">Kirim Jawaban</button>
+                </div>
+                <div id="feedbackArea"></div>
+            </div>
+        </div>
+        <!-- VOCABULARY PAGE -->
+        <div class="page" id="vocabPage">
+            <div class="page-header">
+                <button class="btn-back" id="btnBackFromVocab">←</button>
+                <h2>📖 Vocabulary</h2>
+            </div>
+            <div class="vocab-body" id="vocabBody"></div>
+        </div>
+        <!-- MENSETSU PAGE -->
+        <div class="page" id="mensetsuPage">
+            <div class="page-header">
+                <button class="btn-back" id="btnBackFromMensetsu">←</button>
+                <h2>🎤 Mensetsu Renshuu</h2>
+                <button
+                    class="btn-original"
+                    id="btnOriginalText"
+                    title="Lihat teks asli"
+                >
+                    📄
+                </button>
+            </div>
+            <div class="mensetsu-body" id="mensetsuBody">
+                <div class="mensetsu-step" id="mensetsuStep">Ichiban</div>
+                <div class="mensetsu-prompt" id="mensetsuPrompt"></div>
+                <div class="mensetsu-input-area" id="mensetsuInputArea">
+                    <textarea
+                        id="mensetsuInput"
+                        rows="5"
+                        placeholder="Ketik romaji sesuai hafalan..."
+                    ></textarea>
+                    <button class="mensetsu-send-btn" id="mensetsuSendBtn">
+                        Kirim
+                    </button>
+                </div>
+                <div
+                    class="mensetsu-result"
+                    id="mensetsuResult"
+                    style="display: none"
+                ></div>
+                <div
+                    class="mensetsu-actions"
+                    id="mensetsuActions"
+                    style="display: none"
+                >
+                    <button
+                        class="btn-next"
+                        id="mensetsuRetry"
+                        style="background: var(--primary)"
+                    >
+                        🔄 Retry
+                    </button>
+                    <button class="btn-next" id="mensetsuNext">
+                        ➡️ Lanjut
+                    </button>
+                </div>
+            </div>
+        </div>
+        <script>
+            (function () {
+                "use strict";
+                var K = "",
+                    U = "https://api.deepseek.com/chat/completions",
+                    VK = "jp_vocabulary";
+                var Q = "",
+                    W = false;
+                var MENDS = [
+                    {
+                        id: "ichiban",
+                        label: "Ichiban",
+                        prompt: "Jikoshoukai \u2014 Perkenalan Diri",
+                        topic: "Coba sebutkan kalimat pembuka wawancara, perkenalan diri, pendidikan, dan skill IT kamu!",
+                        text: "Ky\u014d no mensetsu wa\no-jikan o itadaki,\narigat\u014d gozaimasu.\nJikosh\u014dkai sasete itadakimasu.\nHajimemashite.\nWatashi no namae wa Haryomu Mukti Wibowo to m\u014dshimasu.\nNij\u016b-san sai desu.\n\nSatya Wacana Kirisuto Ky\u014ddaigaku\nJ\u014dh\u014d Shisutemu Gakka kara sotsugy\u014d shimashita.\nSoshite NAT yon-ky\u016b n\u014dryoku shiken sotsugy\u014d shimashita.\n\nIT sukiru:\nJavaScript (Express, React, Nest, Next),\nPHP Laravel, Python (Django), AWS Cloud, SQL, MongoDB.\nDemo, hoka no gengo benky\u014d suru koto ga dekimasu.",
+                    },
+                    {
+                        id: "niban",
+                        label: "Niban",
+                        prompt: "Shumi to Ky\u014dmi \u2014 Hobi & Minat",
+                        topic: "Coba ceritakan hobi, ketertarikan di bidang IT, dan minatmu!",
+                        text: "Shumi wa kirei na shizen to tokoro e\nryok\u014d o suru koto to,\nbadominton to\nsanpo suru koto desu.\nSore ni gijutsu ya pasokon ya gajetto ya g\u0113mu ya anime no koto\nga suki desu.\n\nKy\u014dmi wa\nIT to DX bun'ya to\nfurusutakku shisutemu to\napuri o kaihatsu desu.\nSore ni\nd\u0113ta to kuraudo to AI ni tsuite\nky\u014dmi ga arimasu.",
+                    },
+                    {
+                        id: "sanban",
+                        label: "Sanban",
+                        prompt: "Ch\u014dsho to Tansho \u2014 Kelebihan & Kekurangan",
+                        topic: "Coba jelaskan kelebihan, pencapaian, kekurangan, dan bagaimana kamu menghadapinya!",
+                        text: "Ch\u014dsho wa\nWatashi wa charenji o toru koto to,\nmondai o kaiketsu suru koto to\natarashii koto o manabu koto ga suki desu.\nMata, atarashii kanky\u014d ni mo sugu nareru koto ga dekimasu.\nAtarashii koto o hayaku oboeru koto ga dekimasu.\nSoshite, watashi wa itsumo issh\u014dkenmei ganbatte iru hito desu.\n\nSono kekka wa, daigaku de wa sotsugy\u014d\nsuru toki ni ichiban takai seiseki o toru koto ga dekimashita.\nMata, IT no kensh\u016b o iroiro sh\u016bry\u014d shinagara, daigaku no gakuseikai katsud\u014d ni mo sanka shimashita.\n\nWatashi no tansho wa, \u014dzei no hito no mae de hanasu toki ni kinch\u014d shimasu.\nShikashi, itsumo akiramezu ni charenji o tsuzukete imasu.",
+                    },
+                    {
+                        id: "yonban",
+                        label: "Yonban",
+                        prompt: "Keiken to Mirai \u2014 Pengalaman & Masa Depan",
+                        topic: "Coba ceritakan pengalaman dan skill yang kamu miliki, serta impianmu ke depan!",
+                        text: "Watashi wa bakkuendo, furontoendo, shisutemu kaihatsu,\nkuraudo, d\u0113tab\u0113su no junia\nreberu no chishiki to keiken ga arimasu.\n\nKorekara, motto benky\u014d shite sukiru o migakitai desu.\nSoshite, k\u014dhinshitsu na shisutemu o tsukutte,\nj\u014dzu na enjinia ni naritai desu.",
+                    },
+                ];
+                var MSI = 0,
+                    MSB = false;
+                var NANDS = [
+                    {
+                        id: "ichiban",
+                        label: "Ichiban",
+                        prompt: "Alasan Suka Jepang \u2014 Ketertarikan sejak Kecil",
+                        topic: "Coba sebutkan alasan kamu suka Jepang sejak kecil dan bagaimana awalnya!",
+                        text: "Watashi wa sh\u014dgakusei no koro kara ima made, \nzutto Nihon ga daisuki desu.\nNihon o shitta kikkake wa anime deshita. \nSono ato, Nihon ni tsuite samazama na koto o manabi,\nNihon to iu kuni ni masumasu ky\u014dmi o motsu y\u014d ni narimashita.",
+                    },
+                    {
+                        id: "niban",
+                        label: "Niban",
+                        prompt: "Alasan Ingin Bekerja di Jepang \u2014 Lingkungan & Budaya",
+                        topic: "Coba jelaskan mengapa kamu ingin bekerja di Jepang dan apa yang kamu sukai dari Jepang!",
+                        text: "Watashi ni totte Nihon wa, hitobito\nga otagai ni reigi tadashiku, totemo \nyuuniku to sumiyasui kuni desu. \nMata, utsukushii shizen ya samazama na bunka ga ari, \ntotemo miryokuteki da to omoimasu. Sarani, \nNihon nara de wa no fun'iki mo totemo suki desu.\n\nSono tame, watashi wa hoka no kuni de wa naku, \nNihon de hataraku koto o mokuhy\u014d ni shiteimasu.",
+                    },
+                    {
+                        id: "sanban",
+                        label: "Sanban",
+                        prompt: "Kontribusi yang Ingin Diberikan \u2014 Tujuan Hidup",
+                        topic: "Coba ceritakan kontribusi apa yang ingin kamu berikan melalui IT di Jepang!",
+                        text: "Shikashi, watashi ni totte ichiban taisetsu na no wa, \nshakai no yaku ni tatsu hito ni naru koto desu. \nIT no bun'ya o t\u014dshite, \nNihon no kigy\u014d ya shakai ni k\u014dken shitai to kangaeteimasu.",
+                    },
+                ];
+                var MCUR = MENDS;
+                function toggleMensetsu() {
+                    var s = $("mensetsuSub");
+                    if (s) s.classList.toggle("show");
+                }
+                function $(i) {
+                    return document.getElementById(i);
+                }
+                function sh(i) {
+                    var p = document.querySelectorAll(".page");
+                    for (var j = 0; j < p.length; j++)
+                        p[j].classList.remove("active");
+                    var t = $(i);
+                    if (t) t.classList.add("active");
+                }
+                function go() {
+                    rs();
+                    sh("homePage");
+                    ub();
+                }
+                function st() {
+                    sh("practicePage");
+                    gq();
+                }
+                function sv() {
+                    sh("vocabPage");
+                    rv();
+                }
+                function gv() {
+                    try {
+                        var d = localStorage.getItem(VK);
+                        return d ? JSON.parse(d) : [];
+                    } catch (e) {
+                        return [];
+                    }
+                }
+                function svoc(i, c, r, a) {
+                    var l = gv();
+                    l.unshift({
+                        id: Date.now(),
+                        indonesian: i,
+                        correctAnswer: c,
+                        romaji: r || "",
+                        userAnswer: a,
+                        date: new Date().toISOString(),
+                    });
+                    localStorage.setItem(VK, JSON.stringify(l));
+                    ub();
+                }
+                function dv(id) {
+                    var l = gv().filter(function (i) {
+                        return i.id !== id;
+                    });
+                    localStorage.setItem(VK, JSON.stringify(l));
+                    rv();
+                    ub();
+                }
+                function cv() {
+                    if (!confirm("Hapus semua vocabulary?")) return;
+                    localStorage.removeItem(VK);
+                    rv();
+                    ub();
+                }
+                function ub() {
+                    var b = $("vocabBadge");
+                    if (!b) return;
+                    var c = gv().length;
+                    b.textContent = c;
+                    b.style.display = c > 0 ? "inline-flex" : "none";
+                }
+                function rv() {
+                    var l = gv(),
+                        b = $("vocabBody");
+                    if (!b) return;
+                    if (l.length === 0) {
+                        b.innerHTML =
+                            '<div class="vocab-empty"><div class="icon">📭</div><h3>Belum ada vocabulary</h3><p>Kotoba yang salah akan tercatat otomatis saat latihan.</p></div>';
+                        return;
+                    }
+                    var h = '<div class="vocab-list">';
+                    for (var i = 0; i < l.length; i++) {
+                        var it = l[i],
+                            d = new Date(it.date),
+                            ds = d.toLocaleDateString("id-ID", {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                            });
+                        h +=
+                            '<div class="vocab-item"><div class="indonesian">' +
+                            esc(it.indonesian) +
+                            '</div><div class="correct">✅ ' +
+                            esc(it.correctAnswer) +
+                            "</div>" +
+                            (it.romaji
+                                ? '<div class="romaji">Romaji: ' +
+                                  esc(it.romaji) +
+                                  "</div>"
+                                : "") +
+                            '<div class="wrong">❌ <span>' +
+                            esc(it.userAnswer) +
+                            '</span></div><div class="meta"><span>' +
+                            ds +
+                            '</span><button class="btn-delete" data-id="' +
+                            it.id +
+                            '">🗑 Hapus</button></div></div>';
+                    }
+                    h +=
+                        '</div><div class="vocab-footer"><button class="btn-clear-all" id="btnClearAll">🗑 Hapus Semua</button></div>';
+                    b.innerHTML = h;
+                    var bt = b.querySelectorAll(".btn-delete");
+                    for (var j = 0; j < bt.length; j++) {
+                        bt[j].addEventListener("click", function () {
+                            dv(parseInt(this.getAttribute("data-id")));
+                        });
+                    }
+                    var cb = $("btnClearAll");
+                    if (cb) cb.addEventListener("click", cv);
+                }
+                function esc(t) {
+                    var d = document.createElement("div");
+                    d.textContent = t;
+                    return d.innerHTML;
+                }
+                function ik(c) {
+                    return c && c !== "—" && c.trim() !== "";
+                }
+                function cds(s, u, m) {
+                    m = m || 5;
+                    var a = 0;
+                    function t1() {
+                        a++;
+                        var sys =
+                            "Anda adalah guru bahasa Jepang. Berikan koreksi terjemahan.\n\nRESPON DENGAN FORMAT INI SAJA (3 bagian dipisah pipe |):\n<jawaban benar dalam huruf Jepang> | <romaji> | <penjelasan singkat>\n\nCONTOH:\n私はレストランでご飯を食べています | watashi wa resutoran de gohan o tabeteimasu | Perhatikan urutan partikel.\n\nJANGAN tambahkan teks lain APAPUN sebelum atau sesudah format di atas.";
+                        var pr =
+                            'Kalimat: "' +
+                            s +
+                            '"\nJawaban user yang salah: "' +
+                            u +
+                            '"\n\nBerikan koreksi lengkap dengan romaji.';
+                        return cd(sys, pr).then(function (r) {
+                            var t = r.trim(),
+                                p = t.split("|"),
+                                c = p[0] ? p[0].trim() : "",
+                                ro = p[1] ? p[1].trim() : "",
+                                ex = p.slice(2).join("|").trim();
+                            if (ik(c))
+                                return {
+                                    correction: c,
+                                    romaji: ro,
+                                    explanation: ex,
+                                };
+                            if (a < m) return t1();
+                            return {
+                                correction: t,
+                                romaji: "",
+                                explanation: "",
+                            };
+                        });
+                    }
+                    return t1();
+                }
+                function cd(sys, usr) {
+                    return fetch(U, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: "Bearer " + K,
+                        },
+                        body: JSON.stringify({
+                            model: "deepseek-v4-flash",
+                            messages: [
+                                { role: "system", content: sys },
+                                { role: "user", content: usr },
+                            ],
+                            stream: false,
+                            max_tokens: 20000,
+                        }),
+                    })
+                        .then(function (r) {
+                            if (!r.ok) {
+                                return r
+                                    .json()
+                                    .then(function (e) {
+                                        throw new Error(
+                                            e.error
+                                                ? e.error.message
+                                                : "HTTP " + r.status,
+                                        );
+                                    })
+                                    .catch(function (e) {
+                                        if (e instanceof Error) throw e;
+                                        throw new Error("HTTP " + r.status);
+                                    });
+                            }
+                            return r.json();
+                        })
+                        .then(function (d) {
+                            var c =
+                                d.choices &&
+                                d.choices[0] &&
+                                d.choices[0].message &&
+                                d.choices[0].message.content;
+                            return c || "";
+                        });
+                }
+                function gq() {
+                    rs();
+                    sl(true);
+                    var sys =
+                        "Anda adalah guru bahasa Jepang. Buatlah SATU kalimat dalam Bahasa Indonesia yang menantang (tidak terlalu basic, menggunakan kosakata sehari-hari yang berguna) untuk diterjemahkan ke Bahasa Jepang. Hanya keluarkan kalimatnya saja, tanpa penjelasan atau label apapun.";
+                    cd(sys, "Buatkan satu kalimat untuk latihan terjemahan.")
+                        .then(function (r) {
+                            if (!r.trim())
+                                throw new Error("Soal kosong dari server.");
+                            Q = r.trim();
+                            sl(false);
+                            $("questionText").textContent = Q;
+                            $("questionCard").style.display = "block";
+                            $("answerArea").style.display = "flex";
+                            $("answerInput").focus();
+                        })
+                        .catch(function (e) {
+                            sl(false);
+                            sf(
+                                "error",
+                                "Gagal membuat soal",
+                                e.message || "Terjadi kesalahan",
+                            );
+                        });
+                }
+                function sa() {
+                    if (W) return;
+                    var i = $("answerInput");
+                    if (!i) return;
+                    var a = i.value.trim();
+                    if (!a) return;
+                    if (!Q) {
+                        sf(
+                            "error",
+                            "Belum ada soal",
+                            "Silakan tunggu soal muncul.",
+                        );
+                        return;
+                    }
+                    W = true;
+                    i.disabled = true;
+                    $("sendBtn").disabled = true;
+                    $("feedbackArea").innerHTML = "";
+                    var sys =
+                        "Anda adalah guru bahasa Jepang yang memeriksa tugas terjemahan.\nUser diminta menerjemahkan kalimat Bahasa Indonesia ke Bahasa Jepang (boleh pakai romaji).\n\nAWALI RESPON ANDA DENGAN SALAH SATU PREFIX INI:\nJika BENAR: BENAR: <pesan pujian>\nJika SALAH: SALAH: <jawaban Jepang> | <romaji> | <penjelasan singkat>\n\nCONTOH:\nBENAR: Terjemahan Anda sempurna!\nSALAH: 私はレストランでご飯を食べています | watashi wa resutoran de gohan o tabeteimasu | Perhatikan urutan partikel.\n\nWAJIB: Baris pertama HARUS diawali dengan BENAR: atau SALAH: untuk format SALAH gunakan 3 bagian dipisah pipe (|): jawaban Jepang | romaji | penjelasan";
+                    var pr =
+                        'Kalimat Bahasa Indonesia: "' +
+                        Q +
+                        '"\nJawaban user: "' +
+                        a +
+                        '"\n\nPeriksa apakah terjemahan ini benar.';
+                    cd(sys, pr)
+                        .then(function (r) {
+                            hr(r, a);
+                        })
+                        .catch(function (e) {
+                            sf(
+                                "error",
+                                "Gagal memeriksa jawaban",
+                                e.message || "Terjadi kesalahan",
+                            );
+                            W = false;
+                            i.disabled = false;
+                            $("sendBtn").disabled = false;
+                            i.focus();
+                        });
+                }
+                function hr(r, a) {
+                    var t = r.trim();
+                    if (t.indexOf("BENAR:") === 0) {
+                        var m = t.substring(6).trim();
+                        sf("correct", "Benar!", m);
+                        $("answerArea").style.display = "none";
+                        return;
+                    }
+                    if (t.indexOf("SALAH:") === 0) {
+                        var c = t.substring(6).trim(),
+                            p = c.split("|"),
+                            cor = p[0] ? p[0].trim() : "",
+                            ro = p[1] ? p[1].trim() : "",
+                            ex = p.slice(2).join("|").trim();
+                        if (!ik(cor)) {
+                            dc(a);
+                            return;
+                        }
+                        svoc(Q, cor, ro, a);
+                        var d =
+                            "Jawaban benar: <strong>" + esc(cor) + "</strong>";
+                        if (ro)
+                            d +=
+                                '<br><span style="color:var(--accent)">Romaji: ' +
+                                esc(ro) +
+                                "</span>";
+                        if (ex) d += "<br>" + esc(ex);
+                        sf("wrong", "Masih kurang tepat", d);
+                        ri();
+                        return;
+                    }
+                    var up = t.toUpperCase();
+                    if (up.indexOf("BENAR:") === 0) {
+                        var m = t.substring(6).trim();
+                        sf("correct", "Benar!", m);
+                        $("answerArea").style.display = "none";
+                        return;
+                    }
+                    if (up.indexOf("SALAH:") === 0) {
+                        var c = t.substring(6).trim(),
+                            p = c.split("|"),
+                            cor = p[0] ? p[0].trim() : "",
+                            ro = p[1] ? p[1].trim() : "",
+                            ex = p.slice(2).join("|").trim();
+                        if (!ik(cor)) {
+                            dc(a);
+                            return;
+                        }
+                        svoc(Q, cor, ro, a);
+                        var d =
+                            "Jawaban benar: <strong>" + esc(cor) + "</strong>";
+                        if (ro)
+                            d +=
+                                '<br><span style="color:var(--accent)">Romaji: ' +
+                                esc(ro) +
+                                "</span>";
+                        if (ex) d += "<br>" + esc(ex);
+                        sf("wrong", "Masih kurang tepat", d);
+                        ri();
+                        return;
+                    }
+                    var lo = t.toLowerCase();
+                    if (
+                        lo.indexOf("benar") !== -1 &&
+                        lo.indexOf("salah") === -1
+                    ) {
+                        sf("correct", "Benar!", t);
+                        $("answerArea").style.display = "none";
+                        return;
+                    }
+                    if (
+                        lo.indexOf("salah") !== -1 ||
+                        lo.indexOf("kurang tepat") !== -1
+                    ) {
+                        dc(a);
+                        return;
+                    }
+                    dc(a);
+                }
+                function dc(a) {
+                    $("feedbackArea").innerHTML =
+                        '<div class="loading-box"><div class="spinner"></div><span>Mendapatkan koreksi...</span></div>';
+                    cds(Q, a)
+                        .then(function (r) {
+                            if (ik(r.correction)) {
+                                svoc(Q, r.correction, r.romaji, a);
+                                var d =
+                                    "Jawaban benar: <strong>" +
+                                    esc(r.correction) +
+                                    "</strong>";
+                                if (r.romaji)
+                                    d +=
+                                        '<br><span style="color:var(--accent)">Romaji: ' +
+                                        esc(r.romaji) +
+                                        "</span>";
+                                if (r.explanation)
+                                    d += "<br>" + esc(r.explanation);
+                                sf("wrong", "Masih kurang tepat", d);
+                                ri();
+                            } else {
+                                svoc(Q, r.correction || "—", r.romaji || "", a);
+                                var d =
+                                    "Jawaban benar: <strong>" +
+                                    esc(r.correction || "—") +
+                                    "</strong>";
+                                sf("wrong", "Masih kurang tepat", d);
+                                ri();
+                            }
+                        })
+                        .catch(function (e) {
+                            sf(
+                                "error",
+                                "Gagal mendapat koreksi",
+                                e.message || "Terjadi kesalahan",
+                            );
+                            W = false;
+                            var i = $("answerInput");
+                            if (i) {
+                                i.disabled = false;
+                                i.focus();
+                            }
+                            $("sendBtn").disabled = false;
+                        });
+                }
+                function sl(s) {
+                    var e = $("practiceLoading");
+                    if (e) e.style.display = s ? "flex" : "none";
+                    var q = $("questionCard");
+                    if (q) q.style.display = "none";
+                    var a = $("answerArea");
+                    if (a) a.style.display = "none";
+                    var f = $("feedbackArea");
+                    if (f) f.innerHTML = "";
+                }
+                function sf(t, ti, d) {
+                    var f = $("feedbackArea");
+                    if (!f) return;
+                    if (t === "error") {
+                        f.innerHTML =
+                            '<div class="feedback wrong"><div class="icon">⚠️</div><div class="title">' +
+                            ti +
+                            '</div><div class="detail">' +
+                            esc(d) +
+                            '</div><button class="btn-next" style="background:var(--primary)" id="btnErrBack">Kembali</button></div>';
+                        var b = $("btnErrBack");
+                        if (b) b.addEventListener("click", go);
+                        return;
+                    }
+                    var ic = t === "correct";
+                    f.innerHTML =
+                        '<div class="feedback ' +
+                        t +
+                        '"><div class="icon">' +
+                        (ic ? "🎉" : "💪") +
+                        '</div><div class="title">' +
+                        ti +
+                        '</div><div class="detail">' +
+                        d +
+                        "</div>" +
+                        (ic
+                            ? '<button class="btn-next" id="btnNext">Lanjut</button>'
+                            : "") +
+                        "</div>";
+                    if (ic) {
+                        var nb = $("btnNext");
+                        if (nb) nb.addEventListener("click", gq);
+                    }
+                }
+                function ri() {
+                    var i = $("answerInput");
+                    if (i) {
+                        i.value = "";
+                        i.disabled = false;
+                    }
+                    $("sendBtn").disabled = false;
+                    W = false;
+                    if (i) i.focus();
+                }
+                function rs() {
+                    Q = "";
+                    W = false;
+                    var q = $("questionCard");
+                    if (q) q.style.display = "none";
+                    var a = $("answerArea");
+                    if (a) a.style.display = "none";
+                    var f = $("feedbackArea");
+                    if (f) f.innerHTML = "";
+                    var l = $("practiceLoading");
+                    if (l) l.style.display = "none";
+                    var i = $("answerInput");
+                    if (i) {
+                        i.value = "";
+                        i.disabled = false;
+                    }
+                    var s = $("sendBtn");
+                    if (s) s.disabled = false;
+                }
+                function startMensetsu() {
+                    MCUR = MENDS;
+                    MSI = 0;
+                    MSB = false;
+                    sh("mensetsuPage");
+                    loadMensetsuStep(MSI);
+                }
+                function startNande() {
+                    MCUR = NANDS;
+                    MSI = 0;
+                    MSB = false;
+                    sh("mensetsuPage");
+                    loadMensetsuStep(MSI);
+                }
+                function loadMensetsuStep(i) {
+                    var d = MCUR[i];
+                    if (!d) {
+                        exitMensetsu();
+                        return;
+                    }
+                    $("mensetsuStep").textContent = d.label;
+                    $("mensetsuPrompt").textContent = d.topic;
+                    $("mensetsuInput").value = "";
+                    $("mensetsuInput").disabled = false;
+                    $("mensetsuSendBtn").disabled = false;
+                    $("mensetsuResult").style.display = "none";
+                    $("mensetsuResult").innerHTML = "";
+                    $("mensetsuActions").style.display = "none";
+                    MSB = false;
+                    $("mensetsuInput").focus();
+                }
+                function nw(w) {
+                    return w
+                        .toLowerCase()
+                        .replace(/[,.()?!:;'"\[\]]/g, "")
+                        .replace(/[\u0101]/g, "a")
+                        .replace(/[\u012b]/g, "i")
+                        .replace(/[\u016b]/g, "u")
+                        .replace(/[\u0113]/g, "e")
+                        .replace(/[\u014d]/g, "o")
+                        .replace(/aa/g, "a")
+                        .replace(/ii/g, "i")
+                        .replace(/uu/g, "u")
+                        .replace(/ee/g, "e")
+                        .replace(/ou/g, "o")
+                        .replace(/oo/g, "o")
+                        .trim();
+                }
+                function sendMensetsuAnswer() {
+                    if (MSB) return;
+                    var i = $("mensetsuInput");
+                    if (!i) return;
+                    var a = i.value.trim();
+                    if (!a) {
+                        alert("Silakan ketik jawaban romaji kamu.");
+                        return;
+                    }
+                    var d = MCUR[MSI];
+                    if (!d) {
+                        exitMensetsu();
+                        return;
+                    }
+                    MSB = true;
+                    i.disabled = true;
+                    $("mensetsuSendBtn").disabled = true;
+                    $("mensetsuActions").style.display = "none";
+                    $("mensetsuResult").style.display = "block";
+                    // === WORD MATCHING (SISTEM) ===
+                    var refLines = d.text.split("\n").filter(function (l) {
+                        return l.trim() !== "";
+                    });
+                    var ansWords = a
+                        .toLowerCase()
+                        .split(/\s+/)
+                        .map(nw)
+                        .filter(function (w) {
+                            return w !== "";
+                        });
+                    var totalRef = 0,
+                        totalMatch = 0;
+                    var lineResults = [];
+                    for (var ri = 0; ri < refLines.length; ri++) {
+                        var line = refLines[ri].trim();
+                        var words = line
+                            .split(/\s+/)
+                            .map(nw)
+                            .filter(function (w) {
+                                return w !== "";
+                            });
+                        var matched = 0;
+                        var missingOrig = [];
+                        for (var wj = 0; wj < words.length; wj++) {
+                            if (ansWords.indexOf(words[wj]) !== -1) {
+                                matched++;
+                            } else {
+                                missingOrig.push(
+                                    line.split(/\s+/).filter(function (x) {
+                                        return x.trim() !== "";
+                                    })[wj],
+                                );
+                            }
+                        }
+                        var sim =
+                            words.length > 0
+                                ? Math.round((matched / words.length) * 100)
+                                : 100;
+                        lineResults.push({
+                            text: line,
+                            sim: sim,
+                            missingOrig: missingOrig,
+                        });
+                        totalRef += words.length;
+                        totalMatch += matched;
+                    }
+                    var overallSim =
+                        totalRef > 0
+                            ? Math.round((totalMatch / totalRef) * 100)
+                            : 100;
+                    var h =
+                        '<div class="syst-result-header">\ud83d\udd0d Penilaian Sistem (kata per kata)</div>' +
+                        '<div class="similarity">' +
+                        overallSim +
+                        '%</div><div class="similarity-label">Kemiripan dengan teks asli</div>';
+                    h += '<div class="mensetsu-line-results">';
+                    for (var ri = 0; ri < lineResults.length; ri++) {
+                        var lr = lineResults[ri];
+                        var icon = lr.sim === 100 ? "\u2705" : "\u274c";
+                        var cls =
+                            lr.sim === 100
+                                ? "mensetsu-line-item ok"
+                                : "mensetsu-line-item ng";
+                        h +=
+                            '<div class="' +
+                            cls +
+                            '"><div class="line-header"><span class="line-icon">' +
+                            icon +
+                            '</span><span class="line-sim">' +
+                            lr.sim +
+                            '%</span><span class="line-label">Kalimat ' +
+                            (ri + 1) +
+                            "</span></div>";
+                        if (lr.sim < 100) {
+                            h +=
+                                '<div class="line-missing">\ud83d\udcc5 Kurang: <strong>' +
+                                esc(lr.missingOrig.join(", ")) +
+                                "</strong></div>";
+                            h +=
+                                '<div class="line-ref">\ud83d\udcdd Seharusnya: <em>' +
+                                esc(lr.text) +
+                                "</em></div>";
+                        }
+                        h += "</div>";
+                    }
+                    h += "</div>";
+                    // === AI EVALUATION PLACEHOLDER ===
+                    h +=
+                        '<div class="ai-corrections" id="aiSection"><div class="ai-checking">\ud83e\udd14 Mengevaluasi dengan AI...</div></div>';
+                    $("mensetsuResult").innerHTML = h;
+                    $("mensetsuResult").style.display = "block";
+                    // === AI CALL ===
+                    var sys =
+                        "Anda adalah GURU BAHASA JEPANG. Evaluasi JAWABAN USER dibanding TEKS REFERENSI per baris.\n\n" +
+                        "PANDUAN:\n" +
+                        "- Baris BENAR jika kata-kata sama, meski ada variasi romaji (kyoumi=kyoomi=ky\u014dmi, jouzu=j\u014dzu, dll).\n" +
+                        "- Baris SALAH jika ada kata yang hilang atau berbeda.\n" +
+                        "- Jangan salahkan perbedaan tanda baca atau urutan kata yang wajar.\n" +
+                        "- Jika ada typo (misal: detabesu -> d\u0113tab\u0113su), sebutkan koreksinya.\n" +
+                        "\nFORMAT RESPON (WAJIB):\n" +
+                        "---RESULT---\n" +
+                        "Baris 1: <BENAR/SALAH> | <nilai 0-100> | <kata yg kurang. jika lengkap tulis: lengkap> | <koreksi typo atau ->\n" +
+                        "Baris 2: ...\n" +
+                        "---OVERALL---\n" +
+                        "<total_score>\n" +
+                        "<feedback singkat>\n";
+                    var usr = d.text + "\n\n---JAWABAN USER---\n" + a;
+                    cd(sys, usr)
+                        .then(function (r) {
+                            console.log("AI Response:", r);
+                            var t = r.trim();
+                            var lines = t.split("\n");
+                            var aiLines = [];
+                            var overall = "";
+                            var inResult = false,
+                                inOverall = false;
+                            for (var li = 0; li < lines.length; li++) {
+                                var l = lines[li].trim();
+                                if (l.indexOf("---RESULT---") !== -1) {
+                                    inResult = true;
+                                    inOverall = false;
+                                    continue;
+                                }
+                                if (l.indexOf("---OVERALL---") !== -1) {
+                                    inResult = false;
+                                    inOverall = true;
+                                    continue;
+                                }
+                                if (inResult) aiLines.push(l);
+                                if (inOverall) overall = l;
+                            }
+                            var aiH =
+                                '<div class="syst-result-header" style="margin-top:20px;border-top:1px solid var(--border);padding-top:16px">\ud83e\udd16 Penilaian AI</div>' +
+                                '<div class="similarity">' +
+                                (overall || "?") +
+                                '%</div><div class="similarity-label">Kemiripan berdasarkan AI</div>';
+                            aiH += '<div class="mensetsu-line-results">';
+                            for (var li = 0; li < aiLines.length; li++) {
+                                var parts = aiLines[li].split("|");
+                                if (parts.length < 2) continue;
+                                var status = parts[0].trim();
+                                var score = parts[1] ? parts[1].trim() : "?";
+                                var missing = parts[2] ? parts[2].trim() : "";
+                                var typo = parts[3] ? parts[3].trim() : "";
+                                var isOk = status.indexOf("BENAR") !== -1;
+                                var icon = isOk ? "\u2705" : "\u274c";
+                                var cls = isOk
+                                    ? "mensetsu-line-item ok"
+                                    : "mensetsu-line-item ng";
+                                aiH +=
+                                    '<div class="' +
+                                    cls +
+                                    '"><div class="line-header"><span class="line-icon">' +
+                                    icon +
+                                    '</span><span class="line-sim">' +
+                                    score +
+                                    '%</span><span class="line-label">Kalimat ' +
+                                    (li + 1) +
+                                    "</span></div>";
+                                if (!isOk && missing && missing !== "lengkap") {
+                                    aiH +=
+                                        '<div class="line-missing">\ud83d\udcc5 Kurang: <strong>' +
+                                        esc(missing) +
+                                        "</strong></div>";
+                                }
+                                if (
+                                    typo &&
+                                    typo !== "-" &&
+                                    typo.indexOf("->") !== -1
+                                ) {
+                                    var tp = typo.split("->");
+                                    if (tp.length >= 2) {
+                                        aiH +=
+                                            '<div class="line-ref">\u270f\ufe0f Typo: <span class="ai-wrong">' +
+                                            esc(tp[0].trim()) +
+                                            '</span> \u2192 <span class="ai-right">' +
+                                            esc(tp[1].trim()) +
+                                            "</span></div>";
+                                    }
+                                }
+                                aiH += "</div>";
+                            }
+                            aiH += "</div>";
+                            var aiEl = document.getElementById("aiSection");
+                            if (aiEl) aiEl.outerHTML = aiH;
+                            var nxt = $("mensetsuNext");
+                            if (MSI < MCUR.length - 1) {
+                                nxt.textContent =
+                                    "\u27a1\ufe0f Lanjut ke " +
+                                    MCUR[MSI + 1].label;
+                                nxt.style.display = "";
+                            } else {
+                                nxt.textContent = "\u2705 Selesai";
+                                nxt.style.display = "";
+                            }
+                            $("mensetsuActions").style.display = "flex";
+                            MSB = false;
+                            i.disabled = false;
+                            $("mensetsuSendBtn").disabled = false;
+                        })
+                        .catch(function (e) {
+                            var aiEl = document.getElementById("aiSection");
+                            if (aiEl)
+                                aiEl.innerHTML =
+                                    '<div class="ai-checking done" style="color:var(--danger)">\u26a0\ufe0f Gagal mengevaluasi AI</div>';
+                            MSB = false;
+                            i.disabled = false;
+                            $("mensetsuSendBtn").disabled = false;
+                            var nxt = $("mensetsuNext");
+                            if (MSI < MCUR.length - 1) {
+                                nxt.textContent =
+                                    "\u27a1\ufe0f Lanjut ke " +
+                                    MCUR[MSI + 1].label;
+                                nxt.style.display = "";
+                            } else {
+                                nxt.textContent = "\u2705 Selesai";
+                                nxt.style.display = "";
+                            }
+                            $("mensetsuActions").style.display = "flex";
+                        });
+                }
+                function retryMensetsu() {
+                    loadMensetsuStep(MSI);
+                }
+                function nextMensetsu() {
+                    MSI++;
+                    if (MSI >= MCUR.length) {
+                        exitMensetsu();
+                        return;
+                    }
+                    loadMensetsuStep(MSI);
+                }
+                function toggleOriginalText() {
+                    var d = MCUR[MSI];
+                    if (!d) return;
+                    var el = $("mensetsuOriginalText");
+                    if (!el) {
+                        el = document.createElement("div");
+                        el.id = "mensetsuOriginalText";
+                        el.className = "mensetsu-original-text";
+                        var body = $("mensetsuBody");
+                        var inputArea = $("mensetsuInputArea");
+                        body.insertBefore(el, inputArea);
+                    }
+                    if (el.style.display === "block") {
+                        el.style.display = "none";
+                    } else {
+                        el.textContent = d.text;
+                        el.style.display = "block";
+                    }
+                }
+                function exitMensetsu() {
+                    MSI = 0;
+                    MSB = false;
+                    var el = $("mensetsuOriginalText");
+                    if (el) el.style.display = "none";
+                    sh("homePage");
+                }
+                function init() {
+                    var bs = $("btnStart");
+                    if (bs) bs.addEventListener("click", st);
+                    var bv = $("btnVocab");
+                    if (bv) bv.addEventListener("click", sv);
+                    var bp = $("btnBackFromPractice");
+                    if (bp) bp.addEventListener("click", go);
+                    var bv2 = $("btnBackFromVocab");
+                    if (bv2) bv2.addEventListener("click", go);
+                    var sb = $("sendBtn");
+                    if (sb) sb.addEventListener("click", sa);
+                    var ai = $("answerInput");
+                    if (ai) {
+                        ai.addEventListener("keydown", function (e) {
+                            if (e.key === "Enter" && !e.shiftKey) {
+                                e.preventDefault();
+                                sa();
+                            }
+                        });
+                    }
+                    var bm = $("btnMensetsu");
+                    if (bm) bm.addEventListener("click", toggleMensetsu);
+                    var bj = $("btnJikoshokai");
+                    if (bj) bj.addEventListener("click", startMensetsu);
+                    var bn = $("btnNande");
+                    if (bn) bn.addEventListener("click", startNande);
+                    var bot = $("btnOriginalText");
+                    if (bot) bot.addEventListener("click", toggleOriginalText);
+                    var bbm = $("btnBackFromMensetsu");
+                    if (bbm) bbm.addEventListener("click", exitMensetsu);
+                    var msb = $("mensetsuSendBtn");
+                    if (msb) msb.addEventListener("click", sendMensetsuAnswer);
+                    var mr = $("mensetsuRetry");
+                    if (mr) mr.addEventListener("click", retryMensetsu);
+                    var mn = $("mensetsuNext");
+                    if (mn) mn.addEventListener("click", nextMensetsu);
+                    var mi = $("mensetsuInput");
+                    if (mi) {
+                        mi.addEventListener("keydown", function (e) {
+                            if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+                                e.preventDefault();
+                                sendMensetsuAnswer();
+                            }
+                        });
+                    }
+                    ub();
+                }
+                if (document.readyState === "loading") {
+                    document.addEventListener("DOMContentLoaded", init);
+                } else {
+                    init();
+                }
+            })();
+        </script>
+    </body>
+</html>
