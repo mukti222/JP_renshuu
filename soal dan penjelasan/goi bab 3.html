@@ -1,0 +1,1739 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>第3週-7日目（語彙） - Latihan Kosakata JLPT N3</title>
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+    --bg: #0f0f1a;
+    --surface: #1a1a2e;
+    --surface2: #16213e;
+    --primary: #e63946;
+    --accent: #f0c27f;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --text: #f1f1f6;
+    --text-muted: #9ca3af;
+    --border: #2a2a4a;
+    --radius: 16px;
+    --radius-sm: 10px;
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 32px 16px 64px;
+}
+.container { max-width: 760px; margin: 0 auto; }
+.top-nav { margin-bottom: 20px; }
+.top-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+}
+.top-nav a:hover { color: var(--accent); }
+.page-header {
+    text-align: center;
+    padding: 28px 20px 32px;
+    background: radial-gradient(ellipse at 50% 0%, #1a1a3e 0%, #0f0f1a 70%);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-bottom: 28px;
+}
+.page-header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+}
+.page-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 16px;
+}
+.legend span {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+.qcard {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 20px 18px;
+    margin-bottom: 18px;
+}
+.qmeta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.qnum {
+    background: var(--primary);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.qtag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent);
+}
+.passage-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    font-size: 15px;
+    line-height: 1.9;
+}
+.passage-box .title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.qtext {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 14px;
+}
+.blank {
+    color: var(--accent);
+    font-weight: 700;
+}
+.choices {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.choice {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    background: var(--surface2);
+}
+.choice-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.choice-mark {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+.choice-text { font-size: 15px; flex: 1; }
+.choice.correct {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: var(--success);
+}
+.choice.correct .choice-mark {
+    background: var(--success);
+    border-color: var(--success);
+    color: #fff;
+}
+.choice.correct .choice-text { color: var(--success); font-weight: 700; }
+.choice.wrong .choice-mark { color: var(--danger); border-color: var(--danger); }
+.choice-explain {
+    margin-top: 6px;
+    padding-left: 30px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+.choice.correct .choice-explain { color: rgba(34, 197, 94, 0.85); }
+.answer-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--success);
+    background: rgba(34, 197, 94, 0.15);
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+.order-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.order-chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 14px;
+}
+.order-chip.star {
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 700;
+}
+.full-sentence {
+    background: rgba(240, 194, 127, 0.08);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-top: 4px;
+}
+.full-sentence .title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.note {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 10px;
+    line-height: 1.6;
+    border-top: 1px dashed var(--border);
+    padding-top: 10px;
+}
+footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-top: 24px;
+}
+.qtext u { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+.romaji { font-size: 13px; color: var(--text-muted); font-style: italic; line-height: 1.6; margin: -6px 0 4px; }
+.translation { font-size: 13px; color: var(--accent); line-height: 1.6; margin-bottom: 14px; }
+.choice-sub { display: block; font-size: 12px; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+.choice.correct .choice-sub { color: rgba(34, 197, 94, 0.85); }
+.mondai { margin: 28px 0 14px; }
+.mondai .jp { font-size: 15px; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav"><a href="../library.html">&larr; Kembali ke Question Library</a></div>
+
+    <div class="page-header">
+        <h1>第3週 &middot; 7日目（語彙）</h1>
+        <p>Dai-san shū &middot; nanatsu-me (Goi) &middot; Minggu ke-3, Hari ke-7 &middot; 25 soal kosakata + 48 soal latihan &middot; jawaban benar sudah ditandai, jawaban salah disertai alasan singkat</p>
+        <div class="legend">
+            <span>Isi Kurung</span>
+            <span>Padanan Penjelasan</span>
+            <span>Sinonim</span>
+            <span>Cara Pakai Kata</span>
+            <span>Latihan Gambar 1-6</span>
+        </div>
+    </div>
+
+    <div class="passage-box mondai">
+        <div class="title">問題１</div>
+        <div class="jp">カッコ（ ）に入れるのに最も良いものを、１．２．３．４から一つ選んでください。</div>
+        <div class="romaji" style="margin:6px 0 2px;">Mondai 1: Kakko ni ireru no ni mottomo yoi mono o, 1, 2, 3, 4 kara hitotsu erande kudasai.</div>
+        <div class="translation" style="margin:0;">Pilih satu jawaban terbaik dari 1, 2, 3, dan 4 untuk dimasukkan ke dalam tanda kurung ( ).</div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">1</span><span class="qtag">Kosakata &middot; 気に入る</span></div>
+        <div class="qtext">この時計は、古いけれども、<span class="blank">（　　　）</span></div>
+        <div class="romaji">Kono tokei wa, furui keredomo, (...)</div>
+        <div class="translation">Jam ini sudah tua, tetapi (...)</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">好んでいる<span class="choice-sub">konnde iru · menggemari</span></span></div>
+                <div class="choice-explain">好む menyatakan selera/kebiasaan umum (好んで食べる = gemar makan). Tidak dipakai untuk perasaan puas terhadap satu barang tertentu.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">似合っている<span class="choice-sub">niatte iru · cocok / serasi</span></span></div>
+                <div class="choice-explain">Menilai keserasian dengan pemakainya (baju, gaya). Yang diminta kalimat adalah perasaan pemilik terhadap jam itu, bukan soal cocok atau tidak.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">気に入っている<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">ki ni itte iru · menyukai / merasa puas</span></span></div>
+                <div class="choice-explain">気に入る = merasa suka dan puas dengan sesuatu. Pola 「古いけれども、気に入っている」 = tua, tapi tetap saya suka.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">はやっている<span class="choice-sub">hayatte iru · sedang tren</span></span></div>
+                <div class="choice-explain">Barang tua jarang sedang tren, dan 「けれども」 menuntut lanjutan yang kontras secara positif, bukan soal tren.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">2</span><span class="qtag">Kosakata &middot; 長そで</span></div>
+        <div class="qtext">「今日は寒いから、<span class="blank">（　　　）</span>のシャツを着ていったほうがいいよ。」</div>
+        <div class="romaji">"Kyō wa samui kara, (...) no shatsu o kite itta hō ga ii yo."</div>
+        <div class="translation">"Karena hari ini dingin, sebaiknya kamu pakai kemeja (...) ya."</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">長そで<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">nagasode · lengan panjang</span></span></div>
+                <div class="choice-explain">Alasannya 寒いから (dingin), jadi kemeja lengan panjang yang paling masuk akal untuk menghangatkan badan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">しま<span class="choice-sub">shima · garis-garis</span></span></div>
+                <div class="choice-explain">Kemeja bergaris memang ada, tetapi motif tidak berhubungan dengan alasan &quot;karena dingin&quot;.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">柄<span class="choice-sub">gara · motif / corak</span></span></div>
+                <div class="choice-explain">Sama seperti しま, ini soal tampilan kain, bukan soal menghangatkan badan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">無地<span class="choice-sub">muji · polos</span></span></div>
+                <div class="choice-explain">Polos atau tidak polos tidak ada kaitannya dengan cuaca dingin.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">3</span><span class="qtag">Kosakata &middot; 代金</span></div>
+        <div class="qtext">「このレストランの<span class="blank">（　　　）</span>は私が払います。」</div>
+        <div class="romaji">"Kono resutoran no (...) wa watashi ga haraimasu."</div>
+        <div class="translation">"Tagihan (...) restoran ini, saya yang bayar."</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">預金<span class="choice-sub">yokin · tabungan (di bank)</span></span></div>
+                <div class="choice-explain">Uang yang disimpan di bank. Tidak ada &quot;tabungan restoran&quot; yang dibayarkan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">生活費<span class="choice-sub">seikatsuhi · biaya hidup</span></span></div>
+                <div class="choice-explain">Pengeluaran bulanan untuk hidup sehari-hari, bukan tagihan satu kali makan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">現金<span class="choice-sub">genkin · uang tunai</span></span></div>
+                <div class="choice-explain">Bentuk uangnya, bukan hal yang dibayar. 「レストランの現金」 tidak masuk akal.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">代金<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">daikin · harga / tagihan</span></span></div>
+                <div class="choice-explain">代金 = uang yang dibayarkan untuk barang atau jasa, jadi 「レストランの代金」 = tagihan makan di restoran.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">4</span><span class="qtag">Kosakata &middot; 割り勘</span></div>
+        <div class="qtext">「今日の飲み会はみんなで<span class="blank">（　　　）</span>にしよう。」</div>
+        <div class="romaji">"Kyō no nomikai wa minna de (...) ni shiyō."</div>
+        <div class="translation">"Acara minum hari ini, mari kita (...) bersama-sama."</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">割り算<span class="choice-sub">warizan · pembagian (matematika)</span></span></div>
+                <div class="choice-explain">Operasi hitung bagi di pelajaran matematika, bukan cara membayar.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">割り勘<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">warikan · patungan / bayar masing-masing</span></span></div>
+                <div class="choice-explain">割り勘 = membagi total tagihan rata ke semua orang. Cocok dengan 「みんなで」 (bersama-sama).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">おごり<span class="choice-sub">ogori · traktiran</span></span></div>
+                <div class="choice-explain">おごり berarti satu orang membayari yang lain. Bertentangan dengan 「みんなで」 yang menyiratkan semua ikut membayar.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">費用<span class="choice-sub">hiyō · biaya</span></span></div>
+                <div class="choice-explain">Kata benda untuk biaya. 「費用にする」 bukan ungkapan untuk cara pembayaran.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">5</span><span class="qtag">Kosakata &middot; ひげ</span></div>
+        <div class="qtext">「<span class="blank">（　　　）</span>がのびてきた。そらないと。」</div>
+        <div class="romaji">"(...) ga nobite kita. Soranai to."</div>
+        <div class="translation">"(...) saya sudah tumbuh panjang. Harus dicukur nih."</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">まぶた<span class="choice-sub">mabuta · kelopak mata</span></span></div>
+                <div class="choice-explain">Bagian mata yang tidak pernah dicukur (そる).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">ひたい<span class="choice-sub">hitai · dahi</span></span></div>
+                <div class="choice-explain">Dahi tidak lazim dicukur, dan tidak dikatakan &quot;memanjang&quot;.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">ひげ<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">hige · jenggot / kumis</span></span></div>
+                <div class="choice-explain">Kolokasi baku: ひげをそる = mencukur jenggot/kumis. Cocok dengan のびてきた (sudah memanjang).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">ほほ<span class="choice-sub">hoho · pipi</span></span></div>
+                <div class="choice-explain">Pipi adalah bagian wajah, bukan sesuatu yang &quot;memanjang&quot; lalu dicukur.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">6</span><span class="qtag">Kosakata &middot; はめる</span></div>
+        <div class="qtext">「あら、すてきなゆびわを<span class="blank">（　　　）</span>わね。」</div>
+        <div class="romaji">"Ara, suteki na yubiwa o (...) wa ne."</div>
+        <div class="translation">"Wah, kamu sedang memakai cincin yang bagus ya."</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">はめている<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">hamete iru · memakai (cincin, sarung tangan)</span></span></div>
+                <div class="choice-explain">Kata kerja untuk benda yang &quot;dipasang pas&quot; di jari/tangan: 指輪をはめる, 手袋をはめる.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">はいている<span class="choice-sub">haite iru · memakai (celana, sepatu, kaus kaki)</span></span></div>
+                <div class="choice-explain">はく dipakai untuk pakaian bagian bawah dan alas kaki, bukan aksesori jari.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">しめている<span class="choice-sub">shimete iru · mengikat / memakai (dasi, sabuk)</span></span></div>
+                <div class="choice-explain">しめる dipakai untuk benda yang diikatkan: ネクタイをしめる, ベルトをしめる.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">いれている<span class="choice-sub">irete iru · memasukkan</span></span></div>
+                <div class="choice-explain">Berarti memasukkan sesuatu ke dalam wadah, bukan memakai perhiasan.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">7</span><span class="qtag">Kosakata &middot; 有効期限</span></div>
+        <div class="qtext">カードの<span class="blank">（　　　）</span>が切れそうだ。</div>
+        <div class="romaji">Kādo no (...) ga kiresō da.</div>
+        <div class="translation">Masa berlaku kartu ini sepertinya hampir habis.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">費用<span class="choice-sub">hiyō · biaya</span></span></div>
+                <div class="choice-explain">Biaya tidak &quot;habis masa berlakunya&quot;. 「費用が切れる」 bukan kolokasi yang wajar.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">代金<span class="choice-sub">daikin · harga / tagihan</span></span></div>
+                <div class="choice-explain">Sama seperti 費用, tagihan tidak punya masa berlaku.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">日程<span class="choice-sub">nittei · jadwal</span></span></div>
+                <div class="choice-explain">Jadwal/agenda bukan sesuatu yang tertera pada kartu dan bisa 切れる.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">有効期限<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">yūkō kigen · masa berlaku</span></span></div>
+                <div class="choice-explain">期限が切れる = batas waktu terlewati/kedaluwarsa. Kolokasi baku untuk kartu, tiket, dan kupon.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">8</span><span class="qtag">Kosakata &middot; 追加する</span></div>
+        <div class="qtext">（ウエートレスに）「あのー、注文を<span class="blank">（　　　）</span>んですが……。」</div>
+        <div class="romaji">(Uētoresu ni) "Anō, chūmon o (...) ndesu ga..."</div>
+        <div class="translation">(Kepada pelayan) "Permisi, saya ingin menambah pesanan..."</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">追加したい<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">tsuika shitai · ingin menambah</span></span></div>
+                <div class="choice-explain">注文を追加する = menambah pesanan. Itu yang lazim diminta pelanggan kepada pelayan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">おかわりしたい<span class="choice-sub">okawari shitai · ingin tambah porsi</span></span></div>
+                <div class="choice-explain">おかわり = tambah porsi makanan/minuman yang sama, dan tidak dipakai dengan 注文を.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">おすすめしたい<span class="choice-sub">osusume shitai · ingin merekomendasikan</span></span></div>
+                <div class="choice-explain">Merekomendasikan adalah tugas pelayan kepada pelanggan, bukan sebaliknya.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">決めたい<span class="choice-sub">kimetai · ingin memutuskan</span></span></div>
+                <div class="choice-explain">Memutuskan pesanan adalah urusan pelanggan sendiri, bukan sesuatu yang disampaikan ke pelayan dengan pola ini.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">9</span><span class="qtag">Kosakata &middot; 都合がつく</span></div>
+        <div class="qtext">「すみません、来週は都合が<span class="blank">（　　　）</span>んです。」</div>
+        <div class="romaji">"Sumimasen, raishū wa tsugō ga (...) ndesu."</div>
+        <div class="translation">"Maaf, minggu depan jadwal saya tidak bisa diatur (tidak bisa)."</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">できない<span class="choice-sub">dekinai · tidak bisa</span></span></div>
+                <div class="choice-explain">「都合ができない」 bukan kolokasi. Kata kerja yang berpasangan dengan 都合 adalah つく atau 悪い.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">つかない<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">tsukanai · tidak bisa diatur</span></span></div>
+                <div class="choice-explain">都合がつく/つかない = jadwal bisa/tidak bisa disesuaikan. Cara sopan untuk menolak ajakan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">あかない<span class="choice-sub">akanai · tidak kosong / tidak terbuka</span></span></div>
+                <div class="choice-explain">あく dipakai untuk waktu, tempat, atau tangan yang kosong (時間があく), bukan untuk 都合.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">かからない<span class="choice-sub">kakaranai · tidak memakan (waktu/biaya)</span></span></div>
+                <div class="choice-explain">かかる dipakai untuk waktu dan uang yang terpakai. Tidak berpasangan dengan 都合.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">10</span><span class="qtag">Kosakata &middot; ぜいたく</span></div>
+        <div class="qtext">「1台で十分なのに、また新しい車を買うなんて<span class="blank">（　　　）</span>だと思いませんか。」</div>
+        <div class="romaji">"1-dai de jūbun na no ni, mata atarashii kuruma o kau nante (...) da to omoimasen ka."</div>
+        <div class="translation">"Padahal satu mobil sudah cukup, membeli mobil baru lagi itu pemborosan, tidakkah menurutmu?"</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">迷惑<span class="choice-sub">meiwaku · merepotkan / gangguan</span></span></div>
+                <div class="choice-explain">Dipakai bila perbuatan merugikan orang lain. Membeli mobil sendiri tidak otomatis mengganggu siapa pun.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">不足<span class="choice-sub">fusoku · kekurangan</span></span></div>
+                <div class="choice-explain">Kebalikan dari konteks: kalimat justru bilang satu mobil sudah 十分 (cukup).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">貧乏<span class="choice-sub">binbō · miskin</span></span></div>
+                <div class="choice-explain">Orang yang bisa membeli mobil lagi bukan miskin. Maknanya berlawanan.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">ぜいたく<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">zeitaku · mewah / berlebihan</span></span></div>
+                <div class="choice-explain">Membeli lebih dari yang dibutuhkan = ぜいたく (berfoya-foya). Cocok dengan 「十分なのに、また〜」.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="passage-box mondai">
+        <div class="title">問題２</div>
+        <div class="jp">説明に最もあう言葉を、１．２．３．４から一つ選びなさい。</div>
+        <div class="romaji" style="margin:6px 0 2px;">Mondai 2: Setsumei ni mottomo au kotoba o, 1, 2, 3, 4 kara hitotsu erabi nasai.</div>
+        <div class="translation" style="margin:0;">Pilih satu kata dari 1, 2, 3, dan 4 yang paling sesuai dengan penjelasannya.</div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">11</span><span class="qtag">Kosakata &middot; ふられる</span></div>
+        <div class="qtext">好きな人に、交際（こうさい）を断られたり、別れようと言われたりする。</div>
+        <div class="romaji">Suki na hito ni, kōsai o kotowararetari, wakareyō to iwaretari suru.</div>
+        <div class="translation">Cintanya ditolak oleh orang yang disukai, atau diajak putus.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">もてない<span class="choice-sub">motenai · tidak populer</span></span></div>
+                <div class="choice-explain">Artinya secara umum tidak disukai lawan jenis. Penjelasan di soal menyebut kejadian spesifik: ditolak atau diputuskan oleh satu orang.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">別々になる<span class="choice-sub">betsubetsu ni naru · menjadi terpisah</span></span></div>
+                <div class="choice-explain">Hanya menyatakan berpisah secara netral, tanpa makna ditolak/diputus oleh orang yang disukai.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">ふられる<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">furareru · ditolak (cinta) / diputuskan</span></span></div>
+                <div class="choice-explain">振られる = pasif dari 振る (menolak/memutuskan). Tepat untuk 「断られたり、別れようと言われたり」.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">さそわれる<span class="choice-sub">sasowareru · diajak</span></span></div>
+                <div class="choice-explain">Diajak berarti ada undangan, justru kebalikan dari ditolak.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">12</span><span class="qtag">Kosakata &middot; やかましい</span></div>
+        <div class="qtext">声や音が大きすぎてうるさいようです。</div>
+        <div class="romaji">Koe ya oto ga ōkisugite urusai yō desu.</div>
+        <div class="translation">Suara atau bunyi terlalu keras sehingga terasa berisik.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">やかましい<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">yakamashii · bising / ribut</span></span></div>
+                <div class="choice-explain">やかましい = suara terlalu keras dan mengganggu. Sinonim dekat dari うるさい.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">にぎやか<span class="choice-sub">nigiyaka · ramai (suasana hidup)</span></span></div>
+                <div class="choice-explain">Ramai dalam arti positif dan meriah, tidak ada nuansa mengganggu.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">めいわく<span class="choice-sub">meiwaku · merepotkan</span></span></div>
+                <div class="choice-explain">Kata benda untuk gangguan secara umum, bukan penjelasan khusus tentang suara.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">がらがら<span class="choice-sub">garagara · kosong / lengang</span></span></div>
+                <div class="choice-explain">Menggambarkan tempat yang sepi/lengang, kebalikan dari kebisingan.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">13</span><span class="qtag">Kosakata &middot; 費用</span></div>
+        <div class="qtext">何かをするためにかかるお金。</div>
+        <div class="romaji">Nani ka o suru tame ni kakaru okane.</div>
+        <div class="translation">Uang yang dibutuhkan untuk melakukan sesuatu.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">現金<span class="choice-sub">genkin · uang tunai</span></span></div>
+                <div class="choice-explain">Menunjuk bentuk uangnya (tunai), bukan uang yang terpakai untuk suatu keperluan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">勘定<span class="choice-sub">kanjō · hitungan / tagihan</span></span></div>
+                <div class="choice-explain">Perhitungan atau bill di restoran, bukan biaya untuk melakukan sesuatu secara umum.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">費用<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">hiyō · biaya</span></span></div>
+                <div class="choice-explain">費用 = uang yang diperlukan untuk suatu kegiatan atau keperluan. Cocok dengan 「するためにかかる」.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">預金<span class="choice-sub">yokin · tabungan</span></span></div>
+                <div class="choice-explain">Uang yang disimpan di bank, bukan uang yang terpakai.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">14</span><span class="qtag">Kosakata &middot; くずす</span></div>
+        <div class="qtext">お金をこまかくする。</div>
+        <div class="romaji">Okane o komakaku suru.</div>
+        <div class="translation">Membuat uang menjadi pecahan yang lebih kecil (menukar uang).</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">はぶく<span class="choice-sub">habuku · menghilangkan / menghemat</span></span></div>
+                <div class="choice-explain">Berarti membuang bagian yang tidak perlu (手間を省く), tidak berkaitan dengan pecahan uang.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">くずす<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">kuzusu · memecah (uang)</span></span></div>
+                <div class="choice-explain">千円札をくずす = menukar lembar 1000 yen ke pecahan kecil. Makna asli くずす = menghancurkan/memecah menjadi bagian kecil.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">わる<span class="choice-sub">waru · membagi / memecahkan</span></span></div>
+                <div class="choice-explain">割る dipakai untuk membagi hitungan atau memecahkan benda, bukan untuk menukar uang.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">なおす<span class="choice-sub">naosu · memperbaiki / menyembuhkan</span></span></div>
+                <div class="choice-explain">Memperbaiki sesuatu yang rusak. Tidak ada hubungannya dengan uang pecahan.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">15</span><span class="qtag">Kosakata &middot; さそう</span></div>
+        <div class="qtext">一緒にどこかへ行こう、何かをしよう、などと言う。</div>
+        <div class="romaji">Issho ni doko ka e ikō, nani ka o shiyō, nado to iu.</div>
+        <div class="translation">Mengatakan "mari pergi ke suatu tempat bersama" atau "mari melakukan sesuatu bersama".</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">付き合う<span class="choice-sub">tsukiau · menemani / berpacaran</span></span></div>
+                <div class="choice-explain">付き合う adalah sisi yang menemani atau menuruti ajakan, bukan yang mengajak.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">さそう<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">sasou · mengajak</span></span></div>
+                <div class="choice-explain">誘う = mengajak orang lain melakukan sesuatu bersama. Persis dengan 「〜しよう」 (ajakan).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">おごる<span class="choice-sub">ogoru · mentraktir</span></span></div>
+                <div class="choice-explain">Membayari orang lain, bukan mengajak.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">なかなおりする<span class="choice-sub">nakanaori suru · berbaikan</span></span></div>
+                <div class="choice-explain">Berdamai setelah bertengkar, tidak ada makna mengajak.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="passage-box mondai">
+        <div class="title">問題３</div>
+        <div class="jp">＿＿＿＿ に意味が最も近いものを、１・２・３・４から一つ選びなさい。</div>
+        <div class="romaji" style="margin:6px 0 2px;">Mondai 3: ____ ni imi ga mottomo chikai mono o, 1, 2, 3, 4 kara hitotsu erabi nasai.</div>
+        <div class="translation" style="margin:0;">Pilih satu kata dari 1, 2, 3, dan 4 yang artinya paling dekat dengan kata yang digarisbawahi.</div>
+    </div>
+
+    <!-- Q16 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">16</span><span class="qtag">Sinonim &middot; 交際する</span></div>
+        <div class="qtext">田中さんは中村さんと<u>交際して</u>いるらしい。</div>
+        <div class="romaji">Tanaka-san wa Nakamura-san to <u>kōsai shite</u> iru rashii.</div>
+        <div class="translation">Tanaka tampaknya sedang berpacaran dengan Nakamura.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">似合って<span class="choice-sub">niatte · cocok / serasi</span></span></div>
+                <div class="choice-explain">Menyatakan serasi penampilannya, bukan menjalin hubungan.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">付きあって<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">tsukiatte · berpacaran</span></span></div>
+                <div class="choice-explain">交際する = menjalin hubungan (berpacaran). Sinonimnya yang lebih santai adalah 付き合う.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">仲直りして<span class="choice-sub">nakanaori shite · berbaikan</span></span></div>
+                <div class="choice-explain">Berbaikan setelah bertengkar. Tidak sama dengan menjalin hubungan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">結婚して<span class="choice-sub">kekkon shite · menikah</span></span></div>
+                <div class="choice-explain">Menikah adalah tahap lebih jauh, bukan sinonim dari 交際.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q17 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">17</span><span class="qtag">Sinonim &middot; 節約する</span></div>
+        <div class="qtext"><u>むだをはぶいて</u>、できるだけ貯金（ちょきん）をしましょう。</div>
+        <div class="romaji"><u>Muda o habuite</u>, dekirudake chokin o shimashō.</div>
+        <div class="translation">Kurangi pemborosan, mari menabung sebanyak mungkin.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">貧乏して<span class="choice-sub">binbō shite · hidup miskin</span></span></div>
+                <div class="choice-explain">Kondisi kekurangan uang, bukan tindakan sadar memangkas pemborosan.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">節約して<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">setsuyaku shite · berhemat</span></span></div>
+                <div class="choice-explain">むだをはぶく = memangkas pemborosan = 節約する (berhemat).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">借金をしないで<span class="choice-sub">shakkin o shinai de · tanpa berutang</span></span></div>
+                <div class="choice-explain">Tidak berutang itu hal berbeda dari menghemat pengeluaran.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">得をして<span class="choice-sub">toku o shite · beruntung / untung</span></span></div>
+                <div class="choice-explain">Mendapat keuntungan, bukan mengurangi pengeluaran.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">18</span><span class="qtag">Sinonim &middot; そうぞうしい</span></div>
+        <div class="qtext">よっぱらいが大声を出して、<u>そうぞうしい</u>。</div>
+        <div class="romaji">Yopparai ga ōgoe o dashite, <u>sōzōshii</u>.</div>
+        <div class="translation">Orang mabuk berteriak keras, sangat gaduh.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">さけんでいる<span class="choice-sub">sakende iru · sedang berteriak</span></span></div>
+                <div class="choice-explain">Hanya menjelaskan perbuatannya (berteriak). そうぞうしい menilai suasananya, yaitu bising.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">迷惑をかけている<span class="choice-sub">meiwaku o kakete iru · merepotkan orang</span></span></div>
+                <div class="choice-explain">Itu akibat yang mungkin timbul, bukan arti dari kata bising itu sendiri.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">うるさくしている<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">urusaku shite iru · membuat berisik</span></span></div>
+                <div class="choice-explain">騒々しい = bising dan gaduh, sepadan dengan うるさい. Tepat untuk 「うるさくしている」.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">楽しんでいる<span class="choice-sub">tanoshinde iru · bersenang-senang</span></span></div>
+                <div class="choice-explain">Perasaan orangnya, bukan penilaian terhadap suasana yang bising.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q19 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">19</span><span class="qtag">Sinonim &middot; はやる</span></div>
+        <div class="qtext">今年は花柄のスカートが<u>はやっている</u>。</div>
+        <div class="romaji">Kotoshi wa hanagara no sukāto ga <u>hayatte iru</u>.</div>
+        <div class="translation">Tahun ini rok motif bunga sedang ngetren.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">流行している<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">ryūkō shite iru · sedang tren</span></span></div>
+                <div class="choice-explain">はやる = 流行する, sedang populer di masyarakat.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">似合っている<span class="choice-sub">niatte iru · cocok</span></span></div>
+                <div class="choice-explain">Menilai kecocokan dengan pemakainya, bukan soal tren.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">気に入っている<span class="choice-sub">ki ni itte iru · menyukai</span></span></div>
+                <div class="choice-explain">Suka secara pribadi. はやる berarti disukai banyak orang.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">あこがれている<span class="choice-sub">akogarete iru · mengagumi / mendambakan</span></span></div>
+                <div class="choice-explain">Perasaan mengidamkan sesuatu. Bukan penilaian bahwa benda itu sedang populer.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q20 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">20</span><span class="qtag">Sinonim &middot; もてる</span></div>
+        <div class="qtext">田中課長（かちょう）はやさしくてかっこいいので、女性にたいへん<u>もてる</u>。</div>
+        <div class="romaji">Tanaka-kachō wa yasashikute kakkoii node, josei ni taihen <u>moteru</u>.</div>
+        <div class="translation">Kepala Bagian Tanaka baik hati dan keren, jadi sangat populer di kalangan wanita.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">ふられる<span class="choice-sub">furareru · ditolak (cinta)</span></span></div>
+                <div class="choice-explain">Berlawanan arti: ditolak, sedangkan もてる = banyak yang menyukai.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">申し込まれる<span class="choice-sub">mōshikomareru · dilamar / dimohon</span></span></div>
+                <div class="choice-explain">Merujuk satu kejadian dilamar atau diajak, bukan keadaan umum yang disukai banyak orang.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">いやがられる<span class="choice-sub">iyagarareru · tidak disukai</span></span></div>
+                <div class="choice-explain">Berlawanan arti: dibenci/dihindari.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">すかれる<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">sukareru · disukai</span></span></div>
+                <div class="choice-explain">好かれる = disukai orang. Sepadan dengan もてる (populer di mata lawan jenis).</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="passage-box mondai">
+        <div class="title">問題４</div>
+        <div class="jp">つぎのことばの使い方として最もよいものを、一つえらびなさい。</div>
+        <div class="romaji" style="margin:6px 0 2px;">Mondai 4: Tsugi no kotoba no tsukaikata to shite mottomo yoi mono o, hitotsu erabi nasai.</div>
+        <div class="translation" style="margin:0;">Pilih satu cara penggunaan kata berikut yang paling tepat.</div>
+    </div>
+
+    <!-- Q21 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">21</span><span class="qtag">Penggunaan &middot; あいまい</span></div>
+        <div class="qtext">あいまい</div>
+        <div class="romaji">Aimai · samar / tidak jelas / ambigu</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">買い物をあいまいにしたので、生活費が足りなくなってしまった。<span class="choice-sub">Kaimono o aimai ni shita node, seikatsuhi ga tarinaku natte shimatta.</span></span></div>
+                <div class="choice-explain">あいまい dipakai untuk sikap, jawaban, atau ingatan yang tidak jelas. Cara belanja yang membuat uang habis disebut 無駄づかい, bukan あいまい.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">田中さんと鈴木さんはあいまいになかがよくないから、よくけんかしている。<span class="choice-sub">Tanaka-san to Suzuki-san wa aimai ni naka ga yokunai kara, yoku kenka shite iru.</span></span></div>
+                <div class="choice-explain">Sering bertengkar berarti hubungannya jelas-jelas buruk. Tidak ada unsur samar, jadi あいまい bertentangan.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">彼女は田中さんの質問に、あいまいに「必ず行きます」と答えた。<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">Kanojo wa Tanaka-san no shitsumon ni, aimai ni &quot;kanarazu ikimasu&quot; to kotaeta.</span></span></div>
+                <div class="choice-explain">あいまいに答える = menjawab dengan tidak tegas. Pilihan ini yang paling lazim memakai あいまい, yaitu untuk cara menjawab.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">決められなかった飲んで、あいまいに答える。<span class="choice-sub">Kimerarenakatta nonde, aimai ni kotaeru.</span></span></div>
+                <div class="choice-explain">Kalimat pada sumber tampaknya tidak utuh (「決められなかった飲んで」 tidak bisa dibaca sebagai kalimat wajar), jadi tidak bisa dinilai. Pilihan 3 jelas benar.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q22 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">22</span><span class="qtag">Penggunaan &middot; ほどく</span></div>
+        <div class="qtext">ほどく</div>
+        <div class="romaji">Hodoku · melepas ikatan / mengurai simpul</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">ひもがかたくむすんであって、なかなかほどくことができない。<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">Himo ga kataku musunde atte, nakanaka hodoku koto ga dekinai.</span></span></div>
+                <div class="choice-explain">ほどく dipakai untuk simpul atau ikatan: ひも, 結び目, 靴ひも. Talinya terikat kencang jadi sulit diurai.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">出かける前に、ひげをほどくように。<span class="choice-sub">Dekakeru mae ni, hige o hodoku yō ni.</span></span></div>
+                <div class="choice-explain">Jenggot tidak diikat dan bukan benda berikat. Kata kerja yang tepat adalah そる (mencukur).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">食べすぎて苦しいときは、ベルトをほどくといいですよ。<span class="choice-sub">Tabesugite kurushii toki wa, beruto o hodoku to ii desu yo.</span></span></div>
+                <div class="choice-explain">Sabuk dilonggarkan atau dilepas (ゆるめる/はずす), bukan 「ほどく」 yang dipakai untuk simpul.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">運転中にハンドルから手をほどくと、危険です。<span class="choice-sub">Unten-chū ni handoru kara te o hodoku to, kiken desu.</span></span></div>
+                <div class="choice-explain">Melepas tangan dari setir dikatakan 手をはなす. Tangan bukan benda berikat yang bisa ほどく.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q23 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">23</span><span class="qtag">Penggunaan &middot; 別々に</span></div>
+        <div class="qtext">別々に</div>
+        <div class="romaji">Betsubetsu ni · secara terpisah / masing-masing</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">交際を申し込まれたが、好きになれないので別々にした。<span class="choice-sub">Kōsai o mōshikomareta ga, suki ni narenai node betsubetsu ni shita.</span></span></div>
+                <div class="choice-explain">Menolak lamaran pacaran dikatakan 断った. 別々にする berarti memisahkan dua hal atau lebih, bukan menolak.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">わからないことばがあったら、別々にじしょを引いて調べよう。<span class="choice-sub">Wakaranai kotoba ga attara, betsubetsu ni jisho o hiite shirabeyō.</span></span></div>
+                <div class="choice-explain">別々に menyiratkan beberapa pihak bertindak sendiri-sendiri. Untuk satu orang yang membuka kamus satu per satu, yang wajar adalah 一つずつ.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">「別々に払いますから、けいさんしてください。」<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">&quot;Betsubetsu ni haraimasu kara, keisan shite kudasai.&quot;</span></span></div>
+                <div class="choice-explain">別々に払う = membayar sendiri-sendiri. Pemakaian yang paling lazim di restoran.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">部長のおごりだったので、割り勘を別々にする必要がなかった。<span class="choice-sub">Buchō no ogori datta node, warikan o betsubetsu ni suru hitsuyō ga nakatta.</span></span></div>
+                <div class="choice-explain">割り勘 sudah berarti membagi bayaran, jadi 「割り勘を別々にする」 berulang dan tidak logis.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q24 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">24</span><span class="qtag">Penggunaan &middot; もったいない</span></div>
+        <div class="qtext">もったいない</div>
+        <div class="romaji">Mottainai · sayang (kalau dibuang / disia-siakan)</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">ズボンの後ろのポケットに財布を入れて歩くのは、もったいないです。<span class="choice-sub">Zubon no ushiro no poketto ni saifu o irete aruku no wa, mottainai desu.</span></span></div>
+                <div class="choice-explain">Dompet di saku belakang berisiko dicopet. Yang pas dipakai adalah 危ない/不用心, bukan もったいない.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">使えるものをすてるのはもったいないから、ほしい人にゆずろう。<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">Tsukaeru mono o suteru no wa mottainai kara, hoshii hito ni yuzurō.</span></span></div>
+                <div class="choice-explain">もったいない = sayang menyia-nyiakan sesuatu yang masih berguna. Alasan yang logis untuk memberikannya kepada orang lain.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">彼に、もったいない雰囲気のレストランに連れて行ってもらった。<span class="choice-sub">Kare ni, mottainai fun'iki no resutoran ni tsurete itte moratta.</span></span></div>
+                <div class="choice-explain">もったいない tidak dipakai untuk menggambarkan suasana. Untuk suasana mewah biasanya 高級な/おしゃれな.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">ウエートレスにおすすめを聞くのは、もったいないからやめよう。<span class="choice-sub">Uētoresu ni osusume o kiku no wa, mottainai kara yameyō.</span></span></div>
+                <div class="choice-explain">Bertanya rekomendasi tidak menyia-nyiakan apa pun, jadi alasannya tidak masuk akal.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q25 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">25</span><span class="qtag">Penggunaan &middot; 気に入る</span></div>
+        <div class="qtext">気に入る</div>
+        <div class="romaji">Ki ni iru · menyukai / merasa cocok dan puas</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">せまいけど、味がいいことが、その店を気に入っている理由だ。<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">Semai kedo, aji ga ii koto ga, sono mise o ki ni itte iru riyū da.</span></span></div>
+                <div class="choice-explain">Pola 〜を気に入る = menyukai sesuatu. Alasan (rasanya enak) dan objek (tokonya) pas.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">私は彼を気に入っているから、とても好きだ。<span class="choice-sub">Watashi wa kare o ki ni itte iru kara, totemo suki da.</span></span></div>
+                <div class="choice-explain">気に入る sudah berarti suka, jadi 「気に入っているから好きだ」 hanya mengulang tanpa alasan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">リンさんは先生のことばに気に入っているそうだ。<span class="choice-sub">Rin-san wa sensei no kotoba ni ki ni itte iru sō da.</span></span></div>
+                <div class="choice-explain">Partikelnya salah: yang benar 「〜を気に入る」 (bukan に).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">車が混んでいて時間通りに着くかどうか気に入っている。<span class="choice-sub">Kuruma ga konde ite jikandōri ni tsuku ka dō ka ki ni itte iru.</span></span></div>
+                <div class="choice-explain">Maksudnya khawatir, dan itu 気になる (terpikirkan/cemas). 気に入る berarti suka, jadi artinya melenceng.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="passage-box mondai">
+        <div class="title">Latihan Tambahan</div>
+        <div class="jp">れんしゅう &middot; 6 Gambar</div>
+        <div class="translation" style="margin:6px 0 0;">れんしゅう I: pilih jawaban yang benar (a atau b). れんしゅう II: isi kurung dengan kata yang tepat.</div>
+    </div>
+
+    <div class="passage-box mondai">
+        <div class="title">Gambar 1</div>
+        <div class="jp">Hubungan antar orang</div>
+    </div>
+
+    <!-- Gambar 1 I-1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">1</span><span class="qtag">Gambar 1 &middot; れんしゅう I</span></div>
+        <div class="qtext">あの兄弟はとても<span class="blank">（　　　）</span>。</div>
+        <div class="translation">Kakak-adik itu sangat akur.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. 仲がいい<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">akur / akrab</span></span></div>
+                <div class="choice-explain">仲がいい = hubungannya baik. Cocok untuk menggambarkan kakak-adik yang akrab.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. 仲直りしている<span class="choice-sub">sedang berbaikan</span></span></div>
+                <div class="choice-explain">仲直り = berbaikan setelah bertengkar. Kalimat tidak menyebut pertengkaran, dan とても tidak berpasangan dengan 仲直りしている.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 1 I-2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">2</span><span class="qtag">Gambar 1 &middot; れんしゅう I</span></div>
+        <div class="qtext">彼と<span class="blank">（　　　）</span>ようになったのは、いつですか。</div>
+        <div class="translation">Kapan kamu mulai berpacaran/bergaul dengan dia?</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 仲良しする<span class="choice-sub">(tidak ada bentuk ini)</span></span></div>
+                <div class="choice-explain">仲良し adalah kata benda/sifat (仲良しだ, 仲良くなる), bukan kata kerja する.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. 付き合う<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">berpacaran / bergaul</span></span></div>
+                <div class="choice-explain">付き合うようになる = jadi mulai menjalin hubungan. Pola ～ようになる butuh kata kerja bentuk kamus.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 1 I-3 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">3</span><span class="qtag">Gambar 1 &middot; れんしゅう I</span></div>
+        <div class="qtext">田中さん、恋人に<span class="blank">（　　　）</span>らしいよ。</div>
+        <div class="translation">Katanya Tanaka diputus/ditolak pacarnya.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. ふられた<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">diputuskan / ditolak</span></span></div>
+                <div class="choice-explain">振られる = diputuskan atau ditolak. Cocok untuk kabar yang dibicarakan orang (～らしいよ).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. 好かれた<span class="choice-sub">disukai</span></span></div>
+                <div class="choice-explain">Disukai pacar adalah hal biasa dan tidak lazim dijadikan kabar. Maknanya juga bukan peristiwa putus.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 1 I-4 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">4</span><span class="qtag">Gambar 1 &middot; れんしゅう I</span></div>
+        <div class="qtext">彼女の買い物に<span class="blank">（　　　）</span>。</div>
+        <div class="translation">Saya menemani belanja pacar saya.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 交際した<span class="choice-sub">menjalin hubungan</span></span></div>
+                <div class="choice-explain">交際 = menjalin hubungan antar orang, tidak dipakai dengan 「買い物に」.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. 付き合った<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">menemani</span></span></div>
+                <div class="choice-explain">～に付き合う = menemani/menuruti kegiatan seseorang. Pakai partikel に.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 1 I-5 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">5</span><span class="qtag">Gambar 1 &middot; れんしゅう I</span></div>
+        <div class="qtext">あの二人はさっきけんかをしていたのに、もう<span class="blank">（　　　）</span>をしたようだ。</div>
+        <div class="translation">Dua orang itu tadi bertengkar, tapi sepertinya sudah berbaikan.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. 仲直り<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">berbaikan</span></span></div>
+                <div class="choice-explain">仲直りをする = berbaikan, pasangan yang pas dengan けんか.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. 仲良し<span class="choice-sub">akrab (keadaan)</span></span></div>
+                <div class="choice-explain">仲良し menyatakan keadaan akrab, bukan tindakan. 「仲良しをする」 tidak lazim.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 1 I-6 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">6</span><span class="qtag">Gambar 1 &middot; れんしゅう I</span></div>
+        <div class="qtext">田中さんは彼女のことを<span class="blank">（　　　）</span>がっている。</div>
+        <div class="translation">Tanaka tampak tidak suka/risih terhadap perempuan itu.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. いや<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">tidak suka / enggan</span></span></div>
+                <div class="choice-explain">いや + がる = 嫌がる, menunjukkan sikap tidak suka atau menolak secara terlihat.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. きらい<span class="choice-sub">benci</span></span></div>
+                <div class="choice-explain">「きらいがる」 hampir tidak dipakai. Bentuk yang wajar adalah 嫌う (きらう) atau 嫌がる.</div>
+            </div>
+        </div>
+        <div class="note">「嫌がる」が自然です。「きらいがる」はほとんど使いません。 (嫌がる yang natural; きらいがる hampir tidak dipakai.)</div>
+    </div>
+
+    <!-- Gambar 1 II-7 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">7</span><span class="qtag">Gambar 1 &middot; れんしゅう II</span></div>
+        <div class="qtext">いやなら、はっきりと<span class="blank">（　　　）</span>ほうがいい。</div>
+        <div class="translation">Kalau tidak mau, lebih baik menolak dengan tegas.</div>
+        <div class="full-sentence">
+            <div class="title">Jawaban: 4 断った</div>
+            いやなら、はっきりと<span class="blank">断った</span>ほうがいい。
+        </div>
+        <div class="note">断る = menolak. Pola 〜た＋ほうがいい (sebaiknya melakukan ~) dengan はっきりと (tegas).</div>
+    </div>
+
+    <!-- Gambar 1 II-8 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">8</span><span class="qtag">Gambar 1 &middot; れんしゅう II</span></div>
+        <div class="qtext">彼はしつこいので女性に<span class="blank">（　　　）</span>います。</div>
+        <div class="translation">Dia terlalu gigih/mengganggu, jadi dibenci wanita.</div>
+        <div class="full-sentence">
+            <div class="title">Jawaban: 2 きらわれて</div>
+            彼はしつこいので女性に<span class="blank">きらわれて</span>います。
+        </div>
+        <div class="note">嫌われる = dibenci (pasif). しつこい (menjengkelkan karena terus mengejar) adalah alasan dibenci.</div>
+    </div>
+
+    <div class="passage-box mondai">
+        <div class="title">Gambar 2</div>
+        <div class="jp">Uang dan belanja</div>
+    </div>
+
+    <!-- Gambar 2 I-1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">1</span><span class="qtag">Gambar 2 &middot; れんしゅう I</span></div>
+        <div class="qtext">〈レジで〉<span class="blank">（　　　）</span>をいただけますか。</div>
+        <div class="translation">(Di kasir) Boleh minta kuitansinya?</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. 領収書<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">kuitansi / bukti bayar</span></span></div>
+                <div class="choice-explain">領収書 = bukti pembayaran yang diminta setelah membayar di kasir.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. 請求書<span class="choice-sub">tagihan / invoice</span></span></div>
+                <div class="choice-explain">請求書 = surat penagihan yang dikirim sebelum bayar. Di kasir kita sudah/sedang membayar, bukan menagih.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 2 I-2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">2</span><span class="qtag">Gambar 2 &middot; れんしゅう I</span></div>
+        <div class="qtext">毎月食費はどれくらい<span class="blank">（　　　）</span>か。</div>
+        <div class="translation">Setiap bulan biaya makan kira-kira berapa?</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. かかります<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">memakan (biaya)</span></span></div>
+                <div class="choice-explain">かかる = memerlukan biaya/waktu, pas dengan どれくらい.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. たります<span class="choice-sub">cukup</span></span></div>
+                <div class="choice-explain">足りる = cukup. Pertanyaan berapa jumlahnya (どれくらい) tidak cocok dengan makna cukup/tidak.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 2 I-3 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">3</span><span class="qtag">Gambar 2 &middot; れんしゅう I</span></div>
+        <div class="qtext">この町には、<span class="blank">（　　　）</span>人が多い。</div>
+        <div class="translation">Di kota ini banyak orang yang miskin.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 不足した<span class="choice-sub">kekurangan (hal/barang)</span></span></div>
+                <div class="choice-explain">不足する dipakai untuk barang atau sumber daya (水が不足した), bukan untuk menyifati orang.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. 貧しい<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">miskin</span></span></div>
+                <div class="choice-explain">貧しい = miskin, dapat langsung menerangkan 人.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 2 I-4 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">4</span><span class="qtag">Gambar 2 &middot; れんしゅう I</span></div>
+        <div class="qtext">むだを<span class="blank">（　　　）</span>仕事をしよう。</div>
+        <div class="translation">Mari bekerja dengan memangkas pemborosan.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. 省いて<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">memangkas / menghilangkan</span></span></div>
+                <div class="choice-explain">むだを省く = membuang bagian yang sia-sia. Kolokasi baku.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. 節約して<span class="choice-sub">berhemat</span></span></div>
+                <div class="choice-explain">節約する dipakai untuk uang/listrik/waktu (お金を節約する), bukan untuk むだ itu sendiri.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 2 I-5 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">5</span><span class="qtag">Gambar 2 &middot; れんしゅう I</span></div>
+        <div class="qtext">授業料を払ったら、生活<span class="blank">（　　　）</span>がなくなってしまった。</div>
+        <div class="translation">Setelah bayar uang kuliah, biaya hidup saya habis.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 料<span class="choice-sub">biaya jasa (～料)</span></span></div>
+                <div class="choice-explain">～料 dipakai untuk bayaran jasa/tarif (授業料, 送料). 「生活料」 tidak ada.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. 費<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">biaya (～費)</span></span></div>
+                <div class="choice-explain">生活費 = biaya hidup. ～費 dipakai untuk pengeluaran seperti 食費, 交通費.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 2 I-6 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">6</span><span class="qtag">Gambar 2 &middot; れんしゅう I</span></div>
+        <div class="qtext">今日の飲み会は、部長の<span class="blank">（　　　）</span>だそうだよ。</div>
+        <div class="translation">Katanya acara minum hari ini traktiran kepala bagian.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 勘定<span class="choice-sub">hitungan / tagihan</span></span></div>
+                <div class="choice-explain">勘定 = hitungan atau bill. 「部長の勘定」 hanya berarti tagihan milik kepala bagian, tidak membawa makna traktiran.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. おごり<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">traktiran</span></span></div>
+                <div class="choice-explain">～のおごり = ditraktir oleh ～. Pas dengan konteks acara minum yang dibayari atasan.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 2 II-7 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">7</span><span class="qtag">Gambar 2 &middot; れんしゅう II</span></div>
+        <div class="qtext">一万円札を千円札に<span class="blank">（　　　）</span>くださいませんか。</div>
+        <div class="translation">Bisa tolong tukarkan lembar 10.000 yen jadi pecahan 1.000?</div>
+        <div class="full-sentence">
+            <div class="title">Jawaban: 1 くずして</div>
+            一万円札を千円札に<span class="blank">くずして</span>くださいませんか。
+        </div>
+        <div class="note">お金をくずす = menukar ke pecahan lebih kecil (lihat soal 14).</div>
+    </div>
+
+    <!-- Gambar 2 II-8 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">8</span><span class="qtag">Gambar 2 &middot; れんしゅう II</span></div>
+        <div class="qtext">商品を取り替えるときは、必ず<span class="blank">（　　　）</span>を持ってきてください。</div>
+        <div class="translation">Kalau menukar barang, tolong selalu bawa struk.</div>
+        <div class="full-sentence">
+            <div class="title">Jawaban: 2 レシート</div>
+            商品を取り替えるときは、必ず<span class="blank">レシート</span>を持ってきてください。
+        </div>
+        <div class="note">レシート = struk belanja, bukti pembelian yang diperlukan untuk penukaran.</div>
+    </div>
+
+    <div class="passage-box mondai">
+        <div class="title">Gambar 3</div>
+        <div class="jp">Minum dan mabuk</div>
+    </div>
+
+    <!-- Gambar 3 I-1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">1</span><span class="qtag">Gambar 3 &middot; れんしゅう I</span></div>
+        <div class="qtext">湯飲みにお茶を<span class="blank">（　　　）</span>。</div>
+        <div class="translation">Menuangkan teh ke cangkir.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. そそぐ<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">menuangkan</span></span></div>
+                <div class="choice-explain">注ぐ = menuang cairan ke dalam wadah dengan sengaja.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. こぼす<span class="choice-sub">menumpahkan</span></span></div>
+                <div class="choice-explain">こぼす = menumpahkan karena tidak sengaja atau ceroboh, bukan menuang ke cangkir.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 3 I-2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">2</span><span class="qtag">Gambar 3 &middot; れんしゅう I</span></div>
+        <div class="qtext">グラスが倒れて酒が<span class="blank">（　　　）</span>。</div>
+        <div class="translation">Gelasnya jatuh dan minumannya tumpah.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. こぼれた<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">tumpah</span></span></div>
+                <div class="choice-explain">こぼれる = cairan keluar dari wadah (intransitif), cocok karena gelas terguling.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. あふれた<span class="choice-sub">meluap</span></span></div>
+                <div class="choice-explain">あふれる = meluap karena terlalu penuh, bukan karena wadah terguling.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 3 I-3 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">3</span><span class="qtag">Gambar 3 &middot; れんしゅう I</span></div>
+        <div class="qtext">仕事の後は、<span class="blank">（　　　）</span>で楽しみましょう。</div>
+        <div class="translation">Setelah kerja, mari bersenang-senang di acara minum bersama.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 乾杯<span class="choice-sub">bersulang</span></span></div>
+                <div class="choice-explain">乾杯 adalah tindakan bersulang, bukan acara tempat bersenang-senang.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. 飲み会<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">acara minum bersama</span></span></div>
+                <div class="choice-explain">飲み会 = acara minum bersama. Cocok dengan ～で楽しむ.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 3 I-4 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">4</span><span class="qtag">Gambar 3 &middot; れんしゅう I</span></div>
+        <div class="qtext">よっぱらって、いすを<span class="blank">（　　　）</span>しまった。</div>
+        <div class="translation">Karena mabuk, saya menjatuhkan kursi.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 割って<span class="choice-sub">memecahkan</span></span></div>
+                <div class="choice-explain">割る dipakai untuk benda yang pecah (gelas, piring). Kursi biasanya dikatakan 壊す.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. 倒して<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">menjatuhkan / merobohkan</span></span></div>
+                <div class="choice-explain">倒す = merobohkan benda berdiri. Kursi yang terguling karena mabuk.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 3 I-5 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">5</span><span class="qtag">Gambar 3 &middot; れんしゅう I</span></div>
+        <div class="qtext">ビールのおつまみには<span class="blank">（　　　）</span>がいいですね。</div>
+        <div class="translation">Untuk camilan teman bir, keju enak ya.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 泡<span class="choice-sub">busa</span></span></div>
+                <div class="choice-explain">泡 = busa bir. Busa bukan おつまみ (camilan).</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. チーズ<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">keju</span></span></div>
+                <div class="choice-explain">チーズ adalah camilan yang lazim untuk menemani minuman.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 3 I-6 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">6</span><span class="qtag">Gambar 3 &middot; れんしゅう I</span></div>
+        <div class="qtext">そんなに<span class="blank">（　　　）</span>していると、他の人に迷惑だよ。</div>
+        <div class="translation">Kalau berisik begitu, akan mengganggu orang lain.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. さわがしく<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">berisik / gaduh</span></span></div>
+                <div class="choice-explain">さわがしくする = membuat suasana gaduh. Itulah yang menjadi 迷惑.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. よっぱらい<span class="choice-sub">pemabuk</span></span></div>
+                <div class="choice-explain">よっぱらい adalah kata benda (orang mabuk). Tidak bisa dipasangkan dengan する. Bentuk kerjanya よっぱらう.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 3 II-7 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">7</span><span class="qtag">Gambar 3 &middot; れんしゅう II</span></div>
+        <div class="qtext">禁煙席がいいよ。喫煙席は<span class="blank">（　　　）</span>から。</div>
+        <div class="translation">Pilih tempat bebas rokok. Area merokok itu berasap dan bikin sesak.</div>
+        <div class="full-sentence">
+            <div class="title">Jawaban: 2 けむたい</div>
+            禁煙席がいいよ。喫煙席は<span class="blank">けむたい</span>から。
+        </div>
+        <div class="note">けむたい = berasap hingga mengganggu hidung dan mata. Alasan memilih 禁煙席.</div>
+    </div>
+
+    <!-- Gambar 3 II-8 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">8</span><span class="qtag">Gambar 3 &middot; れんしゅう II</span></div>
+        <div class="qtext">ワイングラスを倒して、<span class="blank">（　　　）</span>しまった。</div>
+        <div class="translation">Saya menjatuhkan gelas anggur dan memecahkannya.</div>
+        <div class="full-sentence">
+            <div class="title">Jawaban: 3 割って</div>
+            ワイングラスを倒して、<span class="blank">割って</span>しまった。
+        </div>
+        <div class="note">ワイングラス yang jatuh pecah, jadi 割る. Bandingkan dengan soal 4 (いすを倒す).</div>
+    </div>
+
+    <div class="passage-box mondai">
+        <div class="title">Gambar 4</div>
+        <div class="jp">Restoran</div>
+    </div>
+
+    <!-- Gambar 4 I-1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">1</span><span class="qtag">Gambar 4 &middot; れんしゅう I</span></div>
+        <div class="qtext">お客様は<span class="blank">（　　　）</span>様ですか。</div>
+        <div class="translation">Berapa orang rombongan Anda?</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. 何名<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">berapa orang (sopan)</span></span></div>
+                <div class="choice-explain">何名様 = sapaan baku di restoran untuk menanyakan jumlah tamu.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. 何人連れ<span class="choice-sub">(tidak lazim)</span></span></div>
+                <div class="choice-explain">「何人連れ様」 bukan ungkapan baku di restoran.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 4 I-2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">2</span><span class="qtag">Gambar 4 &middot; れんしゅう I</span></div>
+        <div class="qtext">レストランの店員に今日の<span class="blank">（　　　）</span>を聞いた。</div>
+        <div class="translation">Saya bertanya ke pelayan restoran soal menu rekomendasi hari ini.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 注文<span class="choice-sub">pesanan</span></span></div>
+                <div class="choice-explain">Pesanan adalah yang kita sampaikan ke pelayan, bukan yang kita tanyakan.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. おすすめ<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">rekomendasi</span></span></div>
+                <div class="choice-explain">今日のおすすめ = rekomendasi hari ini. Hal yang wajar ditanyakan ke pelayan.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 4 I-3 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">3</span><span class="qtag">Gambar 4 &middot; れんしゅう I</span></div>
+        <div class="qtext">もう1時だ。お<span class="blank">（　　　）</span>にしよう。</div>
+        <div class="translation">Sudah jam 1. Mari makan siang.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. 昼<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">siang (makan siang)</span></span></div>
+                <div class="choice-explain">お昼 = makan siang. Jam 1 sesuai dengan siang hari.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. 夜<span class="choice-sub">malam</span></span></div>
+                <div class="choice-explain">Jam 1 siang tidak berpasangan dengan makan malam.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 4 I-4 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">4</span><span class="qtag">Gambar 4 &middot; れんしゅう I</span></div>
+        <div class="qtext">家族全員<span class="blank">（　　　）</span>食事に出かけた。</div>
+        <div class="translation">Seluruh keluarga pergi makan bersama-sama.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 連れて<span class="choice-sub">membawa</span></span></div>
+                <div class="choice-explain">連れる butuh objek (家族を連れて). Di sini 家族全員 adalah pelaku yang pergi bersama.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. そろって<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">lengkap bersama-sama</span></span></div>
+                <div class="choice-explain">そろって = semua anggota bersama-sama. Cocok dengan 全員.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 4 I-5 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">5</span><span class="qtag">Gambar 4 &middot; れんしゅう I</span></div>
+        <div class="qtext">すごく長い<span class="blank">（　　　）</span>だね。あんなに並んでいるということは、おいしいのかな。</div>
+        <div class="translation">Antriannya panjang banget. Antri sebanyak itu berarti enak ya?</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 量<span class="choice-sub">jumlah / porsi</span></span></div>
+                <div class="choice-explain">量 = banyaknya (porsi, jumlah), bukan barisan orang.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. 列<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">barisan / antrean</span></span></div>
+                <div class="choice-explain">列 = barisan, sesuai dengan 並んでいる.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 4 I-6 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">6</span><span class="qtag">Gambar 4 &middot; れんしゅう I</span></div>
+        <div class="qtext">残したら、もったい<span class="blank">（　　　）</span>よ。</div>
+        <div class="translation">Kalau disisakan, sayang lho.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. ないです<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">(bentuk sopan)</span></span></div>
+                <div class="choice-explain">もったいない adalah kata sifat い. Bentuk sopannya もったいないです.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. ありません<span class="choice-sub">(bentuk sopan ある)</span></span></div>
+                <div class="choice-explain">ありません adalah bentuk sopan negatif dari ある, tidak dipakai untuk mensopankan kata sifat い seperti もったいない.</div>
+            </div>
+        </div>
+        <div class="note">Catatan: pada teks yang Anda kirim tertulis 「もったいない（ないです／ありません）」. Saya tulis kalimatnya sebagai 「もったい＿＿よ」 supaya pilihan tidak menggandakan ない. Mohon cek ke buku.</div>
+    </div>
+
+    <!-- Gambar 4 II-7 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">7</span><span class="qtag">Gambar 4 &middot; れんしゅう II</span></div>
+        <div class="qtext">〈客に向かって〉食器を<span class="blank">（　　　）</span>よろしいですか。</div>
+        <div class="translation">(Kepada tamu) Boleh saya angkat peralatan makannya?</div>
+        <div class="full-sentence">
+            <div class="title">Jawaban: 4 おさげして</div>
+            〈客に向かって〉食器を<span class="blank">おさげして</span>よろしいですか。
+        </div>
+        <div class="note">お下げする = bentuk merendah (keigo) dari 下げる, mengangkat piring yang sudah selesai dipakai.</div>
+    </div>
+
+    <!-- Gambar 4 II-8 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">8</span><span class="qtag">Gambar 4 &middot; れんしゅう II</span></div>
+        <div class="qtext">〈客に向かって〉<span class="blank">（　　　）</span>は、お決まりですか。</div>
+        <div class="translation">(Kepada tamu) Apakah pesanannya sudah ditentukan?</div>
+        <div class="full-sentence">
+            <div class="title">Jawaban: 1 ご注文</div>
+            〈客に向かって〉<span class="blank">ご注文</span>は、お決まりですか。
+        </div>
+        <div class="note">ご注文は、お決まりですか = kalimat baku pelayan menanyakan pesanan.</div>
+    </div>
+
+    <div class="passage-box mondai">
+        <div class="title">Gambar 5</div>
+        <div class="jp">Fesyen dan tren</div>
+    </div>
+
+    <!-- Gambar 5 I-1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">1</span><span class="qtag">Gambar 5 &middot; れんしゅう I</span></div>
+        <div class="qtext">今、このデザインが若い人の間で<span class="blank">（　　　）</span>いる。</div>
+        <div class="translation">Sekarang desain ini sedang tren di kalangan anak muda.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. はやって<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">sedang tren</span></span></div>
+                <div class="choice-explain">はやっている = sedang populer. Cocok dengan 若い人の間で.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. 好んで<span class="choice-sub">dengan senang hati / sengaja</span></span></div>
+                <div class="choice-explain">好んで dipakai dengan kata kerja (好んで着る). 「好んでいる」 tidak membentuk kalimat yang wajar.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 5 I-2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">2</span><span class="qtag">Gambar 5 &middot; れんしゅう I</span></div>
+        <div class="qtext">この柄、お客様に、よく<span class="blank">（　　　）</span>いますよ。</div>
+        <div class="translation">(Pramuniaga) Motif ini cocok sekali dengan Anda.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 気に入って<span class="choice-sub">menyukai</span></span></div>
+                <div class="choice-explain">気に入る adalah perasaan si pemakai. Pramuniaga tidak bisa menyatakan perasaan pelanggan.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. 似合って<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">cocok</span></span></div>
+                <div class="choice-explain">～に似合う = cocok dikenakan. Pola お客様に似合っています.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 5 I-3 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">3</span><span class="qtag">Gambar 5 &middot; れんしゅう I</span></div>
+        <div class="qtext">これは、私の<span class="blank">（　　　）</span>のバッグです。</div>
+        <div class="translation">Ini tas favorit saya.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 気に入り<span class="choice-sub">(bentuk renyoukei)</span></span></div>
+                <div class="choice-explain">気に入り tidak dipakai sendirian sebagai kata benda 'favorit'.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. お気に入り<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">favorit</span></span></div>
+                <div class="choice-explain">お気に入り = barang favorit, kata benda yang lazim.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 5 I-4 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">4</span><span class="qtag">Gambar 5 &middot; れんしゅう I</span></div>
+        <div class="qtext">人気商品なので、すぐに<span class="blank">（　　　）</span>しまった。</div>
+        <div class="translation">Karena produk populer, langsung habis terjual.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. はやって<span class="choice-sub">menjadi tren</span></span></div>
+                <div class="choice-explain">はやってしまった tidak cocok: 'langsung menjadi tren' bukan hal yang dimaksud, apalagi dengan akibat 'habis'.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. 売り切れて<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">habis terjual</span></span></div>
+                <div class="choice-explain">売り切れる = stok habis terjual. Alami dengan すぐに ～てしまった.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 5 I-5 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">5</span><span class="qtag">Gambar 5 &middot; れんしゅう I</span></div>
+        <div class="qtext">長さはちょうどいいが、ちょっと<span class="blank">（　　　）</span>苦しい。</div>
+        <div class="translation">Panjangnya pas, tapi agak ketat dan sesak.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. きつくて<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">ketat</span></span></div>
+                <div class="choice-explain">きつい = ketat, sehingga 苦しい (sesak).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. ゆるくて<span class="choice-sub">longgar</span></span></div>
+                <div class="choice-explain">Longgar tidak membuat sesak. Maknanya berlawanan.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 5 I-6 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">6</span><span class="qtag">Gambar 5 &middot; れんしゅう I</span></div>
+        <div class="qtext">こちらの商品は20パーセント<span class="blank">（　　　）</span>です。</div>
+        <div class="translation">Barang ini diskon 20 persen.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. 特売<span class="choice-sub">obral</span></span></div>
+                <div class="choice-explain">特売 = acara obral, tidak diikuti angka persen sebagai besaran potongan.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. 引き<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">potongan</span></span></div>
+                <div class="choice-explain">20パーセント引き = diskon 20 persen. Kolokasi baku.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 5 II-7 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">7</span><span class="qtag">Gambar 5 &middot; れんしゅう II</span></div>
+        <div class="qtext">あの人はいつも<span class="blank">（　　　）</span>服を着ているから、目立ちませんね。</div>
+        <div class="translation">Dia selalu memakai pakaian kalem, jadi tidak mencolok.</div>
+        <div class="full-sentence">
+            <div class="title">Jawaban: 2 地味な</div>
+            あの人はいつも<span class="blank">地味な</span>服を着ているから、目立ちませんね。
+        </div>
+        <div class="note">地味 = sederhana/kalem, lawan dari 派手. Menjelaskan kenapa 目立たない.</div>
+    </div>
+
+    <!-- Gambar 5 II-8 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">8</span><span class="qtag">Gambar 5 &middot; れんしゅう II</span></div>
+        <div class="qtext">彼の誕生日にマフラーをあげたのに、<span class="blank">（　　　）</span>もらえなかった。</div>
+        <div class="translation">Padahal sudah kuberi syal di hari ulang tahunnya, tapi dia tidak menyukainya.</div>
+        <div class="full-sentence">
+            <div class="title">Jawaban: 1 気に入って</div>
+            彼の誕生日にマフラーをあげたのに、<span class="blank">気に入って</span>もらえなかった。
+        </div>
+        <div class="note">気に入ってもらえなかった = (barang itu) tidak disukai oleh penerima.</div>
+    </div>
+
+    <div class="passage-box mondai">
+        <div class="title">Gambar 6</div>
+        <div class="jp">Berpakaian dan berdandan</div>
+    </div>
+
+    <!-- Gambar 6 I-1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">1</span><span class="qtag">Gambar 6 &middot; れんしゅう I</span></div>
+        <div class="qtext">白いマフラーを<span class="blank">（　　　）</span>あの子、かわいいね。</div>
+        <div class="translation">Anak yang melilitkan syal putih itu, lucu ya.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. しめている<span class="choice-sub">mengikat / memakai (dasi)</span></span></div>
+                <div class="choice-explain">しめる dipakai untuk ネクタイ dan ベルト. Syal tidak diikat melainkan dililitkan.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. 巻いている<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">melilitkan</span></span></div>
+                <div class="choice-explain">マフラーを巻く = melilitkan syal di leher.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 6 I-2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">2</span><span class="qtag">Gambar 6 &middot; れんしゅう I</span></div>
+        <div class="qtext">ぼくはお風呂に入ったときに、ひげを<span class="blank">（　　　）</span>。</div>
+        <div class="translation">Saya mencukur jenggot saat mandi berendam.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. そります<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">mencukur</span></span></div>
+                <div class="choice-explain">ひげをそる = kolokasi baku untuk mencukur jenggot/kumis.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. とります<span class="choice-sub">mengambil</span></span></div>
+                <div class="choice-explain">とる berarti mengambil. Untuk jenggot yang dipakai そる.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 6 I-3 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">3</span><span class="qtag">Gambar 6 &middot; れんしゅう I</span></div>
+        <div class="qtext">シャワーを<span class="blank">（　　　）</span>から出かけます。</div>
+        <div class="translation">Saya berangkat setelah mandi shower.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. 浴びて<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">mandi (shower)</span></span></div>
+                <div class="choice-explain">シャワーを浴びる adalah kolokasi baku.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. 入って<span class="choice-sub">masuk</span></span></div>
+                <div class="choice-explain">入る dipakai untuk お風呂に入る (berendam). Untuk shower yang dipakai 浴びる.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 6 I-4 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">4</span><span class="qtag">Gambar 6 &middot; れんしゅう I</span></div>
+        <div class="qtext">靴のひもを結んだり<span class="blank">（　　　）</span>するのは、面倒くさい。</div>
+        <div class="translation">Mengikat dan melepas tali sepatu itu merepotkan.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. ほどいたり<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">melepas ikatan</span></span></div>
+                <div class="choice-explain">結ぶ berpasangan dengan ほどく. Cocok dengan 靴のひも.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. みがいたり<span class="choice-sub">menggosok / menyikat</span></span></div>
+                <div class="choice-explain">みがく dipakai untuk mengkilapkan sepatu, bukan untuk tali.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 6 I-5 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">5</span><span class="qtag">Gambar 6 &middot; れんしゅう I</span></div>
+        <div class="qtext">田中さんはいつもすてきな服を着ていて、<span class="blank">（　　　）</span>が上手ね。</div>
+        <div class="translation">Tanaka selalu memakai baju bagus, pintar berdandan ya.</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">a. きがえ<span class="choice-sub">ganti baju</span></span></div>
+                <div class="choice-explain">着替え = tindakan mengganti baju, bukan kemampuan bergaya.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">b. おしゃれ<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">gaya / pandai berdandan</span></span></div>
+                <div class="choice-explain">おしゃれが上手 = pandai berpenampilan modis.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 6 I-6 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">6</span><span class="qtag">Gambar 6 &middot; れんしゅう I</span></div>
+        <div class="qtext">赤い口紅を<span class="blank">（　　　）</span>。</div>
+        <div class="translation">Mengoleskan lipstik merah.</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">a. ぬる<span class="answer-badge">Jawaban Benar</span><span class="choice-sub">mengoles</span></span></div>
+                <div class="choice-explain">口紅を塗る = mengoleskan lipstik.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">b. まく<span class="choice-sub">melilit / menabur</span></span></div>
+                <div class="choice-explain">巻く = melilit, 撒く = menabur. Tidak cocok dengan lipstik.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gambar 6 II-7 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">7</span><span class="qtag">Gambar 6 &middot; れんしゅう II</span></div>
+        <div class="qtext">歯ブラシに歯みがき粉を<span class="blank">（　　　）</span>。</div>
+        <div class="translation">Oleskan pasta gigi ke sikat gigi.</div>
+        <div class="full-sentence">
+            <div class="title">Jawaban: 2 つける</div>
+            歯ブラシに歯みがき粉を<span class="blank">つける</span>。
+        </div>
+        <div class="note">つける = membubuhkan/mengoleskan sesuatu ke permukaan benda lain.</div>
+    </div>
+
+    <!-- Gambar 6 II-8 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">8</span><span class="qtag">Gambar 6 &middot; れんしゅう II</span></div>
+        <div class="qtext">この子はまだ小さいから、一人で手袋を<span class="blank">（　　　）</span>んですよ。</div>
+        <div class="translation">Anak ini masih kecil, jadi belum bisa memakai sarung tangan sendiri.</div>
+        <div class="full-sentence">
+            <div class="title">Jawaban: 4 はめられない</div>
+            この子はまだ小さいから、一人で手袋を<span class="blank">はめられない</span>んですよ。
+        </div>
+        <div class="note">手袋をはめる = memakai sarung tangan. Bentuk potensial negatif はめられない = tidak bisa memakai.</div>
+    </div>
+
+    <footer>Dibuat untuk latihan mandiri</footer>
+</div>
+</body>
+</html>

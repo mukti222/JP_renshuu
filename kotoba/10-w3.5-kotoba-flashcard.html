@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>言葉の王国 — Kotoba Flashcard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Noto+Serif+JP:wght@600;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b2415; --moss:#3f5f2a; --moss-d:#1f3216;
+  --gold:#c9a94a; --gold-l:#ecdc9a; --gold-d:#7d6a26;
+  --parch:#efe8c4;
+  --jp:"Noto Serif JP","Yu Mincho","YuMincho","Hiragino Mincho ProN","MS PMincho","Songti SC",serif;
+  --title:"Cinzel","Trajan Pro","Palatino Linotype",Georgia,serif;
+  --text:"Cormorant Garamond","Palatino Linotype","Book Antiqua",Georgia,serif;
+  --stage:clamp(480px,70vh,640px);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{
+  min-height:100vh; color:var(--parch); font-family:var(--text);
+  background:#14110d;
+}
+#wall{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0;pointer-events:none}
+main{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.screen{display:none;width:100%;max-width:800px;padding:18px 16px 40px;flex-direction:column;align-items:center;gap:16px;position:relative;z-index:1}
+.screen.active{display:flex}
+
+/* ---------- Buttons ---------- */
+.btn{
+  font-family:var(--title);font-weight:700;letter-spacing:.06em;font-size:1rem;
+  color:var(--gold-l);background:linear-gradient(#557a3a,#243a1a);
+  border:2px solid var(--gold);border-radius:10px;padding:12px 22px;cursor:pointer;
+  box-shadow:0 4px 0 #0c1608,0 10px 20px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.12);
+  transition:transform .15s,filter .15s,box-shadow .15s;
+}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.18)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #0c1608,0 4px 8px rgba(0,0,0,.5)}
+.btn:focus-visible,.flip:focus-visible{outline:3px solid var(--gold-l);outline-offset:3px}
+.btn.gold{background:linear-gradient(#e9d88a,#a58c3a);color:#2a2408;border-color:#fbeeb9;box-shadow:0 4px 0 #5e470f,0 10px 20px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.35)}
+.btn.small{padding:8px 16px;font-size:.85rem}
+.btn.ok{background:linear-gradient(#8ab85a,#3f7a26);border-color:#e0f0b8;color:#10200a;box-shadow:0 4px 0 #1c3a10,0 10px 20px rgba(0,0,0,.5)}
+.btn.no{background:linear-gradient(#a3652f,#5c3416);color:var(--gold-l)}
+.controls{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;width:100%}
+.controls .btn{min-width:150px}
+
+/* ---------- Home ---------- */
+#home{justify-content:center;min-height:100vh;text-align:center;gap:10px;padding-bottom:40px}
+.crown{width:110px;height:82px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.6))}
+h1{margin:6px 0 0;font-family:var(--jp);font-weight:900;font-size:clamp(2.6rem,10vw,5rem);letter-spacing:.08em;
+  background:linear-gradient(#f6ecb8,#c9a94a 45%,#7d6a26);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 3px 0 rgba(0,0,0,.55))}
+.sub{margin:0;font-family:var(--title);letter-spacing:.2em;font-size:clamp(.75rem,2.6vw,1rem);color:var(--gold-l);text-transform:uppercase}
+.src{margin:2px 0 22px;color:#e2dab0;font-size:1.05rem;font-style:italic}
+.menu{display:flex;flex-direction:column;gap:20px;width:min(440px,100%)}
+.big{
+  display:flex;align-items:center;gap:18px;text-align:left;cursor:pointer;
+  padding:18px 22px;border-radius:14px;border:3px solid var(--gold);color:var(--gold-l);
+  background:linear-gradient(#4f7336,#1f3216);
+  box-shadow:0 0 0 3px #0c1608,0 12px 28px rgba(0,0,0,.6),inset 0 0 0 2px rgba(245,220,138,.25),inset 0 0 30px rgba(0,0,0,.35);
+  transition:transform .18s,box-shadow .18s,filter .18s;
+}
+.big:hover{transform:translateY(-4px) scale(1.02);filter:brightness(1.15);box-shadow:0 0 0 3px #0c1608,0 16px 34px rgba(0,0,0,.65),0 0 30px rgba(212,175,55,.35),inset 0 0 0 2px rgba(245,220,138,.35)}
+.big:focus-visible{outline:3px solid var(--gold-l);outline-offset:4px}
+.big svg{flex:none;width:52px;height:52px}
+.big b{display:block;font-family:var(--title);font-size:1.5rem;letter-spacing:.06em}
+.big span{display:block;font-family:var(--text);font-weight:600;font-size:1.05rem;color:#dfe6b8;margin-top:2px}
+
+/* ---------- Top bar ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;width:min(760px,100%)}
+.counter{font-family:var(--title);font-size:1.1rem;color:var(--gold-l);letter-spacing:.1em}
+.counter b{font-size:1.5rem;color:#f6ecb8}
+.score{display:flex;gap:14px;font-family:var(--title);font-weight:700}
+.score .ok{color:#b8e58a}.score .no{color:#f0b47f}
+
+/* ---------- Card ---------- */
+.card{
+  position:relative;width:min(760px,100%);padding:12px;border-radius:16px;
+  background:linear-gradient(135deg,#e8d98c,#a58c3a 38%,#ecdc9a 58%,#7d6a26);
+  box-shadow:0 22px 50px rgba(0,0,0,.65),0 0 0 1px #4b370b,0 0 46px rgba(212,175,55,.18);
+}
+.card.stage{height:var(--stage)}
+.paper{
+  position:relative;height:100%;display:flex;flex-direction:column;align-items:stretch;overflow:hidden;
+  border:2px solid var(--gold-d);border-radius:8px;color:var(--ink);
+  background:
+    radial-gradient(circle at 0% 100%,rgba(72,112,44,.34),transparent 32%),
+    radial-gradient(circle at 100% 100%,rgba(72,112,44,.26),transparent 28%),
+    radial-gradient(circle at 100% 0%,rgba(72,112,44,.16),transparent 22%),
+    radial-gradient(ellipse at 50% 40%,#f7f2d6 0%,#e8e2b6 68%,#c9c38c 100%);
+  box-shadow:inset 0 0 70px rgba(70,85,25,.42),inset 0 0 8px rgba(40,50,10,.5);
+}
+.paper::before{content:"";position:absolute;inset:9px;border:1.5px solid rgba(125,106,38,.75);pointer-events:none}
+.paper::after{
+  content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.55;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n' x='0' y='0' width='1' height='1'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .22  0 0 0 0 .3  0 0 0 0 .08  0 0 0 .2 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.corner{position:absolute;width:44px;height:44px;color:var(--gold-d);z-index:2;pointer-events:none}
+.corner.tl{top:14px;left:14px}
+.corner.tr{top:14px;right:14px;transform:scaleX(-1)}
+.corner.bl{bottom:14px;left:14px;transform:scaleY(-1)}
+.corner.br{bottom:14px;right:14px;transform:scale(-1,-1)}
+.ribbon{
+  position:relative;z-index:3;align-self:center;margin-top:20px;min-width:min(62%,340px);text-align:center;
+  padding:9px 40px;font-family:var(--title);font-weight:700;letter-spacing:.16em;font-size:.9rem;color:var(--gold-l);
+  background:linear-gradient(#557a3a,#243a1a);
+  clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%);
+  box-shadow:inset 0 2px 0 rgba(245,220,138,.65),inset 0 -2px 0 rgba(245,220,138,.65);
+}
+.topic{position:relative;z-index:3;text-align:center;margin-top:8px;font-style:italic;font-weight:700;font-size:1.05rem;color:var(--moss)}
+.body{position:relative;z-index:3;flex:1;min-height:0;display:flex;flex-direction:column;padding:6px 30px 26px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--gold-d) transparent}
+.inner{margin:auto 0;width:100%}
+.jp{
+  font-family:var(--jp);font-weight:900;color:var(--ink);text-align:center;white-space:nowrap;line-height:1.15;
+  text-shadow:0 1px 0 rgba(255,255,255,.55),0 4px 8px rgba(30,50,10,.3);
+}
+.reading{font-family:var(--jp);font-weight:700;font-size:clamp(1.3rem,4vw,2rem);letter-spacing:.08em;color:var(--moss);text-align:center;margin-top:2px}
+.orn{display:flex;align-items:center;gap:12px;margin:12px auto;width:min(340px,80%);color:var(--gold-d)}
+.orn i{flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--gold-d),transparent)}
+.orn b{font-size:.9rem}
+.meaning{font-family:var(--text);font-weight:700;font-size:clamp(1.5rem,4.4vw,2.1rem);line-height:1.2;text-align:center;color:#26301a}
+.extra{margin-top:16px;padding:12px 16px;border-radius:6px;background:rgba(63,95,42,.10);border:1px dashed rgba(138,106,28,.7);font-size:1.15rem;line-height:1.4;font-weight:600;color:#26301a}
+.extra p{margin:6px 0}
+.extra .note{font-style:italic;color:#4a5a24}
+.extra .ex-jp{display:block;font-family:var(--jp);font-weight:600;font-size:1.05rem;color:var(--ink)}
+.extra .ex-id{display:block;opacity:.85}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center}
+.chips .lbl{font-style:italic;color:var(--moss);margin-right:4px}
+.chips span:not(.lbl){font-family:var(--jp);font-weight:600;font-size:1rem;padding:2px 12px;border:1px solid var(--gold-d);border-radius:999px;background:rgba(255,255,255,.4)}
+.hint{position:relative;z-index:3;text-align:center;padding:0 0 26px;font-style:italic;font-weight:700;font-size:1.05rem;color:#6a6224}
+
+@keyframes inNext{from{opacity:0;transform:translateX(50px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes inPrev{from{opacity:0;transform:translateX(-50px) scale(.98)}to{opacity:1;transform:none}}
+.card.in-next{animation:inNext .45s cubic-bezier(.2,.8,.2,1)}
+.card.in-prev{animation:inPrev .45s cubic-bezier(.2,.8,.2,1)}
+
+/* ---------- Timer / progress ---------- */
+.timer{width:min(760px,100%);text-align:center}
+.track{height:10px;border-radius:999px;background:rgba(0,0,0,.45);border:1px solid var(--gold-d);overflow:hidden}
+.track.thin{height:8px;width:min(760px,100%)}
+.fill{height:100%;width:0;background:linear-gradient(90deg,#7d6a26,#ecdc9a,#c9a94a)}
+.tlabel{margin-top:6px;font-style:italic;font-weight:700;font-size:1.05rem;color:#e2dab0}
+
+/* ---------- Flip (exercise) ---------- */
+.flip{width:min(760px,100%);height:var(--stage);perspective:1500px;cursor:pointer;border-radius:16px}
+.flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,.2,.2,1)}
+.flip.flipped .flip-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;width:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face.back{transform:rotateY(180deg)}
+.face .body.center{justify-content:center}
+
+/* ---------- Result ---------- */
+#result{text-align:center;justify-content:center;min-height:100vh}
+#result .crown{width:90px;height:68px}
+h2{margin:0;font-family:var(--title);font-size:clamp(1.5rem,5vw,2.2rem);letter-spacing:.08em;color:var(--gold-l)}
+.rscore{font-family:var(--title);font-weight:700;font-size:clamp(3.5rem,14vw,6rem);line-height:1;color:#f6ecb8;text-shadow:0 4px 0 #6b5010,0 0 30px rgba(212,175,55,.5)}
+#rDetail{margin:0;font-size:1.3rem;color:#f0dcaa}
+.missed{width:min(700px,100%);max-height:38vh;overflow-y:auto;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:12px;border:1px solid var(--gold-d);border-radius:10px;background:rgba(0,0,0,.28)}
+.missed .m{padding:6px 12px;border-radius:8px;background:linear-gradient(#efe9c6,#d3cc98);color:var(--ink);border:1px solid var(--gold-d);font-weight:700;text-align:left;line-height:1.2}
+.missed .m b{font-family:var(--jp);font-size:1.15rem;display:block}
+.missed .m span{font-size:.95rem;opacity:.85}
+
+/* ---------- Kotoba / Bunpou switch ---------- */
+.seg{display:flex;gap:0;width:min(440px,100%);margin:0 0 22px;border:3px solid var(--gold);border-radius:14px;overflow:hidden;box-shadow:0 0 0 3px #0c1608,0 10px 24px rgba(0,0,0,.55)}
+.segbtn{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:10px 12px;border:0;
+  font-family:var(--title);color:var(--gold-l);background:linear-gradient(#2c4420,#16260e);transition:filter .15s;
+}
+.segbtn+.segbtn{border-left:2px solid var(--gold-d)}
+.segbtn b{font-family:var(--jp);font-weight:900;font-size:1.5rem;letter-spacing:.08em}
+.segbtn span{font-weight:700;font-size:.85rem;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+.segbtn:hover{filter:brightness(1.25)}
+.segbtn:focus-visible{outline:3px solid var(--gold-l);outline-offset:-5px}
+.segbtn.active{background:linear-gradient(#e9d88a,#a58c3a);color:#2a2408}
+.segbtn.active span{opacity:1}
+
+/* ---------- Quiz ---------- */
+.card.quiz{min-height:var(--stage)}
+.card.quiz .paper{min-height:calc(var(--stage) - 24px)}
+.qstem{font-family:var(--jp);font-weight:700;font-size:clamp(1.3rem,4vw,1.9rem);line-height:1.7;text-align:center;color:var(--ink);margin:6px 0 4px}
+.qstem .blk{display:inline-block;min-width:2.2em;border-bottom:3px solid var(--gold-d);color:var(--moss);text-align:center}
+.qstem .blk.star{color:#8a2d12;font-weight:900;border-bottom-color:#8a2d12}
+.qask{margin:4px 0 0;text-align:center;font-style:italic;font-weight:700;color:var(--moss)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.opt{
+  font-family:var(--jp);font-weight:700;font-size:1.2rem;line-height:1.3;text-align:left;cursor:pointer;
+  padding:12px 14px;border-radius:10px;border:2px solid var(--gold-d);color:var(--ink);
+  background:linear-gradient(#f7f2d6,#ddd59d);box-shadow:0 3px 0 rgba(90,70,20,.55);
+  transition:transform .12s,filter .12s;
+}
+.opt:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.06)}
+.opt:focus-visible{outline:3px solid var(--moss);outline-offset:2px}
+.opt:disabled{cursor:default}
+.opt .lt{font-family:var(--title);color:var(--gold-d);margin-right:8px}
+.opt.right{background:linear-gradient(#c3e69a,#7fb04e);border-color:#2f6e3f}
+.opt.wrong{background:linear-gradient(#f3bd97,#c9743f);border-color:#7a3a14}
+.opt.dim{opacity:.5}
+.qfb{margin-top:14px;padding:12px 16px;border-radius:6px;background:rgba(63,95,42,.10);border:1px dashed rgba(138,106,28,.7);font-size:1.1rem;line-height:1.4;font-weight:600;color:#26301a}
+.qfb p{margin:6px 0}
+.qfb .verdict{font-family:var(--title);font-weight:700;letter-spacing:.06em}
+.qfb .verdict.ok{color:#2f6e3f}.qfb .verdict.no{color:#8a3a14}
+.qfb .full{display:block;font-family:var(--jp);font-weight:700;color:var(--ink)}
+.qfb .note{font-style:italic;color:#4a5a24}
+@media (max-width:520px){
+  .body{padding:4px 18px 22px}
+  .ribbon{padding:8px 30px;font-size:.78rem}
+  .controls .btn{min-width:0;flex:1 1 40%}
+  .corner{width:34px;height:34px}
+}
+@media (max-width:520px){.opts{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="wall" aria-hidden="true"></canvas>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="goldG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6ecb8"/><stop offset=".5" stop-color="#c9a94a"/><stop offset="1" stop-color="#7d6a26"/>
+    </linearGradient>
+    <symbol id="crown" viewBox="0 0 64 48">
+      <path d="M4 40 L8 12 L22 27 L32 6 L42 27 L56 12 L60 40 Z" fill="url(#goldG)" stroke="#5e470f" stroke-width="1.2" stroke-linejoin="round"/>
+      <rect x="4" y="42" width="56" height="5" rx="2" fill="url(#goldG)" stroke="#5e470f" stroke-width="1.2"/>
+      <circle cx="8" cy="11" r="3.2" fill="#5aa868" stroke="#5e470f"/><circle cx="32" cy="5.5" r="3.4" fill="#5aa868" stroke="#5e470f"/><circle cx="56" cy="11" r="3.2" fill="#5aa868" stroke="#5e470f"/>
+      <circle cx="32" cy="31" r="3" fill="#2f6e3f" stroke="#5e470f"/>
+    </symbol>
+  </defs>
+</svg>
+
+<main>
+  <!-- ================= HOME ================= -->
+  <section id="home" class="screen active">
+    <svg class="crown" viewBox="0 0 64 48"><use href="#crown"/></svg>
+    <h1>言葉の王国</h1>
+    <p class="sub">Kotoba no Ōkoku · Kerajaan Kosakata</p>
+    <p class="src">第4週-1日目 · <span id="total"></span> kartu · <span id="totalQ"></span> soal</p>
+    <div class="seg" role="group" aria-label="Pilih materi">
+      <button class="segbtn active" id="segKotoba" data-cat="kotoba" aria-pressed="true"><b>言葉</b><span>Kotoba</span></button>
+      <button class="segbtn" id="segBunpou" data-cat="bunpou" aria-pressed="false"><b>文法</b><span>Bunpou</span></button>
+    </div>
+    <div class="menu">
+      <button class="big" id="btnLearn">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#ecdc9a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M24 12 C18 8 10 8 4 10 V38 C10 36 18 36 24 40 C30 36 38 36 44 38 V10 C38 8 30 8 24 12 Z"/><path d="M24 12 V40"/><path d="M11 17 H18 M11 23 H18 M30 17 H37 M30 23 H37" stroke-width="2"/></svg>
+        <div><b>Learn Kotoba</b><span>Semua kotoba, kanji &amp; tata bahasa beserta artinya</span></div>
+      </button>
+      <button class="big" id="btnEx">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#ecdc9a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M24 4 L41 10 V24 C41 34 33 42 24 45 C15 42 7 34 7 24 V10 Z"/><path d="M16 24 L22 30 L33 17"/></svg>
+        <div><b>Exercise</b><span>Flashcard — balik kartu &amp; uji ingatan</span></div>
+      </button>
+      <button class="big" id="btnQuiz">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#ecdc9a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><rect x="8" y="5" width="32" height="38" rx="3"/><path d="M15 15 H33 M15 23 H33 M15 31 H25"/><path d="M30 33 L33 36 L40 28" stroke-width="3"/></svg>
+        <div><b>Latihan Soal</b><span>Soal pilihan ganda dari PPT — kosakata &amp; tata bahasa</span></div>
+      </button>
+      <button class="big" id="btnQuizX" hidden>
+        <svg viewBox="0 0 48 48" fill="none" stroke="#ecdc9a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M24 4 L28.5 17 L42 17.5 L31.5 26 L35 39.5 L24 32 L13 39.5 L16.5 26 L6 17.5 L19.5 17 Z"/></svg>
+        <div><b>Latihan Soal Extra</b><span>20 soal tambahan bergaya serupa — dibuat oleh Claude</span></div>
+      </button>
+    </div>
+      </section>
+
+  <!-- ================= LEARN ================= -->
+  <section id="learn" class="screen">
+    <div class="topbar">
+      <button class="btn small" data-home>‹ Menu</button>
+      <div class="counter"><b id="lNum">1</b> / <span id="lTotal"></span></div>
+    </div>
+    <div class="card stage" id="lcard"></div>
+    <div class="timer">
+      <div class="track"><div class="fill" id="lFill"></div></div>
+      <div class="tlabel" id="lTime"></div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="lPrev">‹ Before</button>
+      <button class="btn gold" id="lAuto">❚❚ Jeda</button>
+      <button class="btn" id="lNext">Next ›</button>
+    </div>
+  </section>
+
+  <!-- ================= EXERCISE ================= -->
+  <section id="exercise" class="screen">
+    <div class="topbar">
+      <button class="btn small" data-home>‹ Menu</button>
+      <div class="counter"><b id="eNum">1</b> / <span id="eTotal"></span></div>
+      <div class="score"><span class="ok">✓ <b id="eOk">0</b></span><span class="no">✗ <b id="eNo">0</b></span></div>
+    </div>
+    <div class="track thin"><div class="fill" id="eFill"></div></div>
+    <div class="flip" id="flip" tabindex="0" role="button" aria-label="Balik kartu">
+      <div class="flip-inner">
+        <div class="card face front" id="eFront"></div>
+        <div class="card face back" id="eBack"></div>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn gold" id="eFlipBtn">Balik Kartu</button>
+      <div class="controls" id="eGrade" hidden>
+        <button class="btn no" id="eNoBtn">✗ Belum hafal</button>
+        <button class="btn ok" id="eOkBtn">✓ Hafal</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= QUIZ ================= -->
+  <section id="quiz" class="screen">
+    <div class="topbar">
+      <button class="btn small" data-home>‹ Menu</button>
+      <div class="counter"><b id="qNum">1</b> / <span id="qTotal"></span></div>
+      <div class="score"><span class="ok">✓ <b id="qOk">0</b></span><span class="no">✗ <b id="qNo">0</b></span></div>
+    </div>
+    <div class="track thin"><div class="fill" id="qFill"></div></div>
+    <div class="card quiz" id="qcard"></div>
+    <div class="controls">
+      <button class="btn gold" id="qNext" hidden>Lanjut ›</button>
+    </div>
+  </section>
+
+  <!-- ================= RESULT ================= -->
+  <section id="result" class="screen">
+    <svg class="crown" viewBox="0 0 64 48"><use href="#crown"/></svg>
+    <h2 id="rTitle"></h2>
+    <div class="rscore"><span id="rPct">0</span>%</div>
+    <p id="rDetail"></p>
+    <div class="missed" id="rMissed" hidden></div>
+    <div class="controls">
+      <button class="btn gold" id="rRetry">Ulangi yang belum hafal</button>
+      <button class="btn" id="rAgain">Acak ulang semua</button>
+      <button class="btn" data-home>Menu</button>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ============================================================
+   DATA — dari 第4週-1日目（文字・語彙）.pptx dan 第4週-1日目（文法）.pptx
+   t: kotoba (kosakata) | kanji (satu kanji) | jukugo (kata berkanji) | bunpou (pola tata bahasa)
+   note: teks atau array teks | ex: [[kalimat Jepang, terjemahan], ...]
+   [Latihan] = kalimat dari soal latihan (jawaban ditentukan sendiri)
+   ============================================================ */
+const G1 = '学校へ行きましょう① · Ayo ke Sekolah!';
+const G2 = '日用品 · Barang Kebutuhan Sehari-hari';
+const K1 = 'Kosakata · contoh kalimat';
+const K2 = 'Kosakata · latihan (練習)';
+const NK = 8;
+const V  = (g, jp, r, m, o = {}) => ({ t: 'kotoba', g, jp, r, m, ...o });
+const J  = (k, jp, r, m, o = {}) => ({ t: 'jukugo', g: 'Kata dengan kanji ' + k, jp, r, m, ...o });
+const KJ = (n, jp, r, m, words, o = {}) => ({ t: 'kanji', g: `Kanji ${n} / ${NK}`, jp, r, m, words, ...o });
+
+const GP = [
+  'にとって · Sudut pandang',
+  'わりに・にしては · Hasil di luar dugaan',
+  'くせに・のに · Padahal…',
+  'など・なんて・なんか · Hal kecil seperti…',
+  'なんて・なんか · Penyangkalan',
+  'なんて · Heran / tidak percaya'
+];
+const P  = (n, jp, r, m, o = {}) => ({ t: 'bunpou', g: `Pola ${n} / ${GP.length} · ${GP[n - 1]}`, jp, r, m, ...o });
+const GV = '文法 · kata pendukung dari contoh kalimat';
+
+const CARDS = [
+  /* ---- 言葉 : 学校へ行きましょう① (slide 3) ---- */
+  V(G1, '教科', 'きょうか', 'Pelajaran dalam arti umum', {
+    note: 'Contoh: 数学 (Matematika), 理科 (IPA), 社会 (IPS).'
+  }),
+  V(G1, '科目', 'かもく', 'Pelajaran yang spesifik (bagian dari 教科)', {
+    note: 'Contoh: 社会 ➡ 日本歴史 (Sejarah Jepang), 地理 (Geografi).'
+  }),
+  V(G1, '地理', 'ちり', 'Geografi', { note: 'Salah satu 科目 dari 教科 社会.' }),
+
+  /* ---- 言葉 : 学校へ行きましょう① (slide 4) ---- */
+  V(G1, '時間割', 'じかんわり', 'Jadwal pelajaran', {
+    ex: [['明日の時間割は何ですか？', 'Jadwal pelajaran besok apa?']]
+  }),
+  V(G1, '入学式', 'にゅうがくしき', 'Upacara penerimaan siswa baru', {
+    ex: [['来週、入学式があります。', 'Minggu depan ada upacara penerimaan siswa baru.']]
+  }),
+  V(G1, '卒業式', 'そつぎょうしき', 'Upacara kelulusan', {
+    ex: [['先月、卒業式がありました。', 'Bulan lalu ada upacara kelulusan.']]
+  }),
+  V(G1, '出席する', 'しゅっせきする', 'Hadir, masuk (sekolah / kelas)', {
+    note: 'Lawannya 欠席する.',
+    ex: [['今日は全員出席しています。', 'Hari ini semua hadir.']]
+  }),
+  V(G1, '欠席する', 'けっせきする', 'Tidak hadir, absen', {
+    note: 'Lawannya 出席する.',
+    ex: [
+      ['熱があるので、今日は学校を欠席します。', 'Karena demam, hari ini saya tidak masuk sekolah.'],
+      ['風邪で欠席が多い。', '[Latihan] Karena flu, absennya banyak. (jawaban: 欠席)']
+    ]
+  }),
+
+  /* ---- 言葉 : 学校へ行きましょう① (slide 5) ---- */
+  V(G1, '通学する', 'つうがくする', 'Berangkat sekolah (PP)', {
+    note: 'Dipakai untuk MURID. Rute rumah–sekolah setiap hari. Bandingkan 通勤する (untuk pekerja).',
+    ex: [
+      ['私は自転車で通学しています。', 'Saya berangkat sekolah naik sepeda. (untuk pelajar)'],
+      ['大学の息子は、バスで通学している。', '[Latihan] Anakku yang kuliah berangkat ke kampus naik bus. (jawaban: 通学)']
+    ]
+  }),
+  V(G1, '通勤する', 'つうきんする', 'Berangkat kerja (PP)', {
+    note: 'Dipakai untuk PEKERJA. Rute rumah–kantor setiap hari. Bandingkan 通学する (untuk pelajar).',
+    ex: [['父は電車で通勤しています。', 'Ayah berangkat kerja naik kereta. (untuk pekerja)']]
+  }),
+  V(G1, '学期', 'がっき', 'Semester, periode ajaran', {
+    ex: [['もうすぐ新学期（しんがっき）が始まる。', 'Semester baru akan segera dimulai.']]
+  }),
+  V(G1, '新学期', 'しんがっき', 'Semester baru, awal tahun ajaran', {
+    ex: [['もうすぐ新学期が始まる。', 'Semester baru akan segera dimulai.']]
+  }),
+  V(G1, '今学期', 'こんがっき', 'Semester ini', {
+    ex: [['今学期は後期（こうき）です。', 'Semester ini adalah semester akhir.']]
+  }),
+
+  /* ---- 言葉 : 学校へ行きましょう① (slide 6) ---- */
+  V(G1, '前期', 'ぜんき', 'Semester awal, paruh pertama', {
+    note: 'Lawannya 後期.',
+    ex: [['前期の試験が終わりました。', 'Ujian semester awal sudah selesai.']]
+  }),
+  V(G1, '後期', 'こうき', 'Semester akhir, paruh kedua', {
+    note: 'Lawannya 前期.',
+    ex: [['今学期は後期です。', 'Semester ini adalah semester akhir.']]
+  }),
+  V(G1, '同じ学年', 'おなじがくねん', 'Satu angkatan, tingkat yang sama', {
+    ex: [['田中さんと同じ学年です。', 'Aku seangkatan sama Tanaka.']]
+  }),
+  V(G1, '自習する', 'じしゅうする', 'Belajar mandiri (bukan diajar guru)', {
+    ex: [
+      ['図書館で自習しています。', 'Lagi belajar mandiri di perpustakaan.'],
+      ['明日は給食がないので、お弁当をもってきてください。', '[Latihan] Besok tidak ada makan siang sekolah, jadi tolong bawa bekal. (jawaban: きゅうしょく)']
+    ]
+  }),
+  V(G1, '削る', 'けずる', 'Meraut, menyerut, memangkas', {
+    note: [
+      'Fisik: 鉛筆を削る = meraut pensil.',
+      'Abstrak: 費用を削る、文を削る = memangkas biaya / kalimat.'
+    ],
+    ex: [['鉛筆をナイフで削った。', 'Aku meraut pensil pakai pisau.']]
+  }),
+
+  /* ---- 言葉 : 学校へ行きましょう① (slide 7) ---- */
+  V(G1, '測る', 'はかる', 'Mengukur (panjang, tinggi, kedalaman, luas, jarak, tinggi badan, suhu — yang butuh alat ukur)', {
+    ex: [
+      ['物差しで測る。', 'Mengukur dengan penggaris (kayu).'],
+      ['定規で測る。', 'Mengukur dengan penggaris.'],
+      ['物差しで測ったら、30センチありました。', '[Latihan] Setelah diukur dengan penggaris, panjangnya 30 cm. (jawaban: はかったら)']
+    ]
+  }),
+  V(G1, '物差し', 'ものさし', 'Penggaris (kayu), alat ukur', { ex: [['物差しで測る。', 'Mengukur dengan penggaris (kayu).']] }),
+  V(G1, '定規', 'じょうぎ', 'Penggaris (istilah umum, termasuk yang plastik / segitiga)', {
+    ex: [['定規で測る。', 'Mengukur dengan penggaris.']]
+  }),
+  V(G1, '合計を出す', 'ごうけいをだす', 'Menghitung / mengeluarkan totalnya', {
+    ex: [['レシートの合計を出してください。', 'Tolong hitungkan total struknya.']]
+  }),
+  V(G1, '足し算', 'たしざん', 'Penjumlahan', {
+    note: '「＋」bisa juga dibaca プラス (plus).',
+    ex: [['2 + 3 = 5（に たす さん は ご）', '2 ditambah 3 sama dengan 5.']]
+  }),
+  V(G1, '引き算', 'ひきざん', 'Pengurangan', {
+    note: '「－」bisa juga dibaca マイナス (minus).',
+    ex: [['5 − 3 = 2（ご ひく さん は に）', '5 dikurangi 3 sama dengan 2.']]
+  }),
+  V(G1, '掛け算', 'かけざん', 'Perkalian', {
+    ex: [
+      ['4 × 2 = 8（よん かける に は はち）', '4 dikali 2 sama dengan 8.'],
+      ['5×3は掛け算です。', '[Latihan] 5×3 itu perkalian. (jawaban: かけざん)']
+    ]
+  }),
+  V(G1, '割り算', 'わりざん', 'Pembagian', {
+    ex: [
+      ['8 ÷ 4 = 2（はち わる よん は に）', '8 dibagi 4 sama dengan 2.'],
+      ['9÷3は「9わる3」と読みます。', '[Latihan] 9÷3 dibaca “9 wa-ru 3”. (jawaban: d. ９わる３)']
+    ]
+  }),
+  V(G1, 'プラス', '', 'Plus (tambah)', { note: 'Bisa dipakai untuk membaca 「＋」; bentuk bacaan matematika: たす.' }),
+  V(G1, 'マイナス', '', 'Minus (kurang)', { note: 'Bisa dipakai untuk membaca 「－」; bentuk bacaan matematika: ひく.' }),
+
+  /* ---- 言葉 : contoh kalimat & latihan 練習 (slide 4–9) ---- */
+  V(K1, '数学', 'すうがく', 'Matematika', { note: 'Contoh 教科.' }),
+  V(K1, '理科', 'りか', 'IPA (ilmu pengetahuan alam)', { note: 'Contoh 教科.' }),
+  V(K1, '社会', 'しゃかい', 'IPS (ilmu pengetahuan sosial); masyarakat', { note: 'Contoh 教科. Cabangnya: 日本歴史 (にほんれきし) = Sejarah Jepang, 地理 = Geografi.' }),
+  V(K1, '日本歴史', 'にほんれきし', 'Sejarah Jepang', { note: 'Contoh 科目 dari 教科 社会.' }),
+  V(K2, '算数', 'さんすう', 'Berhitung, aritmetika (pelajaran SD)', {
+    ex: [['計算がおそいので、算数は苦手な教科です。', '[Latihan] Karena lambat menghitung, aritmetika adalah pelajaran yang tidak kukuasai.']]
+  }),
+  V(K2, '得意な', 'とくいな', 'Jago, ahli, unggul di bidang tertentu', { note: 'Lawannya 苦手な / にがてな.' }),
+  V(K2, '苦手な', 'にがてな', 'Tidak jago, lemah (di bidang tertentu)', {
+    note: 'Lawannya 得意な. Jawaban latihan: 算数は苦手な教科です.',
+    ex: [['計算がおそいので、算数は苦手な教科です。', '[Latihan] Karena lambat menghitung, aritmetika adalah pelajaran yang tidak kukuasai.']]
+  }),
+  V(K2, '私立', 'しりつ', 'Swasta (sekolah)', {
+    note: 'Lawannya 公立.',
+    ex: [['ふつうは公立高校のほうが、学費は安いです。', '[Latihan] Biasanya SMA negeri biaya sekolahnya lebih murah. (jawaban: こうりつ)']]
+  }),
+  V(K2, '公立', 'こうりつ', 'Negeri (sekolah milik pemerintah daerah)', {
+    note: 'Lawannya 私立.',
+    ex: [['ふつうは公立高校のほうが、学費は安いです。', '[Latihan] Biasanya SMA negeri biaya sekolahnya lebih murah.']]
+  }),
+  V(K2, '学費', 'がくひ', 'Biaya sekolah', {
+    ex: [['ふつうは公立高校のほうが、学費は安いです。', '[Latihan] Biasanya SMA negeri biaya sekolahnya lebih murah.']]
+  }),
+  V(K2, '給食', 'きゅうしょく', 'Makan siang sekolah', {
+    ex: [['明日は給食がないので、お弁当をもってきてください。', '[Latihan] Besok tidak ada makan siang sekolah, jadi tolong bawa bekal.']]
+  }),
+  V(K2, '風邪', 'かぜ', 'Flu, masuk angin', { ex: [['風邪で欠席が多い。', '[Latihan] Karena flu, absennya banyak.']] }),
+
+  /* ---- 漢字 1 : 砂 (slide 12) ---- */
+  KJ(1, '砂', 'さ／しゃ／すな', 'Pasir', ['砂糖', '砂', '砂遊び']),
+  J('砂', '砂', 'すな', 'Pasir', {
+    ex: [
+      ['子どもたちが砂はまであそんでいる。', 'Anak-anak sedang bermain di pantai berpasir.'],
+      ['海岸で砂遊びをする。', '[Latihan] Bermain pasir di pantai. (jawaban: 砂)']
+    ]
+  }),
+  J('砂', '砂糖', 'さとう', 'Gula', { ex: [['コーヒーに砂糖を入れる。', 'Memasukkan gula ke dalam kopi.']] }),
+
+  /* ---- 漢字 2 : 塩 (slide 12) ---- */
+  KJ(2, '塩', 'えん／しお', 'Garam', ['塩', '食塩']),
+  J('塩', '塩', 'しお', 'Garam', { ex: [['料理に塩を少し足す。', 'Menambahkan sedikit garam ke masakan.']] }),
+  J('塩', '食塩', 'しょくえん', 'Garam dapur', {
+    ex: [
+      ['料理に食塩を少しくわえる。', 'Menambahkan sedikit garam dapur ke dalam masakan.'],
+      ['食塩：料理に味をつけるもの。', '[Latihan] Garam dapur: sesuatu yang memberi rasa pada masakan. (jawaban: b)']
+    ]
+  }),
+
+  /* ---- 漢字 3 : 油 (slide 13) ---- */
+  KJ(3, '油', 'ゆ／あぶら', 'Minyak (semua jenis minyak)', ['油', 'しょう油', '灯油', '石油']),
+  J('油', '油', 'あぶら', 'Minyak (semua jenis)', { ex: [['フライパンに油を引く。', 'Mengoleskan minyak ke wajan.']] }),
+  J('油', 'しょう油', 'しょうゆ', 'Kecap asin (soy sauce)', { note: 'Kanji: 醤油.', ex: [['刺身にしょう油をつける。', 'Mencocol sashimi dengan kecap asin.']] }),
+  J('油', '灯油', 'とうゆ', 'Minyak tanah (kerosin)', {
+    ex: [['灯油：ヒーターなどに使う油。', '[Latihan] Minyak tanah: minyak yang dipakai untuk pemanas dll. (jawaban: b)']]
+  }),
+  J('油', '石油', 'せきゆ', 'Minyak bumi (mentah)', { ex: [['石油は地下（ちか）からとれる。', 'Minyak bumi diambil dari bawah tanah.']] }),
+
+  /* ---- 漢字 4 : 緑 (slide 13) ---- */
+  KJ(4, '緑', 'りょく／みどり', 'Hijau', ['緑', '緑茶']),
+  J('緑', '緑', 'みどり', 'Hijau', { ex: [['公園の緑が美しい。', 'Hijaunya taman indah.']] }),
+  J('緑', '緑茶', 'りょくちゃ', 'Teh hijau (green tea)', {
+    ex: [['食後には温かい緑茶を飲むのが習慣だ。', 'Sudah kebiasaan minum teh hijau hangat setelah makan.']]
+  }),
+
+  /* ---- 漢字 5 : 紅 (slide 14) ---- */
+  KJ(5, '紅', 'こう／べに', 'Merah tua, merah menyala', ['紅茶', '口紅']),
+  J('紅', '紅茶', 'こうちゃ', 'Teh hitam', { ex: [['朝は紅茶を飲む。', 'Pagi hari minum teh hitam.']] }),
+  J('紅', '口紅', 'くちべに', 'Lipstik', {
+    ex: [
+      ['彼女は新しい口紅をつけた。', 'Dia memakai lipstik baru.'],
+      ['口紅：化粧品の一つ。', '[Latihan] Lipstik: salah satu kosmetik. (jawaban: b)']
+    ]
+  }),
+
+  /* ---- 漢字 6 : 冊 (slide 14) ---- */
+  KJ(6, '冊', 'さつ', 'Penggolong untuk buku (～eksemplar)', ['～冊', '冊数']),
+  J('冊', '～冊', '～さつ', 'Penghitung eksemplar / jilid buku', {
+    ex: [['図書館で本を2冊借りました。', '[Latihan] Di perpustakaan aku meminjam 2 buku. (jawaban: 冊)']]
+  }),
+  J('冊', '冊数', 'さっすう', 'Jumlah buku', {
+    note: 'Di slide tertulis さっす — bacaan yang benar さっすう.',
+    ex: [['本の冊数を数える。', 'Menghitung jumlah buku.']]
+  }),
+
+  /* ---- 漢字 7 : 個 (slide 15) ---- */
+  KJ(7, '個', 'こ', 'Satuan benda kecil; individu', ['～個', '個人', '個数']),
+  J('個', '～個', '～こ', 'Penghitung benda kecil', {
+    ex: [['1個200円のりんご。', '[Latihan] Apel seharga 200 yen per buah. (jawaban: 個)']]
+  }),
+  J('個', '個人', 'こじん', 'Individu, pribadi', {
+    ex: [['個人の権利は尊重される。', 'Hak-hak individu harus dihormati.'], ['個人：ひとりひとりの人。', '[Latihan] Individu: orang per orang. (jawaban: a)']]
+  }),
+  J('個', '個数', 'こすう', 'Jumlah benda', { ex: [['商品の個数を確認する。', 'Memeriksa jumlah barang.']] }),
+
+  /* ---- 漢字 8 : 枚 (slide 15) ---- */
+  KJ(8, '枚', 'まい', 'Lembar (penggolong benda tipis / pipih)', ['～枚', '枚数']),
+  J('枚', '～枚', '～まい', 'Penghitung lembar (kertas, tiket, perangko)', {
+    ex: [['80円の切手を10枚ください。', '[Latihan] Tolong 10 lembar perangko 80 yen. (jawaban: 枚)']]
+  }),
+  J('枚', '枚数', 'まいすう', 'Jumlah lembar', { ex: [['レポートの枚数を確認してください。', 'Tolong periksa kembali jumlah lembar laporannya.']] }),
+
+  /* ---- 言葉 : kata pendukung dari kalimat contoh (slide 12–15) ---- */
+  V(G2, '権利', 'けんり', 'Hak', { ex: [['個人の権利は尊重される。', 'Hak-hak individu harus dihormati.']] }),
+  V(G2, '尊重する', 'そんちょうする', 'Menghormati, menghargai', {
+    note: 'Di slide tertulis そんこう — bacaan yang benar そんちょう.',
+    ex: [['個人の権利は尊重される。', 'Hak-hak individu harus dihormati.']]
+  }),
+  V(G2, '食後', 'しょくご', 'Setelah makan', { ex: [['食後には温かい緑茶を飲む。', 'Setelah makan minum teh hijau hangat.']] }),
+  V(G2, '習慣', 'しゅうかん', 'Kebiasaan', { ex: [['食後に緑茶を飲むのが習慣だ。', 'Kebiasaannya minum teh hijau setelah makan.']] }),
+  V(G2, '地下', 'ちか', 'Bawah tanah', { ex: [['石油は地下からとれる。', 'Minyak bumi diambil dari bawah tanah.']] }),
+  V(G2, '日用品', 'にちようひん', 'Barang kebutuhan sehari-hari', {
+    note: 'Di slide tertulis にちようひ — bacaan yang benar にちようひん.'
+  }),
+
+  /* ============================================================
+     文法 — 第4週-1日目（文法）.pptx
+     ============================================================ */
+
+  /* ---- 文法 1 : にとって (slide 2–3) ---- */
+  P(1, 'にとって', '', 'Bagi… / Menurut… / Dari sudut pandang…', {
+    note: [
+      'Rumus: Kt.Benda + にとって、～ (Kt.Benda bisa instansi atau orang).',
+      'Menyatakan sudut pandang, penilaian, atau opini dari seseorang / sekelompok orang.',
+      'Bisa digabung dengan partikel lain: にとっては ／ にとっての ／ にとっても.'
+    ],
+    ex: [
+      ['あなたにとって、一番大切なものはなんですか。', 'Bagimu, apa hal yang paling penting?'],
+      ['このあたりの人々にとっては、車は必需品です。', 'Menurut orang-orang di sekitar sini, mobil adalah kebutuhan pokok.'],
+      ['私にとっても、これは初めての経験です。', 'Bagiku juga, ini adalah pengalaman pertama.'],
+      ['タバコの煙やにおいは、吸わない人にとっては苦痛だ。', '[Latihan] Asap dan bau rokok itu menyiksa bagi orang yang tidak merokok. (jawaban: b にとっては)']
+    ]
+  }),
+
+  /* ---- 文法 2 : わりに／にしては (slide 4–7, 19) ---- */
+  P(2, 'わりに／わりには', '', 'Padahal… / Meskipun… / Untuk seukuran…', {
+    note: [
+      'Rumus: 普通形 (Kt.Sifat い, Kt.Sifat な + な, Kt.Benda + の) + わりに／わりには.',
+      'Hasil tidak sesuai perkiraan atau standar umum; ada ketidakseimbangan antara kondisi A dan hasil B. Bisa positif, bisa negatif.',
+      'わりに: ekspektasi rendah, hasilnya lumayan, heran (agak positif) — “Padahal… tapi lumayan kok…”.'
+    ],
+    ex: [
+      ['12月のわりにあたたかいね。', 'Untuk bulan Desember, hangat ya. (Fokus: hangatnya lumayan lho)'],
+      ['年のわりには若く見える。', 'Untuk ukuran usianya, dia kelihatan muda.'],
+      ['お金がないわりに、よく買い物をするね。', 'Padahal tidak ada uang, tapi sering belanja ya.'],
+      ['高いわりにはおいしくないね。', 'Padahal mahal, tapi tidak enak.'],
+      ['この店は安いわりにおいしい。', 'Toko ini padahal murah, tapi enak. (Lumayan enak untuk harga segitu)'],
+      ['テストの勉強をしなかったわりには、よくできた。', '[Latihan] Padahal tidak belajar untuk tes, hasilnya bagus. (jawaban: a わり)'],
+      ['あの学生は試験の成績がいいわりには日本語が通じない。', '[Latihan, ★ = 日本語が] Padahal nilai ujiannya bagus, bahasa Jepang mahasiswa itu tidak nyambung.']
+    ]
+  }),
+  P(2, 'にしては', '', 'Padahal… / Untuk seukuran… kok begini sih?', {
+    note: [
+      'Pembanding わりに: ekspektasi tinggi, hasil mengecewakan, heran (negatif) — seperti “Hah?!”.',
+      'Bisa saling menggantikan / dipakai di konteks netral, tetapi nuansanya tetap beda.'
+    ],
+    ex: [
+      ['12月にしてはあたたかいね。', 'Untuk ukuran Desember, kok hangat ya? (Fokus: aneh, harusnya dingin)'],
+      ['彼は留学生にしては日本語が下手だ。', 'Untuk ukuran pelajar asing, bahasa Jepangnya jelek. (Padahal harusnya jago)']
+    ]
+  }),
+
+  /* ---- 文法 3 : くせに／のに (slide 8–11, 19–20) ---- */
+  P(3, 'くせに', '', 'Padahal… (kesal, kritik, ejekan, menyalahkan)', {
+    note: [
+      'Rumus: 普通形 (Kt.Sifat い, Kt.Sifat な + な, Kt.Benda + の) + くせに.',
+      'Khusus untuk rasa kesal, kritik, ejekan, atau menyalahkan seseorang. Nuansa merendahkan — jangan dipakai untuk atasan.',
+      '“Padahal… masa…” atau “padahal… tapi sok…”.'
+    ],
+    ex: [
+      ['知っているくせに、教えてくれない。', 'Padahal dia tahu, tapi tidak mau memberi tahu.'],
+      ['元気なくせに、病気のふりをしている。', 'Padahal sehat, tapi pura-pura sakit.'],
+      ['子どものくせに、なまいきだ。', 'Padahal masih anak-anak, tapi kurang ajar.'],
+      ['男のくせに、女みたいだ。', '[Latihan] Padahal laki-laki, kok seperti perempuan. (jawaban: a くせ)'],
+      ['本当は好きなくせにきらいだと言う。', '[Latihan, ★ = きらいだ] Padahal sebenarnya suka, tapi bilangnya benci.']
+    ]
+  }),
+  P(3, 'のに', '', 'Padahal… tapi… (netral)', {
+    note: [
+      'Fakta berlawanan dengan harapan. Bisa untuk kecewa, heran, mengeluh (netral). “Padahal.. Tapi…” (Fakta vs Harapan).',
+      'Bandingkan くせに: versi nyinyir / judes dari のに — nuansa merendahkan orang, kesal, menghakimi.'
+    ],
+    ex: [
+      ['先生なのに、漢字が読めない。', 'Padahal sensei, tapi tidak bisa baca kanji. (Netral: heran, kecewa, tidak puas)'],
+      ['先生のくせに、漢字が読めない。', 'Padahal sensei, masa kanji saja tidak bisa baca. (Nyinyir: kritik, menyindir, merendahkan)']
+    ]
+  }),
+
+  /* ---- 文法 4 : など／なんて／なんか (slide 12–13, 18) ---- */
+  P(4, 'など', '', 'Seperti… / (hal kecil) seperti… [formal]', {
+    note: [
+      'Rumus: Kt.Benda / Kt.Kerja ます (tanpa ます) + など.',
+      'Fungsi (slide 18): memberi contoh / merendahkan diri sendiri. Ini bentuk formal; versi santainya なんか／なんて.'
+    ]
+  }),
+  P(4, 'なんて', '', 'Hal kecil seperti… (meremehkan) [santai]', {
+    note: [
+      'Rumus: Kt.Benda / Kt.Kerja ます (tanpa ます) + なんて.',
+      'Nuansa meremehkan / menantang — versi standar dari なんか. Lebih emosional dari など.'
+    ],
+    ex: [
+      ['かんじなんて難しくないよ。', 'Hal kecil seperti kanji itu tidak sulit kok.'],
+      ['お金なんていらないです。', 'Aku tidak butuh hal kecil seperti uang.'],
+      ['うそをつきなんてしない。', 'Aku tidak akan melakukan hal kecil seperti berbohong.']
+    ]
+  }),
+  P(4, 'なんか', '', 'Hal kecil seperti… (meremehkan, lebih kasar / kuat) [santai]', {
+    note: [
+      'Rumus: Kt.Benda / Kt.Kerja ます (tanpa ます) + なんか.',
+      'Di slide 12 なんか lebih kasar / lebih kuat dari なんて; di ringkasan slide 18 なんて disebut lebih emosional. Keduanya santai dan bisa saling menggantikan.'
+    ],
+    ex: [
+      ['かんじなんか難しくないよ。', 'Hal kecil seperti kanji itu tidak sulit kok.'],
+      ['お金なんかいらないです。', 'Aku tidak butuh hal kecil seperti uang.'],
+      ['うそをつきなんかしない。', 'Aku tidak akan melakukan hal kecil seperti berbohong.'],
+      ['カラオケなんか行きたくない。', '[Latihan] Aku tidak mau pergi ke hal-hal seperti karaoke. (jawaban: a なんか)']
+    ]
+  }),
+
+  /* ---- 文法 5 : なんて／なんか = menyangkal (slide 14–15, 18) ---- */
+  P(5, 'てなんて／てなんか＋いない', '', 'Menyangkal: “mana ada saya…”', {
+    note: [
+      'Rumus: Kt.Kerja て + なんて／なんか + いない.',
+      'Untuk menyangkal / menolak label (diri). Bukan cuma “bukan”, tapi “bukan yang kayak gitu kok”.'
+    ],
+    ex: [
+      ['A：泣いているの？', 'A: Kamu lagi nangis?'],
+      ['B：泣いてなんていないよ。', 'B: Aku nggak nangis kok. (Mana ada saya…)']
+    ]
+  }),
+  P(5, 'くなんて／くなんか＋ない', '', 'Menyangkal: “nggak … kok”', {
+    note: 'Rumus: Kt.Sifat い (い → く) + なんて／なんか + ない.',
+    ex: [['かなしくなんてないよ。', 'Aku nggak sedih kok.']]
+  }),
+  P(5, 'なんて／なんか＋じゃない', '', 'Menyangkal: “bukan … lho”', {
+    note: 'Rumus: Kt.Benda / Kt.Sifat な + なんて／なんか + じゃない.',
+    ex: [
+      ['こどもなんかじゃないよ。', 'Aku bukan anak kecil lho.'],
+      ['簡単なんかじゃないよ。', 'Nggak gampang lho.']
+    ]
+  }),
+
+  /* ---- 文法 6 : なんて = heran (slide 16–18) ---- */
+  P(6, 'なんて（heran）', '', 'Ternyata… / Nggak nyangka kalau…', {
+    note: [
+      'Rumus: 普通形 (Kt.Sifat い; Kt.Sifat な + だ; Kt.Benda + だ) + なんて.',
+      'Menekankan perasaan heran, kagum, tidak percaya, marah, kecewa. Pada fungsi ini なんて paling cocok (slide 18).'
+    ],
+    ex: [
+      ['合格できたなんて信じられない。', 'Tidak percaya bisa lulus.'],
+      ['この料理がおいしいなんて、知らなかった。', 'Tidak nyangka masakan ini ternyata enak.'],
+      ['あの人が社長なんてびっくりした。', 'Aku kaget ternyata orang itu adalah direktur.'],
+      ['日本語が話せるなんて、すごいね。', 'Hebat ya, tidak nyangka bisa bicara bahasa Jepang.'],
+      ['君なんて、だいきらい！', 'Aku benci banget sama kamu! (contoh di slide 18)']
+    ]
+  }),
+
+  /* ---- 言葉 : kata pendukung dari contoh kalimat tata bahasa ---- */
+  V(GV, '必需品', 'ひつじゅひん', 'Kebutuhan pokok, barang yang sangat diperlukan', {
+    ex: [['このあたりの人々にとっては、車は必需品です。', 'Bagi orang-orang di sekitar sini, mobil adalah kebutuhan pokok.']]
+  }),
+  V(GV, '経験', 'けいけん', 'Pengalaman', { ex: [['私にとっても、これは初めての経験です。', 'Bagiku juga, ini adalah pengalaman pertama.']] }),
+  V(GV, '苦痛', 'くつう', 'Rasa sakit, siksaan, penderitaan', {
+    ex: [['タバコの煙やにおいは、吸わない人にとっては苦痛だ。', '[Latihan] Asap dan bau rokok itu menyiksa bagi orang yang tidak merokok.']]
+  }),
+  V(GV, '成績', 'せいせき', 'Nilai, hasil prestasi', {
+    ex: [['あの学生は試験の成績がいいわりには日本語が通じない。', '[Latihan] Padahal nilai ujiannya bagus, bahasa Jepang mahasiswa itu tidak nyambung.']]
+  }),
+  V(GV, '通じる', 'つうじる', 'Nyambung, dimengerti, tersampaikan', {
+    note: 'Di soal latihan dipakai dalam bentuk 通じない = tidak nyambung / tidak dimengerti.',
+    ex: [['あの学生は試験の成績がいいわりには日本語が通じない。', '[Latihan] Padahal nilai ujiannya bagus, bahasa Jepang mahasiswa itu tidak nyambung.']]
+  }),
+  V(GV, 'なまいき', '', 'Kurang ajar, sok, tidak sopan', { note: 'Juga ditulis 生意気.', ex: [['子どものくせに、なまいきだ。', 'Padahal masih anak-anak, tapi kurang ajar.']] }),
+  V(GV, '社長', 'しゃちょう', 'Direktur utama, presiden perusahaan', { ex: [['あの人が社長なんてびっくりした。', 'Aku kaget ternyata orang itu adalah direktur.']] }),
+  V(GV, '信じる', 'しんじる', 'Percaya', { note: '信じられない = tidak bisa percaya.', ex: [['合格できたなんて信じられない。', 'Tidak percaya bisa lulus.']] }),
+];
+
+/* ============================================================
+   LATIHAN SOAL — soal-soal latihan dari kedua PPT
+   Kunci jawaban tidak tertulis di PPT; ditentukan sendiri.
+   o: pilihan (a, b, c, d) | a: indeks jawaban benar (0 = a)
+   order: soal susun kalimat ★ → pre/post + 4 kata pilihan; jawaban = kata di posisi ★
+   ============================================================ */
+const QV = 'Kosakata · 学校へ行きましょう①';
+const QJ = 'Kosakata · 日用品';
+const QG = 'Tata bahasa · 子どものくせに';
+const QUIZ = [
+  /* ---- 言葉 : 学校へ行きましょう① (slide 8–9) ---- */
+  { type: 'kotoba', g: QV, q: '物差しで（　　　）、30センチありました。', o: ['けずったら', 'はかったら'], a: 1,
+    id: 'Setelah diukur dengan penggaris, panjangnya 30 cm.',
+    n: '測る (はかる) = mengukur dengan alat ukur. 削る (けずる) = meraut / memangkas.' },
+  { type: 'kotoba', g: QV, q: '計算がおそいので、算数は（　　　）教科です。', o: ['とくいな', 'にがてな'], a: 1,
+    id: 'Karena lambat menghitung, aritmetika adalah pelajaran yang tidak kukuasai.',
+    n: '苦手な (にがてな) = tidak jago; 得意な = jago. Di slide tertulis おそいで — seharusnya おそいので.' },
+  { type: 'kotoba', g: QV, q: '大学の息子は、バスで（　　　）している。', o: ['通学', '通勤'], a: 0,
+    id: 'Anakku yang kuliah berangkat ke kampus naik bus.',
+    n: '通学 = berangkat sekolah / kuliah (pelajar). 通勤 = berangkat kerja (pekerja).' },
+  { type: 'kotoba', g: QV, q: 'ふつうは（　　　）高校のほうが、学費は安いです。', o: ['しりつ', 'こうりつ'], a: 1,
+    id: 'Biasanya SMA negeri biaya sekolahnya lebih murah.',
+    n: '公立 (こうりつ) = negeri; 私立 (しりつ) = swasta.' },
+  { type: 'kotoba', g: QV, q: '5×3は（　　　）です。', o: ['かけざん', 'たしざん'], a: 0,
+    id: '5×3 itu perkalian.',
+    n: '掛け算 = perkalian; 足し算 = penjumlahan.' },
+  { type: 'kotoba', g: QV, q: '「明日は（　　　）がないので、お弁当をもってきてください。」', o: ['きゅうしょく', '自習'], a: 0,
+    id: 'Besok tidak ada makan siang sekolah, jadi tolong bawa bekal.',
+    n: '給食 = makan siang sekolah. 自習 = belajar mandiri (tidak berhubungan dengan bekal).' },
+  { type: 'kotoba', g: QV, q: '９÷３は（　　　）と読みます。', o: ['９たす３', '９ひき３', '９かける３', '９わる３'], a: 3,
+    id: '9÷3 dibaca “9 wa-ru 3”.',
+    n: '÷ = 割る (わる). たす = +, ひく = −, かける = ×.' },
+  { type: 'kotoba', g: QV, q: '風邪で（　　　）が多い。', o: ['出席', '欠席', '通学者', '通勤者'], a: 1,
+    id: 'Karena flu, absennya banyak.',
+    n: '欠席 = tidak hadir. 出席 = hadir.' },
+
+  /* ---- 言葉 : 日用品 (slide 16) ---- */
+  { type: 'kotoba', g: QJ, q: '灯油：（　　　）に使う油。', o: ['料理', 'ヒーターなど'], a: 1,
+    id: 'Minyak tanah: minyak yang dipakai untuk pemanas dan sejenisnya.',
+    n: '灯油 (とうゆ) = minyak tanah, bukan minyak masak.' },
+  { type: 'kotoba', g: QJ, q: '個人：（　　　）人。', o: ['ひとりひとりの', 'なくなった'], a: 0,
+    id: 'Individu: orang per orang.',
+    n: '個人 (こじん) = individu, pribadi.' },
+  { type: 'kotoba', g: QJ, q: '口紅：（　　　）の一つ。', o: ['食品', '化粧品'], a: 1,
+    id: 'Lipstik: salah satu kosmetik.',
+    n: '口紅 (くちべに) = lipstik; 化粧品 (けしょうひん) = kosmetik.' },
+  { type: 'kotoba', g: QJ, q: '食塩：料理（　　　）もの。', o: ['を入れる', 'に味をつける'], a: 1,
+    id: 'Garam dapur: sesuatu yang memberi rasa pada masakan.',
+    n: '食塩 (しょくえん) = garam dapur.' },
+  { type: 'kotoba', g: QJ, q: '海岸で（　　　）遊びをする。', o: ['砂', '粉'], a: 0,
+    id: 'Bermain pasir di pantai.',
+    n: '砂 (すな) = pasir; 粉 (こな) = tepung / bubuk.' },
+  { type: 'kotoba', g: QJ, q: '80円の切手を10（　　　）ください。', o: ['枚', '部'], a: 0,
+    id: 'Tolong 10 lembar perangko 80 yen.',
+    n: '～枚 (まい) = penghitung benda tipis / pipih (kertas, tiket, perangko).' },
+  { type: 'kotoba', g: QJ, q: '１（　　　）200円のりんご', o: ['個', '固'], a: 0,
+    id: 'Apel seharga 200 yen per buah.',
+    n: '～個 (こ) = penghitung benda kecil. 固 bukan penghitung.' },
+  { type: 'kotoba', g: QJ, q: '図書館で本を２（　　　）借りました。', o: ['本', '冊'], a: 1,
+    id: 'Di perpustakaan saya meminjam 2 buku.',
+    n: '～冊 (さつ) = penghitung buku. 本 (ほん) untuk benda panjang.' },
+
+  /* ---- 文法 : 子どものくせに (slide 19–20) ---- */
+  { type: 'bunpou', g: QG, q: '安い（　　　）にはおいしい。', o: ['くせ', 'わり'], a: 1,
+    id: 'Untuk harganya yang murah, rasanya enak.',
+    n: 'わりには = hasil di luar perkiraan (di sini positif). くせに bernuansa mengkritik / menyindir, tidak cocok untuk memuji.' },
+  { type: 'bunpou', g: QG, q: 'カラオケ（　　　）行きたくない。', o: ['なんか', 'にとって'], a: 0,
+    id: 'Aku tidak mau pergi ke hal-hal seperti karaoke.',
+    n: 'なんか = meremehkan “hal seperti ~”. にとって butuh sudut pandang seseorang dan tidak nyambung dengan 行きたくない.' },
+  { type: 'bunpou', g: QG, q: '男の（　　　）に、女みたいだ。', o: ['くせ', 'わり'], a: 0,
+    id: 'Padahal laki-laki, kok seperti perempuan.',
+    n: 'くせに = “padahal…” yang mengkritik / menyindir sikap yang tidak sesuai statusnya.' },
+  { type: 'bunpou', g: QG, q: 'タバコの煙やにおいは、吸わない人（　　　）くつうだ。', o: ['にとっても', 'にとっては'], a: 1,
+    id: 'Asap dan bau rokok itu menyiksa bagi orang yang tidak merokok.',
+    n: 'にとっては = “bagi (orang yang tidak merokok)”, menekankan sudut pandang tertentu. にとっても = “bagi … juga”, perlu konteks sebelumnya.' },
+  { type: 'bunpou', g: QG, q: 'テストの勉強をしなかった（　　　）には、よくできた。', o: ['わり', 'など'], a: 0,
+    id: 'Padahal tidak belajar untuk tes, hasilnya bagus.',
+    n: '～わりには = hasil tidak sesuai perkiraan. しなかった + など + には tidak membentuk makna yang wajar.' },
+  { type: 'bunpou', g: QG, order: true, pre: 'あの学生は試験の成績が', post: '。', o: ['日本語が', 'いい', '通じない', 'わりには'], a: 0,
+    full: 'あの学生は試験の成績がいいわりには日本語が通じない。',
+    id: 'Padahal nilai ujiannya bagus, bahasa Jepang mahasiswa itu tidak nyambung.',
+    n: 'Urutan: b いい → d わりには → a 日本語が → c 通じない. Pola Kt.Sifat い + わりには.' },
+  { type: 'bunpou', g: QG, order: true, pre: '本当は', post: '。', o: ['好きな', 'と言う', 'きらいだ', 'くせに'], a: 2,
+    full: '本当は好きなくせにきらいだと言う。',
+    id: 'Padahal sebenarnya suka, tapi bilangnya benci.',
+    n: 'Urutan: a 好きな → d くせに → c きらいだ → b と言う. Pola Kt.Sifat な + くせに.' }
+];
+
+
+/* ============================================================
+   Helpers
+   ============================================================ */
+const $  = s => document.querySelector(s);
+
+/* ============================================================
+   LATIHAN SOAL EXTRA — soal buatan Claude (bukan dari PPT), pola yang sama dengan 第4週-1日目（文法）
+   ============================================================ */
+const QE = 'Extra dari Claude · 子どものくせに';
+const QUIZ_X = [
+  { type: 'bunpou', g: QE, q: 'この古い時計は、祖父（　　　）、何よりも大切な宝物だった。', o: ['くせに', 'にとって', 'なんか', 'にしては'], a: 1,
+    id: 'Jam tua ini, bagi kakek, adalah harta yang lebih penting dari apa pun.',
+    n: 'にとって = bagi (sudut pandang seseorang). くせに / なんか tidak menyatakan sudut pandang.' },
+  { type: 'bunpou', g: QE, q: '彼は食べる（　　　）、ぜんぜん太らない。', o: ['にとって', 'など', 'なんて', 'わりに'], a: 3,
+    id: 'Untuk ukuran banyaknya dia makan, badannya sama sekali tidak gemuk.',
+    n: 'Kt.Kerja + わりに = hasil tidak sesuai perkiraan (makan banyak tapi tidak gemuk).' },
+  { type: 'bunpou', g: QE, q: '新人（　　　）、説明がとても上手でびっくりした。', o: ['にとって', 'なんか', 'にしては', 'まま'], a: 2,
+    id: 'Untuk ukuran pegawai baru, penjelasannya sangat bagus sampai saya kaget.',
+    n: 'Kt.Benda + にしては = “untuk ukuran ~ (kok…)”, hasil di luar dugaan.' },
+  { type: 'bunpou', g: QE, q: '自分は遅刻ばかりする（　　　）、人には時間を守れと言う。', o: ['くせに', 'にとって', 'など', 'として'], a: 0,
+    id: 'Padahal dirinya sendiri sering terlambat, tapi menyuruh orang lain tepat waktu.',
+    n: 'くせに = “padahal…” bernada kesal / mengkritik orangnya.' },
+  { type: 'bunpou', g: QE, q: '子ども（　　　）、大人のような話し方をする。', o: ['だくせに', 'でくせに', 'なくせに', 'のくせに'], a: 3,
+    id: 'Padahal masih anak-anak, bicaranya seperti orang dewasa.',
+    n: 'Kt.Benda + の + くせに. Kt.Sifat な memakai な (静かなくせに), Kt.Benda memakai の.' },
+  { type: 'bunpou', g: QE, q: 'せっかく早く起きた（　　　）、電車が止まっていた。', o: ['くせに', 'なんて', 'にとって', 'のに'], a: 3,
+    id: 'Padahal sudah susah payah bangun pagi, keretanya berhenti.',
+    n: 'のに = fakta berlawanan dengan harapan (netral). くせに hanya untuk mengkritik sikap / status seseorang, sedangkan ini kejadian.' },
+  { type: 'bunpou', g: QE, q: 'お金（　　　）いらない。大切なのは気持ちだ。', o: ['なんか', 'にとって', 'わりに', 'くせに'], a: 0,
+    id: 'Aku tidak butuh hal kecil seperti uang. Yang penting adalah perasaan.',
+    n: 'Kt.Benda + なんか = meremehkan “hal kecil seperti ~”.' },
+  { type: 'bunpou', g: QE, q: 'ビジネスメール：「お手数ですが、書類（　　　）をお送りください。」', o: ['なんて', 'なんか', 'くせに', 'など'], a: 3,
+    id: 'Mohon maaf merepotkan, tolong kirimkan dokumen dan sejenisnya.',
+    n: 'など = bentuk formal (“…dan sejenisnya”). なんて／なんか adalah bentuk santai, tidak cocok untuk email bisnis.' },
+  { type: 'bunpou', g: QE, q: 'A「怒ってるの？」 B「怒って（　　　）いないよ。」', o: ['わりに', 'にしては', 'なんか', 'くせに'], a: 2,
+    id: 'A: Kamu marah? B: Aku nggak marah kok.',
+    n: 'Kt.Kerja て + なんか／なんて + いない = menyangkal (“mana ada saya…”).' },
+  { type: 'bunpou', g: QE, q: 'A「眠いでしょう？」 B「眠く（　　　）ないよ。まだ元気だよ。」', o: ['わりに', 'くせに', 'にとって', 'なんて'], a: 3,
+    id: 'A: Kamu pasti ngantuk? B: Nggak ngantuk kok. Aku masih segar.',
+    n: 'Kt.Sifat い → く + なんて／なんか + ない = menyangkal.' },
+  { type: 'bunpou', g: QE, q: 'A「彼女、彼の恋人？」 B「恋人（　　　）じゃないよ。ただの友達。」', o: ['にとって', 'なんか', 'くせに', 'わりに'], a: 1,
+    id: 'A: Dia pacarnya? B: Bukan pacar kok. Cuma teman.',
+    n: 'Kt.Benda + なんか／なんて + じゃない = menolak label (“bukan yang kayak gitu kok”).' },
+  { type: 'bunpou', g: QE, q: '彼が結婚する（　　　）、夢にも思わなかった。', o: ['にとって', 'なんて', 'わりに', 'くせに'], a: 1,
+    id: 'Tidak pernah terbayang dia akan menikah.',
+    n: '普通形 + なんて = heran / tidak menyangka (“ternyata…”).' },
+  { type: 'bunpou', g: QE, q: 'こんなに安い（　　　）、信じられない！', o: ['にしては', 'なんて', 'わりに', 'にとって'], a: 1,
+    id: 'Tidak percaya bisa semurah ini!',
+    n: 'なんて menekankan rasa heran / tidak percaya, dan cocok dengan 信じられない.' },
+  { type: 'bunpou', g: QE, q: '彼女は日本に来て3か月（　　　）、敬語がとても上手だ。', o: ['くせに', 'にしては', 'なんて', 'にとって'], a: 1,
+    id: 'Untuk ukuran baru tiga bulan di Jepang, bahasa sopannya sangat bagus.',
+    n: 'Kt.Benda + にしては = “untuk ukuran ~”. Ini pujian, jadi くせに (mengkritik) tidak cocok.' },
+
+  { type: 'bunpou', g: QE, order: true, pre: 'この店は', post: '。', o: ['高い', '値段が', 'わりに', '味がふつうだ'], a: 2,
+    full: 'この店は値段が高いわりに味がふつうだ。',
+    id: 'Toko ini harganya mahal, tapi rasanya biasa saja.',
+    n: 'Urutan: b 値段が → a 高い → c わりに → d 味がふつうだ. Kt.Sifat い + わりに.' },
+  { type: 'bunpou', g: QE, order: true, pre: '彼は', post: '話す。', o: ['何も', '知らない', 'くせに', 'えらそうに'], a: 2,
+    full: '彼は何も知らないくせにえらそうに話す。',
+    id: 'Padahal dia tidak tahu apa-apa, dia bicara dengan sok.',
+    n: 'Urutan: a 何も → b 知らない → c くせに → d えらそうに. 普通形 + くせに.' },
+  { type: 'bunpou', g: QE, order: true, pre: '祖母は', post: '。', o: ['私', 'にとって', '母親のような', '存在だ'], a: 2,
+    full: '祖母は私にとって母親のような存在だ。',
+    id: 'Bagi saya, nenek adalah sosok seperti seorang ibu.',
+    n: 'Urutan: a 私 → b にとって → c 母親のような → d 存在だ. Kt.Benda + にとって.' },
+  { type: 'bunpou', g: QE, order: true, pre: 'あんな人の', post: '。', o: ['なんて', '聞きたくない', '言う', 'こと'], a: 0,
+    full: 'あんな人の言うことなんて聞きたくない。',
+    id: 'Aku tidak mau mendengar hal-hal yang dikatakan orang seperti itu.',
+    n: 'Urutan: c 言う → d こと → a なんて → b 聞きたくない. なんて meremehkan sesuatu.' },
+  { type: 'bunpou', g: QE, order: true, pre: '彼は', post: '。', o: ['歌が', '有名な', '下手だ', '歌手にしては'], a: 0,
+    full: '彼は有名な歌手にしては歌が下手だ。',
+    id: 'Untuk ukuran penyanyi terkenal, dia menyanyi dengan jelek.',
+    n: 'Urutan: b 有名な → d 歌手にしては → a 歌が → c 下手だ. Hasil tidak sesuai ekspektasi tinggi.' },
+  { type: 'bunpou', g: QE, order: true, pre: '私は', post: '。', o: ['興味が', 'なんか', 'ない', 'スポーツ'], a: 0,
+    full: '私はスポーツなんか興味がない。',
+    id: 'Aku tidak tertarik pada hal-hal seperti olahraga.',
+    n: 'Urutan: d スポーツ → b なんか → a 興味が → c ない. Kt.Benda + なんか = meremehkan.' }
+];
+const catOf  = c => (c.t === 'bunpou' || c.g === GV) ? 'bunpou' : 'kotoba';
+const qCatOf = q => q.type === 'bunpou' ? 'bunpou' : 'kotoba';
+const CAT_TEXT = {
+  kotoba: ['Semua kotoba & kanji beserta artinya', 'Flashcard — balik kartu & uji ingatan', 'Soal pilihan ganda kosakata dari PPT'],
+  bunpou: ['Semua pola tata bahasa & kata pendukung', 'Flashcard — balik kartu & uji ingatan', 'Soal pilihan ganda tata bahasa dari PPT']
+};
+let CAT = 'kotoba', DECK = [], QDECK = [], N = 0;
+function setCat(cat) {
+  CAT = cat;
+  DECK = CARDS.filter(c => catOf(c) === cat);
+  QDECK = QUIZ.filter(q => qCatOf(q) === cat);
+  N = DECK.length;
+  $('#total').textContent = N;
+  $('#totalQ').textContent = QDECK.length;
+  $('#lTotal').textContent = N;
+  document.querySelectorAll('.segbtn').forEach(b => {
+    const on = b.dataset.cat === cat;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-pressed', on);
+  });
+  $('#btnLearn b').textContent = cat === 'kotoba' ? 'Learn Kotoba' : 'Learn Bunpou';
+  $('#btnQuizX').hidden = cat !== 'bunpou';
+  ['#btnLearn', '#btnEx', '#btnQuiz'].forEach((id, i) => { $(id + ' span').textContent = CAT_TEXT[cat][i]; });
+}
+const TYPE = { kotoba: ['言葉', 'KOTOBA'], kanji: ['漢字', 'KANJI'], jukugo: ['熟語', 'KATA KANJI'], bunpou: ['文法', 'TATA BAHASA'] };
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+
+const CORNERS = ['tl', 'tr', 'bl', 'br'].map(p =>
+  `<svg class="corner ${p}" viewBox="0 0 48 48" aria-hidden="true">
+     <path d="M3 45 V15 Q3 3 15 3 H45" fill="none" stroke="currentColor" stroke-width="2.6"/>
+     <path d="M9 45 V19 Q9 9 19 9 H45" fill="none" stroke="currentColor" stroke-width="1"/>
+     <path d="M19 9 l5 6 l-5 6 l-5 -6z" fill="currentColor"/>
+     <circle cx="3" cy="45" r="2.2" fill="currentColor"/><circle cx="45" cy="3" r="2.2" fill="currentColor"/>
+   </svg>`).join('');
+
+const head  = c => `${CORNERS}<div class="ribbon">${TYPE[c.t][0]} · ${TYPE[c.t][1]}</div><div class="topic">${esc(c.g)}</div>`;
+const big   = (c, max) => `<div class="jp" data-max="${max}">${esc(c.jp)}</div>`;
+const orn   = '<div class="orn"><i></i><b>◆</b><i></i></div>';
+
+function extra(c) {
+  let h = '';
+  if (c.words) h += `<div class="chips"><span class="lbl">Kata:</span>${c.words.map(w => `<span>${esc(w)}</span>`).join('')}</div>`;
+  if (c.note)  h += [].concat(c.note).map(n => `<p class="note">${esc(n)}</p>`).join("");
+  if (c.ex)    h += c.ex.map(([j, i]) => `<p><span class="ex-jp">${esc(j)}</span><span class="ex-id">${esc(i)}</span></p>`).join('');
+  return h ? `<div class="extra">${h}</div>` : '';
+}
+function info(c) {
+  const reading = c.r && c.r !== c.jp ? `<div class="reading">${esc(c.r)}</div>` : '';
+  return `${reading}${orn}<div class="meaning">${esc(c.m)}</div>${extra(c)}`;
+}
+
+/* Kata Jepang dibuat sebesar mungkin tapi tetap satu baris di dalam kartu */
+function fit(el) {
+  const w = el.parentElement.clientWidth;
+  if (!w) return;
+  const n = [...el.textContent].length || 1;
+  el.style.fontSize = Math.max(22, Math.min(+el.dataset.max, Math.floor(w * 0.96 / n))) + 'px';
+}
+const fitAll = root => root.querySelectorAll('.jp').forEach(fit);
+window.addEventListener('resize', () => fitAll(document));
+
+const screens = ['home', 'learn', 'exercise', 'quiz', 'result'];
+let current = 'home';
+function show(id) {
+  screens.forEach(s => $('#' + s).classList.toggle('active', s === id));
+  current = id;
+  if (id !== 'learn') stopAuto();
+  window.scrollTo(0, 0);
+}
+
+/* ============================================================
+   LEARN KOTOBA — next / before / auto-next 10 detik / looping
+   ============================================================ */
+const AUTO_MS = 10000;
+const L = { i: 0, auto: true, el: 0, last: 0, raf: 0 };
+
+function lRender(dir) {
+  const c = DECK[L.i], card = $('#lcard');
+  card.innerHTML = `<div class="paper">${head(c)}<div class="body"><div class="inner">${big(c, 190)}${info(c)}</div></div></div>`;
+  fitAll(card);
+  $('#lNum').textContent = L.i + 1;
+  card.classList.remove('in-next', 'in-prev');
+  void card.offsetWidth;
+  card.classList.add(dir < 0 ? 'in-prev' : 'in-next');
+  lReset();
+}
+function lGo(d) { L.i = (L.i + d + N) % N; lRender(d); }          // looping: akhir → awal, awal → akhir
+function lReset() { L.el = 0; L.last = performance.now(); lTimerUI(); }
+function lTimerUI() {
+  $('#lFill').style.width = (L.el / AUTO_MS * 100) + '%';
+  $('#lTime').textContent = L.auto ? `Next otomatis dalam ${Math.ceil((AUTO_MS - L.el) / 1000)} dtk` : 'Auto next dijeda';
+  $('#lAuto').textContent = L.auto ? '❚❚ Jeda' : '▶ Auto next';
+}
+function tick() {
+  if (!L.auto || current !== 'learn') return;
+  const now = performance.now();
+  L.el += Math.max(0, Math.min(now - L.last, 200));                // tab di-background tidak bikin loncat
+  L.last = now;
+  if (L.el >= AUTO_MS) lGo(1); else lTimerUI();
+  L.raf = requestAnimationFrame(tick);
+}
+function startAuto() { cancelAnimationFrame(L.raf); if (L.auto) { L.last = performance.now(); L.raf = requestAnimationFrame(tick); } }
+function stopAuto()  { cancelAnimationFrame(L.raf); }
+function lToggle()   { L.auto = !L.auto; lTimerUI(); startAuto(); }
+
+function startLearn() {
+  L.i = 0; L.auto = true;
+  show('learn');
+  lRender(1);
+  startAuto();
+}
+$('#lPrev').onclick = () => lGo(-1);
+$('#lNext').onclick = () => lGo(1);
+$('#lAuto').onclick = lToggle;
+
+let touchX = null;
+$('#lcard').addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, { passive: true });
+$('#lcard').addEventListener('touchend', e => {
+  if (touchX === null) return;
+  const dx = e.changedTouches[0].clientX - touchX; touchX = null;
+  if (Math.abs(dx) > 50) lGo(dx < 0 ? 1 : -1);
+});
+
+/* ============================================================
+   EXERCISE — flashcard: lihat kata → balik → hafal / belum
+   ============================================================ */
+const E = { deck: [], i: 0, flipped: false, busy: false, ok: [], no: [] };
+const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+function eFront(c) { return `<div class="paper">${head(c)}<div class="body center"><div class="inner">${big(c, 190)}</div></div><div class="hint">Ketuk kartu untuk melihat arti ✦</div></div>`; }
+function eBack(c)  { return `<div class="paper">${head(c)}<div class="body"><div class="inner">${big(c, 96)}${info(c)}</div></div></div>`; }
+
+function eRender() {
+  const c = E.deck[E.i];
+  $('#eFront').innerHTML = eFront(c);
+  fitAll($('#eFront'));
+  const setBack = () => { $('#eBack').innerHTML = eBack(c); fitAll($('#eBack')); };
+  if (E.flipped) setTimeout(setBack, 350); else setBack();          // isi sisi belakang diganti setelah kartu terbalik
+  $('#eNum').textContent = E.i + 1;
+  $('#eTotal').textContent = E.deck.length;
+  $('#eOk').textContent = E.ok.length;
+  $('#eNo').textContent = E.no.length;
+  $('#eFill').style.width = (E.i / E.deck.length * 100) + '%';
+  $('#flip').classList.remove('flipped');
+  E.flipped = false;
+  $('#eFlipBtn').hidden = false;
+  $('#eGrade').hidden = true;
+}
+function eFlip() {
+  if (E.busy || E.flipped) return;
+  E.flipped = true;
+  $('#flip').classList.add('flipped');
+  $('#eFlipBtn').hidden = true;
+  $('#eGrade').hidden = false;
+}
+function eAnswer(known) {
+  if (!E.flipped || E.busy) return;
+  (known ? E.ok : E.no).push(E.deck[E.i]);
+  if (E.i + 1 >= E.deck.length) { eFinish(); return; }
+  E.i++;
+  E.busy = true;
+  eRender();
+  setTimeout(() => { E.busy = false; }, 400);
+}
+function startEx(list) {
+  E.deck = shuffle(list || DECK); E.i = 0; E.ok = []; E.no = []; E.flipped = false; E.busy = false;
+  show('exercise');
+  eRender();
+}
+$('#btnEx').onclick = () => startEx();
+$('#flip').onclick = eFlip;
+$('#eFlipBtn').onclick = eFlip;
+$('#eOkBtn').onclick = () => eAnswer(true);
+$('#eNoBtn').onclick = () => eAnswer(false);
+
+/* ---------- Result (dipakai flashcard & latihan soal) ---------- */
+let RES = null;
+function showResult(r) {
+  RES = r;
+  const pct = Math.round(r.ok / r.total * 100);
+  $('#rPct').textContent = pct;
+  $('#rTitle').textContent = pct >= 80 ? 'Luar biasa, Yang Mulia!' : pct >= 50 ? 'Bagus, terus berlatih!' : 'Ayo latih lagi, Ksatria!';
+  $('#rDetail').textContent = `${r.label} ${r.ok} dari ${r.total} ${r.unit}`;
+  const miss = $('#rMissed');
+  miss.hidden = !r.miss.length;
+  miss.innerHTML = r.miss.map(m => `<div class="m"><b>${esc(m.jp)}</b><span>${esc(m.m)}</span></div>`).join('');
+  $('#rRetry').hidden = !r.miss.length;
+  $('#rRetry').textContent = r.retryText;
+  show('result');
+}
+function eFinish() {
+  showResult({
+    ok: E.ok.length, total: E.deck.length, label: 'Hafal', unit: 'kartu',
+    miss: E.no.map(c => ({ jp: c.jp, m: c.m })),
+    retryText: 'Ulangi yang belum hafal',
+    retry: () => startEx(E.no), again: () => startEx()
+  });
+}
+$('#rRetry').onclick = () => RES && RES.retry();
+$('#rAgain').onclick = () => RES && RES.again();
+
+/* ============================================================
+   LATIHAN SOAL — pilihan ganda dari soal-soal di PPT
+   ============================================================ */
+const Q = { deck: [], i: 0, answered: false, ok: [], no: [] };
+const LET = ['a', 'b', 'c', 'd'];
+const BLANK = '（　　　）';
+
+function qStem(q) {
+  if (q.order) return `${esc(q.pre)} <span class="blk">&nbsp;</span> <span class="blk">&nbsp;</span> <span class="blk star">★</span> <span class="blk">&nbsp;</span>${esc(q.post)}`;
+  return esc(q.q).replace(BLANK, `<span class="blk">${BLANK}</span>`);
+}
+function qPlain(q) { return q.order ? q.pre + '＿＿＿＿' + q.post : q.q; }
+
+function qRender() {
+  const q = Q.deck[Q.i];
+  const type = TYPE[q.type];
+  $('#qcard').innerHTML = `<div class="paper">${CORNERS}<div class="ribbon">${type[0]} · ${type[1]}</div><div class="topic">${esc(q.g)}</div>
+    <div class="body"><div class="inner">
+      <div class="qstem">${qStem(q)}</div>
+      ${q.order ? '<p class="qask">Susun keempat kata, lalu pilih kata yang jatuh di posisi ★</p>' : ''}
+      <div class="opts">${q.o.map((o, i) => `<button class="opt" data-i="${i}"><span class="lt">${LET[i]}.</span>${esc(o)}</button>`).join('')}</div>
+      <div class="qfb" id="qfb" hidden></div>
+    </div></div></div>`;
+  $('#qcard').querySelectorAll('.opt').forEach(b => b.onclick = () => qPick(+b.dataset.i));
+  $('#qNum').textContent = Q.i + 1;
+  $('#qTotal').textContent = Q.deck.length;
+  $('#qOk').textContent = Q.ok.length;
+  $('#qNo').textContent = Q.no.length;
+  $('#qFill').style.width = (Q.i / Q.deck.length * 100) + '%';
+  $('#qNext').hidden = true;
+  $('#qNext').textContent = Q.i + 1 >= Q.deck.length ? 'Lihat hasil ›' : 'Lanjut ›';
+  Q.answered = false;
+  const c = $('#qcard'); c.classList.remove('in-next'); void c.offsetWidth; c.classList.add('in-next');
+}
+function qPick(i) {
+  if (Q.answered) return;
+  Q.answered = true;
+  const q = Q.deck[Q.i], right = i === q.a;
+  (right ? Q.ok : Q.no).push(q);
+  $('#qcard').querySelectorAll('.opt').forEach((b, k) => {
+    b.disabled = true;
+    if (k === q.a) b.classList.add('right');
+    else if (k === i) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+  const fb = $('#qfb');
+  fb.innerHTML = `<p class="verdict ${right ? 'ok' : 'no'}">${right ? '✓ Benar!' : '✗ Kurang tepat'} — jawaban: ${LET[q.a]}. ${esc(q.o[q.a])}</p>` +
+    (q.full ? `<p><span class="full">${esc(q.full)}</span></p>` : '') +
+    `<p>${esc(q.id)}</p><p class="note">${esc(q.n)}</p>`;
+  fb.hidden = false;
+  $('#qOk').textContent = Q.ok.length;
+  $('#qNo').textContent = Q.no.length;
+  $('#qFill').style.width = ((Q.i + 1) / Q.deck.length * 100) + '%';
+  $('#qNext').hidden = false;
+  fb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+function qNext() {
+  if (!Q.answered) return;
+  if (Q.i + 1 >= Q.deck.length) { qFinish(); return; }
+  Q.i++;
+  qRender();
+  window.scrollTo(0, 0);
+}
+function qFinish() {
+  showResult({
+    ok: Q.ok.length, total: Q.deck.length, label: 'Benar', unit: 'soal',
+    miss: Q.no.map(q => ({ jp: qPlain(q), m: LET[q.a] + '. ' + q.o[q.a] })),
+    retryText: 'Ulangi soal yang salah',
+    retry: () => startQuiz(Q.no, Q.base), again: () => startQuiz(null, Q.base)
+  });
+}
+function startQuiz(list, base = QDECK) {
+  Q.base = base;
+  Q.deck = shuffle(list || base); Q.i = 0; Q.ok = []; Q.no = []; Q.answered = false;
+  show('quiz');
+  qRender();
+}
+$('#btnQuiz').onclick = () => startQuiz();
+$('#btnQuizX').onclick = () => startQuiz(null, QUIZ_X);
+$('#qNext').onclick = qNext;
+
+/* ============================================================
+   Navigasi & keyboard
+   ============================================================ */
+$('#btnLearn').onclick = startLearn;
+document.querySelectorAll('[data-home]').forEach(b => b.onclick = () => show('home'));
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { show('home'); return; }
+  const onButton = e.target.closest && e.target.closest('button');
+  if (current === 'quiz') {
+    const k = e.key.toLowerCase(), idx = '1234'.indexOf(k) >= 0 ? '1234'.indexOf(k) : 'abcd'.indexOf(k);
+    if (k.length === 1 && idx >= 0 && idx < Q.deck[Q.i].o.length) { qPick(idx); return; }
+    if ((e.key === 'ArrowRight' || ((e.key === 'Enter' || e.key === ' ') && !onButton)) && Q.answered) { e.preventDefault(); qNext(); }
+    return;
+  }
+  if (current === 'learn') {
+    if (e.key === 'ArrowRight') lGo(1);
+    else if (e.key === 'ArrowLeft') lGo(-1);
+    else if (e.key === ' ' && !onButton) { e.preventDefault(); lToggle(); }
+  } else if (current === 'exercise') {
+    if (e.key === 'ArrowRight' && E.flipped) eAnswer(true);
+    else if (e.key === 'ArrowLeft' && E.flipped) eAnswer(false);
+    else if ((e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowUp' || e.key === 'ArrowDown') && !onButton) { e.preventDefault(); eFlip(); }
+  }
+});
+
+/* ============================================================
+   Latar: tembok kastil bata/batu tua berlumut (digambar di canvas)
+   ============================================================ */
+(function wall() {
+  const cv = document.getElementById('wall'), ctx = cv.getContext('2d');
+  const mulberry = a => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  let lastW = 0, lastH = 0;
+
+  function draw() {
+    const W = innerWidth, H = innerHeight, dpr = Math.min(devicePixelRatio || 1, 2);
+    lastW = W; lastH = H;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const R = mulberry(1337), rr = (a, b) => a + (b - a) * R(), pick = a => a[Math.floor(R() * a.length)];
+    const S = Math.max(.7, Math.min(1.3, W / 1100));
+
+    /* ---- adukan / celah ---- */
+    ctx.fillStyle = '#12100c'; ctx.fillRect(0, 0, W, H);
+    for (let i = 0; i < W * H / 900; i++) {
+      ctx.fillStyle = R() < .5 ? 'rgba(255,240,210,.05)' : 'rgba(0,0,0,.25)';
+      ctx.fillRect(R() * W, R() * H, 1.5, 1.5);
+    }
+
+    /* ---- susunan bata (running bond, ukuran tidak seragam) ---- */
+    const bricks = [], rows = [];
+    for (let y = -8; y < H;) {
+      const h = Math.round(rr(46, 62) * S);
+      for (let x = -rr(0, 120) * S; x < W;) { const w = Math.round(rr(96, 178) * S); bricks.push({ x, y, w, h }); x += w; }
+      y += h; rows.push(y);
+    }
+    const PAL = [[30, 11, 32], [34, 13, 29], [26, 9, 35], [38, 9, 33], [205, 7, 32], [28, 15, 26], [42, 10, 30]];
+    bricks.forEach(({ x, y, w, h }) => {
+      const g = 3, j = () => rr(-1.6, 1.6);
+      const x0 = x + g + j(), y0 = y + g + j(), x1 = x + w - g + j(), y1 = y + h - g + j();
+      const [hh, ss, ll] = pick(PAL), L = ll + rr(-4, 5), Hh = hh + rr(-4, 4);
+      const grd = ctx.createLinearGradient(x0, y0, x1, y1);
+      grd.addColorStop(0, `hsl(${Hh},${ss}%,${L + 5}%)`); grd.addColorStop(1, `hsl(${Hh},${ss + 2}%,${L - 6}%)`);
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y0 + j()); ctx.lineTo(x1 + j(), y1); ctx.lineTo(x0 + j(), y1 + j()); ctx.closePath();
+      ctx.fillStyle = grd; ctx.fill();
+      ctx.save(); ctx.clip();
+      for (let i = 0, n = (x1 - x0) * (y1 - y0) / 45; i < n; i++) {           // butiran batu
+        ctx.fillStyle = R() < .6 ? `rgba(0,0,0,${rr(.05, .16)})` : `rgba(255,235,200,${rr(.03, .09)})`;
+        const s = rr(.6, 1.8); ctx.fillRect(rr(x0, x1), rr(y0, y1), s, s);
+      }
+      if (R() < .35) {                                                         // noda air hujan
+        const sl = rr(.4, 1) * (y1 - y0), sg = ctx.createLinearGradient(0, y0, 0, y0 + sl);
+        sg.addColorStop(0, 'rgba(0,0,0,.22)'); sg.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = sg; ctx.fillRect(rr(x0, x1 - 8), y0, rr(6, 22), sl);
+      }
+      ctx.fillStyle = 'rgba(255,235,200,.13)'; ctx.fillRect(x0, y0, x1 - x0, 1.5);   // sisi atas kena cahaya
+      ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.fillRect(x0, y1 - 2.5, x1 - x0, 2.5);    // sisi bawah gelap
+      ctx.restore();
+      if (R() < .14) {                                                         // retakan
+        let cx = rr(x0 + 8, x1 - 8), cy = y0 + 2;
+        ctx.beginPath(); ctx.moveTo(cx, cy);
+        for (let k = 0; k < 4; k++) { cx += rr(-9, 9); cy += (y1 - y0) / 4; ctx.lineTo(cx, cy); }
+        ctx.strokeStyle = 'rgba(0,0,0,.55)'; ctx.lineWidth = 1.1; ctx.stroke();
+      }
+    });
+
+    /* ---- lumut: rumpun kecil berlapis gelap → terang ---- */
+    function moss(cx, cy, s) {
+      const sh = ctx.createRadialGradient(cx, cy, 0, cx, cy, s * 1.25);
+      sh.addColorStop(0, 'rgba(6,20,3,.5)'); sh.addColorStop(1, 'rgba(6,20,3,0)');
+      ctx.fillStyle = sh; ctx.fillRect(cx - s * 1.3, cy - s * 1.3, s * 2.6, s * 2.6);
+      const n = Math.round(s * s / 8) + 12;
+      const pass = (count, spread, cols, rmin, rmax) => {
+        for (let i = 0; i < count; i++) {
+          const a = R() * 6.283, d = Math.pow(R(), .65) * s * spread;
+          const r = rr(rmin, rmax) * (1 - .55 * d / (s * spread + 1));
+          ctx.fillStyle = pick(cols); ctx.beginPath();
+          ctx.arc(cx + Math.cos(a) * d, cy + Math.sin(a) * d * .72 - (spread < .7 ? s * .08 : 0), Math.max(.5, r), 0, 6.283); ctx.fill();
+        }
+      };
+      pass(n, 1.0, ['rgba(28,50,15,.95)', 'rgba(40,68,20,.95)'], 2, 5);
+      pass(n * .8, .85, ['rgba(58,98,30,.92)', 'rgba(74,116,36,.92)'], 1.6, 4.2);
+      pass(n * .5, .65, ['rgba(104,150,52,.9)', 'rgba(128,170,64,.88)'], 1, 3);
+      pass(n * .22, .5, ['rgba(176,204,104,.85)', 'rgba(206,220,140,.75)'], .6, 1.6);
+    }
+    // di atas & sudut bata — makin banyak ke arah bawah
+    bricks.forEach(({ x, y, w, h }) => {
+      const f = (y + h / 2) / H;
+      if (R() < .04 + .55 * f * f * f)
+        for (let i = 0, k = 1 + Math.floor(R() * 3); i < k; i++)
+          moss(x + rr(.1, .9) * w, R() < .7 ? y + h - 1 : y + rr(.2, .9) * h, rr(9, 26) * S);
+    });
+    // menjalar di sepanjang celah mendatar
+    for (let i = 0; i < Math.round(H / 70); i++) {
+      const ry = rows[Math.min(rows.length - 1, Math.floor(rows.length * Math.sqrt(R())))], x0 = rr(0, W), len = rr(120, 320) * S;
+      for (let x = x0; x < x0 + len; x += 9 * S) moss(x, ry, rr(5, 10) * S);
+    }
+    // hamparan lumut di dasar tembok
+    for (let x = -10; x < W + 10; x += Math.max(9, 11 * S)) {
+      const hgt = H * (.04 + .12 * R() * R() + .05 * (.5 + .5 * Math.sin(x / (90 * S))));
+      for (let i = 0, c = 1 + Math.floor(R() * 3); i < c; i++) moss(x + rr(-8, 8), H - rr(0, hgt), rr(12, 30) * S);
+    }
+    // tepi kiri-kanan & tetesan lumut dari atas
+    for (let i = 0; i < Math.round(H / 90); i++) moss(R() < .5 ? rr(-5, 12) : W - rr(-5, 12), rr(H * .3, H), rr(12, 28) * S);
+    for (let i = 0; i < Math.round(W / 160); i++) moss(rr(0, W), rr(-4, 14), rr(10, 22) * S);
+
+    /* ---- pencahayaan + vinyet supaya konten tetap terbaca ---- */
+    const vg = ctx.createRadialGradient(W / 2, H * .38, Math.min(W, H) * .15, W / 2, H * .5, Math.max(W, H) * .85);
+    vg.addColorStop(0, 'rgba(255,196,120,.07)'); vg.addColorStop(.45, 'rgba(0,0,0,.32)'); vg.addColorStop(1, 'rgba(0,0,0,.78)');
+    ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+  }
+
+  let t; addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(() => { if (innerWidth !== lastW || Math.abs(innerHeight - lastH) > 150) draw(); }, 200);
+  });
+  draw();
+})();
+
+document.querySelectorAll('.segbtn').forEach(b => b.onclick = () => setCat(b.dataset.cat));
+setCat('kotoba');
+</script>
+</body>
+</html>

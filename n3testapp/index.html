@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N3 日本語練習問題</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #667eea;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            color: #666;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+        }
+
+        #questionContainer {
+            display: none;
+        }
+
+        #questionContainer.active {
+            display: block;
+        }
+
+        .question-section {
+            margin-bottom: 30px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f3ff;
+            transform: translateX(5px);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 15px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+        }
+
+        .option.selected {
+            background: #e7ebff;
+            border-color: #667eea;
+        }
+
+        .option.correct {
+            background: #d4f4dd;
+            border-color: #4caf50;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+            display: none;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        .feedback-section {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .feedback-section.correct-answer {
+            color: #4caf50;
+        }
+
+        .feedback-section.incorrect-answer {
+            color: #dc3545;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn-next {
+            background: #667eea;
+            color: white;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .btn-next:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-next:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-reset {
+            background: #6c757d;
+            color: white;
+            padding: 12px 30px;
+        }
+
+        .btn-reset:hover {
+            background: #5a6268;
+        }
+
+        #resultScreen {
+            display: none;
+            text-align: center;
+        }
+
+        #resultScreen.show {
+            display: block;
+        }
+
+        .result-title {
+            font-size: 32px;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .result-score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .result-percentage {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .result-detail-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .result-detail-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .result-detail-label {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .weak-areas {
+            text-align: left;
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .weak-areas h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .weak-areas ul {
+            list-style-position: inside;
+            color: #666;
+        }
+
+        .weak-areas li {
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .question-text {
+                font-size: 16px;
+            }
+
+            .option {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .result-score {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 N3 日本語練習問題</h1>
+
+            <div id="questionScreen">
+                <div class="progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text"><span id="currentQuestion">1</span>/<span id="totalQuestions">22</span></div>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="correctCount">0</div>
+                        <div class="stat-label">正解</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="incorrectCount">0</div>
+                        <div class="stat-label">不正解</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="questionContainer" class="active">
+            <div class="question-section">
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
+                <div class="explanation" id="explanation"></div>
+                <div class="feedback-section" id="feedback"></div>
+            </div>
+            <div class="button-group">
+                <button class="btn-next" id="nextButton" disabled>次へ</button>
+            </div>
+        </div>
+
+        <div id="resultScreen">
+            <div class="result-title">テスト完了！</div>
+            <div class="result-score" id="finalScore">0</div>
+            <div class="result-percentage" id="resultPercentage">0%</div>
+
+            <div class="result-details">
+                <div class="result-detail-item">
+                    <div class="result-detail-number" id="resultCorrect">0</div>
+                    <div class="result-detail-label">正解</div>
+                </div>
+                <div class="result-detail-item">
+                    <div class="result-detail-number" id="resultIncorrect">0</div>
+                    <div class="result-detail-label">不正解</div>
+                </div>
+            </div>
+
+            <div id="weakAreasContainer"></div>
+
+            <div class="button-group">
+                <button class="btn-reset" id="resetButton">もう一度やる</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let questionAnswered = false;
+
+        // 問題データを直接定義
+        const questionsData = [
+          {
+            "id": 1,
+            "text": "クリーニングに出したら、きれいに（　　）返ってきた。",
+            "options": ["ぢきあがって", "しあがって", "おわって", "そうじして"],
+            "correctAnswer": 1,
+            "explanation": "しあがって（出来上がって）- 商品が完成して戻ってきた"
+          },
+          {
+            "id": 2,
+            "text": "犬をさんぽに（　　）。",
+            "options": ["持って行く", "むかえに行く", "つれていく", "ついていく"],
+            "correctAnswer": 2,
+            "explanation": "つれていく - 動物や人を一緒に連れて行く場合に使う"
+          },
+          {
+            "id": 3,
+            "text": "来週は仕事で北海道に（　　　　　）。",
+            "options": ["行く予定です。", "行くつもりです", "行こうと思います", "行きたいです"],
+            "correctAnswer": 0,
+            "explanation": "行く予定です - 既に決まった計画を表す"
+          },
+          {
+            "id": 4,
+            "text": "今日、ふしぎなことがあった。友だちのことを考えていたら、道でその友だちに、ばったり出会ったし、急におばさんが来て、私がほしかったくつをプレゼントしてくれた。⑦、仕事で、いつも薬を飲もうとしない利用者さんが、自分から薬を飲んで⑧。\n\n⑦にはどんな意味の言葉が入りますか？",
+            "options": ["そして", "それに", "それで", "そうして"],
+            "correctAnswer": 1,
+            "explanation": "それに - さらに別のいいことが続いたことを表す接続詞"
+          },
+          {
+            "id": 5,
+            "text": "仕事で、いつも薬を飲もうとしない利用者さんが、自分から薬を飲んで⑧。\n\n⑧にはどんな言葉が入りますか？",
+            "options": ["あげた", "もらった", "くれた", "やった"],
+            "correctAnswer": 2,
+            "explanation": "くれた - 相手が主体となって自発的に行動した場合"
+          },
+          {
+            "id": 6,
+            "text": "母は私が泣くと、やさしく頭を（　　　）くれました。",
+            "options": ["こすって", "ぶって", "うなって", "なでて"],
+            "correctAnswer": 3,
+            "explanation": "なでて - 優しく撫でる動作。母の優しさを表現している"
+          },
+          {
+            "id": 7,
+            "text": "やせたいので、（　　）が高いものは食べないようにしています。",
+            "options": ["バランス", "さとう", "カロリー", "味"],
+            "correctAnswer": 2,
+            "explanation": "カロリー - 食べ物の熱量値を示す。ダイエットとの関連"
+          },
+          {
+            "id": 8,
+            "text": "赤ちゃんや小さいものをうでに抱く。",
+            "options": ["だっこする", "おんぶする", "手をつなぐ", "なでる"],
+            "correctAnswer": 0,
+            "explanation": "だっこする - 赤ちゃんを腕に抱くという意味"
+          },
+          {
+            "id": 9,
+            "text": "材料をきざむ。",
+            "options": ["こまかく切る。", "大きめに切る", "3センチくらいに切る", "はかって切る"],
+            "correctAnswer": 0,
+            "explanation": "きざむ - 食材などを細かく切ること"
+          },
+          {
+            "id": 10,
+            "text": "【アナウンス】5歳くらいの男の子が（　　）になっております。お心当たりのある方は１Fのサービスセンターまでお越しください。",
+            "options": ["まいご", "ふたご", "ごっこ", "いとこ"],
+            "correctAnswer": 0,
+            "explanation": "まいご（迷子）- 親からはぐれて行方不明になった子どもを探す時のアナウンス"
+          },
+          {
+            "id": 11,
+            "text": "いためる前に、フライパンをよく（　　））。",
+            "options": ["ねっします。", "ねつをします", "ひっくりかえします", "こがします"],
+            "correctAnswer": 1,
+            "explanation": "ねつをします（熱をします）- フライパンを温める。いためるに必要な準備"
+          },
+          {
+            "id": 12,
+            "text": "このホテルには、すてきなじゅうたんが（　　　））ある。",
+            "options": ["かぶせて", "つけて", "きいて", "しいて"],
+            "correctAnswer": 3,
+            "explanation": "しいて - 床に敷く、という意味。じゅうたんを床に敷く"
+          },
+          {
+            "id": 13,
+            "text": "さとうは大さじ2（　　））入れます。",
+            "options": ["かい", "はい", "めい", "まい"],
+            "correctAnswer": 0,
+            "explanation": "かい - 量を数える時の助数詞。大さじ2杯"
+          },
+          {
+            "id": 14,
+            "text": "電車が混んでいて、中のほうへ　㉑　が、行けませんでした。\n\n㉑にはどんな言葉が入りますか？",
+            "options": ["行くようになりました", "行こうとしました", "行かせました", "行かれました"],
+            "correctAnswer": 1,
+            "explanation": "行こうとしました - ～しようとした＝しようと思ったができなかった"
+          },
+          {
+            "id": 15,
+            "text": "ドアのところに立っている人たちが　㉒　からです。\n\n㉒にはどんな言葉が入りますか？",
+            "options": ["働かせた", "働かれた", "働くようになった", "中に入ろうとしない"],
+            "correctAnswer": 3,
+            "explanation": "中に入ろうとしない - ドアのところに立っている理由として、人々が中に入ろうとしない"
+          },
+          {
+            "id": 16,
+            "text": "「中に　㉓　ください」と言って、やっと入れました。\n\n㉓にはどんな言葉が入りますか？",
+            "options": ["入らないで", "入りなさい", "入ってください", "入られて"],
+            "correctAnswer": 0,
+            "explanation": "入ってください - 中へ進んでください、という意味で、相手に行動を促す表現"
+          },
+          {
+            "id": 17,
+            "text": "混んでいる時は、㉔　としてもなかなか降りられないので、ドアの近くに立っているのかもしれません。\n\n㉔にはどんな言葉が入りますか？",
+            "options": ["降りた", "降りろう", "降りよう", "降ります"],
+            "correctAnswer": 2,
+            "explanation": "降りよう - ～しようとしても、という意味で、意図や願いを表す"
+          },
+          {
+            "id": 18,
+            "text": "でも、乗る人のことも考えて、なるべく中へ　㉕　ようにしたほうがいいと思いました。\n\n㉕にはどんな言葉が入りますか？",
+            "options": ["入る", "入れる", "入らない", "入れない"],
+            "correctAnswer": 0,
+            "explanation": "入る - ～するようにしたほうがいい＝～する心がけが必要"
+          },
+          {
+            "id": 19,
+            "text": "試験の（　　　））は、しっかり寝たほうがいいですよ。",
+            "options": ["きのう", "あさって", "ひにち", "ぜんじつ"],
+            "correctAnswer": 3,
+            "explanation": "ぜんじつ（前日）- 試験の前の日。試験前は十分な睡眠が必要"
+          },
+          {
+            "id": 20,
+            "text": "友だち（　　））言うけど、ちゃんと洗濯したほうがいいよ。",
+            "options": ["になってばかり", "さえ", "ので", "だからこそ"],
+            "correctAnswer": 0,
+            "explanation": "になってばかり - 「～と言ってばかりいる」という意味の接続"
+          },
+          {
+            "id": 21,
+            "text": "トイレにすぐ行けるように、（　　））がわのせきを予約した。",
+            "options": ["どろう", "つうろ", "ろうか", "こみち"],
+            "correctAnswer": 2,
+            "explanation": "ろうか（廊下）がわ - 通路側。トイレに行くのに便利な場所"
+          },
+          {
+            "id": 22,
+            "text": "バドミントンは好きですが、あまり（　　））ではないです。",
+            "options": ["りこう", "りこうな", "りこうじゃ", "りこうくない"],
+            "correctAnswer": 0,
+            "explanation": "りこう - 上手な、得意な、という意味。スポーツの技術レベルを表す"
+          }
+        ];
+
+        function loadQuestions() {
+            questions = questionsData;
+            document.getElementById('totalQuestions').textContent = questions.length;
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                showResults();
+                return;
+            }
+
+            const question = questions[currentQuestionIndex];
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('questionText').textContent = question.text;
+
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                optionDiv.innerHTML = `
+                    <input type="radio" name="answer" value="${index}" id="option${index}">
+                    <label for="option${index}" style="flex: 1; cursor: pointer; margin: 0;">${option}</label>
+                `;
+
+                optionDiv.addEventListener('click', () => {
+                    if (!questionAnswered) {
+                        selectOption(index, optionDiv);
+                    }
+                });
+
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = 'feedback-section';
+            document.getElementById('nextButton').disabled = true;
+            questionAnswered = false;
+
+            updateProgressBar();
+        }
+
+        function selectOption(selectedIndex, optionDiv) {
+            if (questionAnswered) return;
+
+            const question = questions[currentQuestionIndex];
+            const isCorrect = selectedIndex === question.correctAnswer;
+
+            document.getElementById(`option${selectedIndex}`).checked = true;
+
+            document.querySelectorAll('.option').forEach((opt, index) => {
+                if (index === selectedIndex) {
+                    opt.classList.add('selected');
+                    if (isCorrect) {
+                        opt.classList.add('correct');
+                    } else {
+                        opt.classList.add('incorrect');
+                    }
+                } else if (index === question.correctAnswer && !isCorrect) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            const feedback = document.getElementById('feedback');
+            if (isCorrect) {
+                feedback.textContent = '✓ 正解です！';
+                feedback.className = 'feedback-section correct-answer';
+            } else {
+                feedback.textContent = '✗ 不正解です';
+                feedback.className = 'feedback-section incorrect-answer';
+            }
+
+            document.getElementById('explanation').textContent = question.explanation;
+            document.getElementById('explanation').classList.add('show');
+
+            document.getElementById('nextButton').disabled = false;
+            questionAnswered = true;
+
+            userAnswers.push({
+                questionId: question.id,
+                selected: selectedIndex,
+                correct: isCorrect
+            });
+
+            updateStats();
+        }
+
+        function updateStats() {
+            const correct = userAnswers.filter(a => a.correct).length;
+            const incorrect = userAnswers.filter(a => !a.correct).length;
+            document.getElementById('correctCount').textContent = correct;
+            document.getElementById('incorrectCount').textContent = incorrect;
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('questionScreen').style.display = 'none';
+            document.getElementById('questionContainer').classList.remove('active');
+            document.getElementById('resultScreen').classList.add('show');
+
+            const correct = userAnswers.filter(a => a.correct).length;
+            const incorrect = userAnswers.filter(a => !a.correct).length;
+            const percentage = Math.round((correct / questions.length) * 100);
+
+            document.getElementById('finalScore').textContent = correct;
+            document.getElementById('resultCorrect').textContent = correct;
+            document.getElementById('resultIncorrect').textContent = incorrect;
+            document.getElementById('resultPercentage').textContent = `${percentage}%`;
+
+            const incorrectQuestions = userAnswers.filter(a => !a.correct);
+            if (incorrectQuestions.length > 0) {
+                let weakAreasHtml = `
+                    <div class="weak-areas">
+                        <h3>📍 弱点分野</h3>
+                        <ul>
+                `;
+                incorrectQuestions.forEach(ans => {
+                    const q = questions.find(q => q.id === ans.questionId);
+                    weakAreasHtml += `<li>${q.text.substring(0, 50)}...</li>`;
+                });
+                weakAreasHtml += '</ul></div>';
+                document.getElementById('weakAreasContainer').innerHTML = weakAreasHtml;
+            }
+
+            saveResults({
+                date: new Date().toISOString(),
+                correct: correct,
+                incorrect: incorrect,
+                percentage: percentage,
+                answers: userAnswers
+            });
+        }
+
+        function resetTest() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            questionAnswered = false;
+
+            document.getElementById('questionScreen').style.display = 'block';
+            document.getElementById('questionContainer').classList.add('active');
+            document.getElementById('resultScreen').classList.remove('show');
+            document.getElementById('correctCount').textContent = '0';
+            document.getElementById('incorrectCount').textContent = '0';
+            document.getElementById('weakAreasContainer').innerHTML = '';
+
+            displayQuestion();
+        }
+
+        function saveResults(results) {
+            const existingResults = JSON.parse(localStorage.getItem('n3TestResults') || '[]');
+            existingResults.push(results);
+            localStorage.setItem('n3TestResults', JSON.stringify(existingResults));
+        }
+
+        document.getElementById('nextButton').addEventListener('click', nextQuestion);
+        document.getElementById('resetButton').addEventListener('click', resetTest);
+
+        loadQuestions();
+    </script>
+</body>
+</html>
