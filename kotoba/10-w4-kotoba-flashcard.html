@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>言葉の王国 — Kotoba Flashcard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Noto+Serif+JP:wght@600;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b2415; --moss:#3f5f2a; --moss-d:#1f3216;
+  --gold:#c9a94a; --gold-l:#ecdc9a; --gold-d:#7d6a26;
+  --parch:#efe8c4;
+  --jp:"Noto Serif JP","Yu Mincho","YuMincho","Hiragino Mincho ProN","MS PMincho","Songti SC",serif;
+  --title:"Cinzel","Trajan Pro","Palatino Linotype",Georgia,serif;
+  --text:"Cormorant Garamond","Palatino Linotype","Book Antiqua",Georgia,serif;
+  --stage:clamp(480px,70vh,640px);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{
+  min-height:100vh; color:var(--parch); font-family:var(--text);
+  background:#14110d;
+}
+#wall{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0;pointer-events:none}
+main{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.screen{display:none;width:100%;max-width:800px;padding:18px 16px 40px;flex-direction:column;align-items:center;gap:16px;position:relative;z-index:1}
+.screen.active{display:flex}
+
+/* ---------- Buttons ---------- */
+.btn{
+  font-family:var(--title);font-weight:700;letter-spacing:.06em;font-size:1rem;
+  color:var(--gold-l);background:linear-gradient(#557a3a,#243a1a);
+  border:2px solid var(--gold);border-radius:10px;padding:12px 22px;cursor:pointer;
+  box-shadow:0 4px 0 #0c1608,0 10px 20px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.12);
+  transition:transform .15s,filter .15s,box-shadow .15s;
+}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.18)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #0c1608,0 4px 8px rgba(0,0,0,.5)}
+.btn:focus-visible,.flip:focus-visible{outline:3px solid var(--gold-l);outline-offset:3px}
+.btn.gold{background:linear-gradient(#e9d88a,#a58c3a);color:#2a2408;border-color:#fbeeb9;box-shadow:0 4px 0 #5e470f,0 10px 20px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.35)}
+.btn.small{padding:8px 16px;font-size:.85rem}
+.btn.ok{background:linear-gradient(#8ab85a,#3f7a26);border-color:#e0f0b8;color:#10200a;box-shadow:0 4px 0 #1c3a10,0 10px 20px rgba(0,0,0,.5)}
+.btn.no{background:linear-gradient(#a3652f,#5c3416);color:var(--gold-l)}
+.controls{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;width:100%}
+.controls .btn{min-width:150px}
+
+/* ---------- Home ---------- */
+#home{justify-content:center;min-height:100vh;text-align:center;gap:10px;padding-bottom:40px}
+.crown{width:110px;height:82px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.6))}
+h1{margin:6px 0 0;font-family:var(--jp);font-weight:900;font-size:clamp(2.6rem,10vw,5rem);letter-spacing:.08em;
+  background:linear-gradient(#f6ecb8,#c9a94a 45%,#7d6a26);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 3px 0 rgba(0,0,0,.55))}
+.sub{margin:0;font-family:var(--title);letter-spacing:.2em;font-size:clamp(.75rem,2.6vw,1rem);color:var(--gold-l);text-transform:uppercase}
+.src{margin:2px 0 22px;color:#e2dab0;font-size:1.05rem;font-style:italic}
+.menu{display:flex;flex-direction:column;gap:20px;width:min(440px,100%)}
+.big{
+  display:flex;align-items:center;gap:18px;text-align:left;cursor:pointer;
+  padding:18px 22px;border-radius:14px;border:3px solid var(--gold);color:var(--gold-l);
+  background:linear-gradient(#4f7336,#1f3216);
+  box-shadow:0 0 0 3px #0c1608,0 12px 28px rgba(0,0,0,.6),inset 0 0 0 2px rgba(245,220,138,.25),inset 0 0 30px rgba(0,0,0,.35);
+  transition:transform .18s,box-shadow .18s,filter .18s;
+}
+.big:hover{transform:translateY(-4px) scale(1.02);filter:brightness(1.15);box-shadow:0 0 0 3px #0c1608,0 16px 34px rgba(0,0,0,.65),0 0 30px rgba(212,175,55,.35),inset 0 0 0 2px rgba(245,220,138,.35)}
+.big:focus-visible{outline:3px solid var(--gold-l);outline-offset:4px}
+.big svg{flex:none;width:52px;height:52px}
+.big b{display:block;font-family:var(--title);font-size:1.5rem;letter-spacing:.06em}
+.big span{display:block;font-family:var(--text);font-weight:600;font-size:1.05rem;color:#dfe6b8;margin-top:2px}
+
+/* ---------- Top bar ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;width:min(760px,100%)}
+.counter{font-family:var(--title);font-size:1.1rem;color:var(--gold-l);letter-spacing:.1em}
+.counter b{font-size:1.5rem;color:#f6ecb8}
+.score{display:flex;gap:14px;font-family:var(--title);font-weight:700}
+.score .ok{color:#b8e58a}.score .no{color:#f0b47f}
+
+/* ---------- Card ---------- */
+.card{
+  position:relative;width:min(760px,100%);padding:12px;border-radius:16px;
+  background:linear-gradient(135deg,#e8d98c,#a58c3a 38%,#ecdc9a 58%,#7d6a26);
+  box-shadow:0 22px 50px rgba(0,0,0,.65),0 0 0 1px #4b370b,0 0 46px rgba(212,175,55,.18);
+}
+.card.stage{height:var(--stage)}
+.paper{
+  position:relative;height:100%;display:flex;flex-direction:column;align-items:stretch;overflow:hidden;
+  border:2px solid var(--gold-d);border-radius:8px;color:var(--ink);
+  background:
+    radial-gradient(circle at 0% 100%,rgba(72,112,44,.34),transparent 32%),
+    radial-gradient(circle at 100% 100%,rgba(72,112,44,.26),transparent 28%),
+    radial-gradient(circle at 100% 0%,rgba(72,112,44,.16),transparent 22%),
+    radial-gradient(ellipse at 50% 40%,#f7f2d6 0%,#e8e2b6 68%,#c9c38c 100%);
+  box-shadow:inset 0 0 70px rgba(70,85,25,.42),inset 0 0 8px rgba(40,50,10,.5);
+}
+.paper::before{content:"";position:absolute;inset:9px;border:1.5px solid rgba(125,106,38,.75);pointer-events:none}
+.paper::after{
+  content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.55;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n' x='0' y='0' width='1' height='1'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .22  0 0 0 0 .3  0 0 0 0 .08  0 0 0 .2 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.corner{position:absolute;width:44px;height:44px;color:var(--gold-d);z-index:2;pointer-events:none}
+.corner.tl{top:14px;left:14px}
+.corner.tr{top:14px;right:14px;transform:scaleX(-1)}
+.corner.bl{bottom:14px;left:14px;transform:scaleY(-1)}
+.corner.br{bottom:14px;right:14px;transform:scale(-1,-1)}
+.ribbon{
+  position:relative;z-index:3;align-self:center;margin-top:20px;min-width:min(62%,340px);text-align:center;
+  padding:9px 40px;font-family:var(--title);font-weight:700;letter-spacing:.16em;font-size:.9rem;color:var(--gold-l);
+  background:linear-gradient(#557a3a,#243a1a);
+  clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%);
+  box-shadow:inset 0 2px 0 rgba(245,220,138,.65),inset 0 -2px 0 rgba(245,220,138,.65);
+}
+.topic{position:relative;z-index:3;text-align:center;margin-top:8px;font-style:italic;font-weight:700;font-size:1.05rem;color:var(--moss)}
+.body{position:relative;z-index:3;flex:1;min-height:0;display:flex;flex-direction:column;padding:6px 30px 26px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--gold-d) transparent}
+.inner{margin:auto 0;width:100%}
+.jp{
+  font-family:var(--jp);font-weight:900;color:var(--ink);text-align:center;white-space:nowrap;line-height:1.15;
+  text-shadow:0 1px 0 rgba(255,255,255,.55),0 4px 8px rgba(30,50,10,.3);
+}
+.reading{font-family:var(--jp);font-weight:700;font-size:clamp(1.3rem,4vw,2rem);letter-spacing:.08em;color:var(--moss);text-align:center;margin-top:2px}
+.orn{display:flex;align-items:center;gap:12px;margin:12px auto;width:min(340px,80%);color:var(--gold-d)}
+.orn i{flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--gold-d),transparent)}
+.orn b{font-size:.9rem}
+.meaning{font-family:var(--text);font-weight:700;font-size:clamp(1.5rem,4.4vw,2.1rem);line-height:1.2;text-align:center;color:#26301a}
+.extra{margin-top:16px;padding:12px 16px;border-radius:6px;background:rgba(63,95,42,.10);border:1px dashed rgba(138,106,28,.7);font-size:1.15rem;line-height:1.4;font-weight:600;color:#26301a}
+.extra p{margin:6px 0}
+.extra .note{font-style:italic;color:#4a5a24}
+.extra .ex-jp{display:block;font-family:var(--jp);font-weight:600;font-size:1.05rem;color:var(--ink)}
+.extra .ex-id{display:block;opacity:.85}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center}
+.chips .lbl{font-style:italic;color:var(--moss);margin-right:4px}
+.chips span:not(.lbl){font-family:var(--jp);font-weight:600;font-size:1rem;padding:2px 12px;border:1px solid var(--gold-d);border-radius:999px;background:rgba(255,255,255,.4)}
+.hint{position:relative;z-index:3;text-align:center;padding:0 0 26px;font-style:italic;font-weight:700;font-size:1.05rem;color:#6a6224}
+
+@keyframes inNext{from{opacity:0;transform:translateX(50px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes inPrev{from{opacity:0;transform:translateX(-50px) scale(.98)}to{opacity:1;transform:none}}
+.card.in-next{animation:inNext .45s cubic-bezier(.2,.8,.2,1)}
+.card.in-prev{animation:inPrev .45s cubic-bezier(.2,.8,.2,1)}
+
+/* ---------- Timer / progress ---------- */
+.timer{width:min(760px,100%);text-align:center}
+.track{height:10px;border-radius:999px;background:rgba(0,0,0,.45);border:1px solid var(--gold-d);overflow:hidden}
+.track.thin{height:8px;width:min(760px,100%)}
+.fill{height:100%;width:0;background:linear-gradient(90deg,#7d6a26,#ecdc9a,#c9a94a)}
+.tlabel{margin-top:6px;font-style:italic;font-weight:700;font-size:1.05rem;color:#e2dab0}
+
+/* ---------- Flip (exercise) ---------- */
+.flip{width:min(760px,100%);height:var(--stage);perspective:1500px;cursor:pointer;border-radius:16px}
+.flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,.2,.2,1)}
+.flip.flipped .flip-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;width:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face.back{transform:rotateY(180deg)}
+.face .body.center{justify-content:center}
+
+/* ---------- Result ---------- */
+#result{text-align:center;justify-content:center;min-height:100vh}
+#result .crown{width:90px;height:68px}
+h2{margin:0;font-family:var(--title);font-size:clamp(1.5rem,5vw,2.2rem);letter-spacing:.08em;color:var(--gold-l)}
+.rscore{font-family:var(--title);font-weight:700;font-size:clamp(3.5rem,14vw,6rem);line-height:1;color:#f6ecb8;text-shadow:0 4px 0 #6b5010,0 0 30px rgba(212,175,55,.5)}
+#rDetail{margin:0;font-size:1.3rem;color:#f0dcaa}
+.missed{width:min(700px,100%);max-height:38vh;overflow-y:auto;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:12px;border:1px solid var(--gold-d);border-radius:10px;background:rgba(0,0,0,.28)}
+.missed .m{padding:6px 12px;border-radius:8px;background:linear-gradient(#efe9c6,#d3cc98);color:var(--ink);border:1px solid var(--gold-d);font-weight:700;text-align:left;line-height:1.2}
+.missed .m b{font-family:var(--jp);font-size:1.15rem;display:block}
+.missed .m span{font-size:.95rem;opacity:.85}
+
+/* ---------- Quiz ---------- */
+.card.quiz{min-height:var(--stage)}
+.card.quiz .paper{min-height:calc(var(--stage) - 24px)}
+.qstem{font-family:var(--jp);font-weight:700;font-size:clamp(1.3rem,4vw,1.9rem);line-height:1.7;text-align:center;color:var(--ink);margin:6px 0 4px}
+.qstem .blk{display:inline-block;min-width:2.2em;border-bottom:3px solid var(--gold-d);color:var(--moss);text-align:center}
+.qstem .blk.star{color:#8a2d12;font-weight:900;border-bottom-color:#8a2d12}
+.qask{margin:4px 0 0;text-align:center;font-style:italic;font-weight:700;color:var(--moss)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.opt{
+  font-family:var(--jp);font-weight:700;font-size:1.2rem;line-height:1.3;text-align:left;cursor:pointer;
+  padding:12px 14px;border-radius:10px;border:2px solid var(--gold-d);color:var(--ink);
+  background:linear-gradient(#f7f2d6,#ddd59d);box-shadow:0 3px 0 rgba(90,70,20,.55);
+  transition:transform .12s,filter .12s;
+}
+.opt:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.06)}
+.opt:focus-visible{outline:3px solid var(--moss);outline-offset:2px}
+.opt:disabled{cursor:default}
+.opt .lt{font-family:var(--title);color:var(--gold-d);margin-right:8px}
+.opt.right{background:linear-gradient(#c3e69a,#7fb04e);border-color:#2f6e3f}
+.opt.wrong{background:linear-gradient(#f3bd97,#c9743f);border-color:#7a3a14}
+.opt.dim{opacity:.5}
+.qfb{margin-top:14px;padding:12px 16px;border-radius:6px;background:rgba(63,95,42,.10);border:1px dashed rgba(138,106,28,.7);font-size:1.1rem;line-height:1.4;font-weight:600;color:#26301a}
+.qfb p{margin:6px 0}
+.qfb .verdict{font-family:var(--title);font-weight:700;letter-spacing:.06em}
+.qfb .verdict.ok{color:#2f6e3f}.qfb .verdict.no{color:#8a3a14}
+.qfb .full{display:block;font-family:var(--jp);font-weight:700;color:var(--ink)}
+.qfb .note{font-style:italic;color:#4a5a24}
+@media (max-width:520px){
+  .body{padding:4px 18px 22px}
+  .ribbon{padding:8px 30px;font-size:.78rem}
+  .controls .btn{min-width:0;flex:1 1 40%}
+  .corner{width:34px;height:34px}
+}
+@media (max-width:520px){.opts{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="wall" aria-hidden="true"></canvas>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="goldG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6ecb8"/><stop offset=".5" stop-color="#c9a94a"/><stop offset="1" stop-color="#7d6a26"/>
+    </linearGradient>
+    <symbol id="crown" viewBox="0 0 64 48">
+      <path d="M4 40 L8 12 L22 27 L32 6 L42 27 L56 12 L60 40 Z" fill="url(#goldG)" stroke="#5e470f" stroke-width="1.2" stroke-linejoin="round"/>
+      <rect x="4" y="42" width="56" height="5" rx="2" fill="url(#goldG)" stroke="#5e470f" stroke-width="1.2"/>
+      <circle cx="8" cy="11" r="3.2" fill="#5aa868" stroke="#5e470f"/><circle cx="32" cy="5.5" r="3.4" fill="#5aa868" stroke="#5e470f"/><circle cx="56" cy="11" r="3.2" fill="#5aa868" stroke="#5e470f"/>
+      <circle cx="32" cy="31" r="3" fill="#2f6e3f" stroke="#5e470f"/>
+    </symbol>
+  </defs>
+</svg>
+
+<main>
+  <!-- ================= HOME ================= -->
+  <section id="home" class="screen active">
+    <svg class="crown" viewBox="0 0 64 48"><use href="#crown"/></svg>
+    <h1>言葉の王国</h1>
+    <p class="sub">Kotoba no Ōkoku · Kerajaan Kosakata</p>
+    <p class="src">第4週-3日目（文字・語彙）· 語彙 · <span id="total"></span> kartu · <span id="totalQ"></span> soal</p>
+    <div class="menu">
+      <button class="big" id="btnLearn">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#ecdc9a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M24 12 C18 8 10 8 4 10 V38 C10 36 18 36 24 40 C30 36 38 36 44 38 V10 C38 8 30 8 24 12 Z"/><path d="M24 12 V40"/><path d="M11 17 H18 M11 23 H18 M30 17 H37 M30 23 H37" stroke-width="2"/></svg>
+        <div><b>Learn Kotoba</b><span>Semua kotoba, kanji &amp; tata bahasa beserta artinya</span></div>
+      </button>
+      <button class="big" id="btnEx">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#ecdc9a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M24 4 L41 10 V24 C41 34 33 42 24 45 C15 42 7 34 7 24 V10 Z"/><path d="M16 24 L22 30 L33 17"/></svg>
+        <div><b>Exercise</b><span>Flashcard — balik kartu &amp; uji ingatan</span></div>
+      </button>
+      <button class="big" id="btnQuiz">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#ecdc9a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><rect x="8" y="5" width="32" height="38" rx="3"/><path d="M15 15 H33 M15 23 H33 M15 31 H25"/><path d="M30 33 L33 36 L40 28" stroke-width="3"/></svg>
+        <div><b>Latihan Soal</b><span>Soal pilihan ganda dari PPT — kosakata &amp; tata bahasa</span></div>
+      </button>
+    </div>
+      </section>
+
+  <!-- ================= LEARN ================= -->
+  <section id="learn" class="screen">
+    <div class="topbar">
+      <button class="btn small" data-home>‹ Menu</button>
+      <div class="counter"><b id="lNum">1</b> / <span id="lTotal"></span></div>
+    </div>
+    <div class="card stage" id="lcard"></div>
+    <div class="timer">
+      <div class="track"><div class="fill" id="lFill"></div></div>
+      <div class="tlabel" id="lTime"></div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="lPrev">‹ Before</button>
+      <button class="btn gold" id="lAuto">❚❚ Jeda</button>
+      <button class="btn" id="lNext">Next ›</button>
+    </div>
+  </section>
+
+  <!-- ================= EXERCISE ================= -->
+  <section id="exercise" class="screen">
+    <div class="topbar">
+      <button class="btn small" data-home>‹ Menu</button>
+      <div class="counter"><b id="eNum">1</b> / <span id="eTotal"></span></div>
+      <div class="score"><span class="ok">✓ <b id="eOk">0</b></span><span class="no">✗ <b id="eNo">0</b></span></div>
+    </div>
+    <div class="track thin"><div class="fill" id="eFill"></div></div>
+    <div class="flip" id="flip" tabindex="0" role="button" aria-label="Balik kartu">
+      <div class="flip-inner">
+        <div class="card face front" id="eFront"></div>
+        <div class="card face back" id="eBack"></div>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn gold" id="eFlipBtn">Balik Kartu</button>
+      <div class="controls" id="eGrade" hidden>
+        <button class="btn no" id="eNoBtn">✗ Belum hafal</button>
+        <button class="btn ok" id="eOkBtn">✓ Hafal</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= QUIZ ================= -->
+  <section id="quiz" class="screen">
+    <div class="topbar">
+      <button class="btn small" data-home>‹ Menu</button>
+      <div class="counter"><b id="qNum">1</b> / <span id="qTotal"></span></div>
+      <div class="score"><span class="ok">✓ <b id="qOk">0</b></span><span class="no">✗ <b id="qNo">0</b></span></div>
+    </div>
+    <div class="track thin"><div class="fill" id="qFill"></div></div>
+    <div class="card quiz" id="qcard"></div>
+    <div class="controls">
+      <button class="btn gold" id="qNext" hidden>Lanjut ›</button>
+    </div>
+  </section>
+
+  <!-- ================= RESULT ================= -->
+  <section id="result" class="screen">
+    <svg class="crown" viewBox="0 0 64 48"><use href="#crown"/></svg>
+    <h2 id="rTitle"></h2>
+    <div class="rscore"><span id="rPct">0</span>%</div>
+    <p id="rDetail"></p>
+    <div class="missed" id="rMissed" hidden></div>
+    <div class="controls">
+      <button class="btn gold" id="rRetry">Ulangi yang belum hafal</button>
+      <button class="btn" id="rAgain">Acak ulang semua</button>
+      <button class="btn" data-home>Menu</button>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ============================================================
+   DATA — dari 第4週-3日目（文字・語彙）.pptx  (bagian 語彙 saja: slide 2–13)
+   t: kotoba (kosakata)
+   note: teks atau array teks | ex: [[kalimat Jepang, terjemahan], ...]
+   [Latihan] = kalimat dari soal latihan (slide 12–13)
+   Kartu pendukung (mis. 集める, 習う, 覚える, 質問) diambil dari catatan perbandingan di slide.
+   ============================================================ */
+const G0 = '学校へ行きましょう③ · 答えを～';
+const G1 = '学校へ行きましょう③ · レポートを～';
+const G2 = '学校へ行きましょう③ · Ayo ke Sekolah!';
+const GS = '学校へ行きましょう③ · kata pendukung (catatan slide)';
+const V  = (g, jp, r, m, o = {}) => ({ t: 'kotoba', g, jp, r, m, ...o });
+
+const CARDS = [
+  /* ---- slide 2 ---- */
+  V(G0, '記入する', 'きにゅうする', 'Mengisi (formulir)', {
+    ex: [
+      ['答えを記入してください。', 'Tolong isi jawabannya.'],
+      ['ここに、住所と名前を記入してください。', '[Latihan] Tolong isi alamat dan nama di sini. (jawaban: c 記入して)']
+    ]
+  }),
+  V(G0, '見直す', 'みなおす', 'Mengecek ulang, melihat kembali (Verb)', {
+    note: 'Bentuk kata benda: 見直し (みなおし) = pengecekan ulang.',
+    ex: [
+      ['答えを記入したあと、見直しをお願いします。', 'Setelah mengisi jawaban, tolong dicek ulang.'],
+      ['テストで答えを見直す時間がなかった。', '[Latihan] Di tes, tidak ada waktu untuk mengecek ulang jawaban. (jawaban: a 見直す)']
+    ]
+  }),
+  V(G0, '見直し', 'みなおし', 'Pengecekan ulang (Noun)', {
+    ex: [['答えを記入したあと、見直しをお願いします。', 'Setelah mengisi jawaban, tolong dicek ulang.']]
+  }),
+  V(G0, '書き直す', 'かきなおす', 'Menulis ulang', {
+    ex: [['間違えたら、書き直してください。', 'Kalau salah, tolong tulis ulang.']]
+  }),
+
+  /* ---- slide 3 ---- */
+  V(G0, '間違う', 'まちがう', 'Salah, keliru (INT)', {
+    note: [
+      'Fokus ke orangnya yang salah. Pasangannya 間違える (TRA).',
+      '間違う & 間違える artinya sama “salah”, tapi kalau ada objeknya (nomor, ukuran, barang) lebih natural pakai 間違える.'
+    ],
+    ex: [
+      ['道が間違っていませんでした。', 'Jalannya tidak salah.'],
+      ['答えを間違ってしまった。', 'Salah jawab pertanyaan.']
+    ]
+  }),
+  V(G0, '間違える', 'まちがえる', 'Membuat kesalahan, salah (TRA)', {
+    note: 'Fokus ke bendanya yang disalahkan. Pasangannya 間違う (INT). Dipakai bila ada objek: nomor, ukuran, barang.',
+    ex: [['間違えたら、書き直してください。', 'Kalau salah, tolong tulis ulang.']]
+  }),
+
+  /* ---- slide 4 ---- */
+  V(G1, 'まとめる', '', 'Mengumpulkan, merangkum (data, bukti, dll.)', {
+    note: 'まとめる = mengumpulkan data untuk dijadikan laporan / kesimpulan. Bandingkan 集める (mengumpulkan benda ke satu tempat).',
+    ex: [['図書館で本を集めて、レポートにまとめた。', 'Mengumpulkan buku-buku di perpustakaan, lalu dirangkum jadi laporan.']]
+  }),
+  V(GS, '集める', 'あつめる', 'Mengumpulkan (benda) ke satu tempat', {
+    note: 'Bandingkan まとめる (merangkum data menjadi laporan / kesimpulan).',
+    ex: [['図書館で本を集めて、レポートにまとめた。', 'Mengumpulkan buku-buku di perpustakaan, lalu dirangkum jadi laporan.']]
+  }),
+  V(G1, '仕上げる', 'しあげる', 'Menyelesaikan sampai tuntas, finishing', {
+    ex: [['夏休みの宿題を仕上げる。', 'Menyelesaikan PR liburan musim panas sampai beres.']]
+  }),
+  V(G1, '提出する', 'ていしゅつする', 'Menyerahkan, mengumpulkan (tugas ke guru)', {
+    ex: [['レポートを先生に提出する。', 'Mengumpulkan laporan ke guru.']]
+  }),
+
+  /* ---- slide 5 ---- */
+  V(G2, '担当', 'たんとう', 'Penanggung jawab, bagian yang ditangani', {
+    ex: [['田中先生が2年1組の担任を担当しています。', 'Guru Tanaka bertanggung jawab sebagai wali kelas 2-1.']]
+  }),
+  V(G2, '担当者', 'たんとうしゃ', 'PIC (orang yang bertanggung jawab), ketua kelas'),
+  V(GS, '担任', 'たんにん', 'Wali kelas', { ex: [['田中先生が2年1組の担任を担当しています。', 'Guru Tanaka bertanggung jawab sebagai wali kelas 2-1.']] }),
+  V(G2, '教わる', 'おそわる', 'Diajari (kebalikan dari 教える)', {
+    note: '教わる = diajari ORANGNYA. Fokus: SIAPA yang mengajar. Bandingkan 習う = mempelajari PELAJARANNYA (fokus: APA yang dipelajari).',
+    ex: [
+      ['田中先生に日本語を教わる。', 'Diajari bahasa Jepang oleh Guru Tanaka.'],
+      ['今日の授業で敬語を教わった。', '[Latihan] Di pelajaran hari ini saya diajari bahasa sopan. (jawaban: a 教わった)']
+    ]
+  }),
+  V(GS, '習う', 'ならう', 'Mempelajari, belajar (PELAJARANNYA)', {
+    note: 'Fokus: APA yang kamu pelajari, dari siapa. Bandingkan 教わる (fokus SIAPA yang mengajar).'
+  }),
+
+  /* ---- slide 6 ---- */
+  V(G2, '繰り返す', 'くりかえす', 'Mengulangi (Verb)', {
+    note: 'Bentuk kata benda: 繰り返し (くりかえし) = pengulangan.',
+    ex: [['同じ漢字を何度も繰り返す。', 'Mengulang kanji yang sama berkali-kali.']]
+  }),
+  V(G2, '繰り返し', 'くりかえし', 'Pengulangan (Noun)', {
+    ex: [['繰り返し練習することが大切です。', 'Latihan berulang-ulang itu penting.']]
+  }),
+  V(G2, '暗記する', 'あんきする', 'Menghafal (mati-matian)', {
+    note: 'Fokusnya USAHA KERAS untuk ujian: dihafal paksa dan diulang-ulang. Kebalikannya bukan “lupa”, tapi “belum hafal”. Bandingkan 覚える.',
+    ex: [['英単語を暗記する。', 'Menghafal kosakata bahasa Inggris.']]
+  }),
+  V(GS, '覚える', 'おぼえる', 'Mengingat, menghafal (umum)', {
+    note: 'Paling umum, bisa untuk apa saja; mengingat secara alami. Kebalikannya: 忘れる (lupa). Bandingkan 暗記する.'
+  }),
+
+  /* ---- slide 7 ---- */
+  V(G2, '問われる', 'とわれる', 'Ditanyai, diuji (Verb)', {
+    ex: [['テストで文法が問われる。', 'Tata bahasa diujikan di tes.']]
+  }),
+  V(G2, '問い', 'とい', 'Pertanyaan, soal (formal) (Noun)', {
+    note: [
+      'Pertanyaan yang sudah disiapkan di buku / ujian, atau pertanyaan yang dalam / filosofis. Fokus: SOALNYA ITU SENDIRI.',
+      'Kalau di kelas mau angkat tangan, bilang 質問, jangan 問い.'
+    ]
+  }),
+  V(GS, '質問', 'しつもん', 'Pertanyaan (sehari-hari)', {
+    note: 'Yang paling sering dipakai kalau bingung dan mau bertanya. Fokus: MAU TAHU JAWABANNYA. Bandingkan 問い.'
+  }),
+
+  /* ---- slide 8 ---- */
+  V(G2, '落ち着く', 'おちつく', 'Tenang, tidak gugup (落ち着いて = dengan tenang)', {
+    ex: [
+      ['落ち着いて答えてください。', 'Tolong jawab dengan tenang. (guru ke murid yang gugup)'],
+      ['混んでいる電車で座ることができてついている。', '[Latihan] Bisa duduk di kereta yang penuh, beruntung banget. (jawaban: a ついている, bukan 落ち着いている)']
+    ]
+  }),
+  V(G2, '聞き直す', 'ききなおす', 'Mendengarkan ulang, bertanya ulang karena tidak dengar', {
+    ex: [['聞き取れなかったので、もう一度聞き直した。', 'Karena tidak terdengar, saya dengarkan ulang.']]
+  }),
+  V(G2, '言い直す', 'いいなおす', 'Mengucapkan ulang, mengoreksi ucapan', {
+    ex: [['先生が言い直してくれた。', 'Guru mengucapkan ulang untuk saya (membetulkan).']]
+  }),
+
+  /* ---- slide 9 ---- */
+  V(G2, '聞き取る', 'ききとる', 'Menyimak (Verb)', {
+    note: 'Bentuk kata benda: 聞き取り (ききとり) = menyimak.',
+    ex: [['先生の話を聞き取る。', 'Menyimak perkataan guru.']]
+  }),
+  V(G2, '聞き取り', 'ききとり', 'Menyimak, listening (Noun)', {
+    ex: [['聞き取りテストが難しい。', 'Tes listening itu sulit.']]
+  }),
+  V(G2, '書き取る', 'かきとる', 'Mencatat apa yang didengar (Verb)', {
+    ex: [
+      ['先生が言ったことをノートに書き取る。', 'Mencatat yang guru katakan ke buku.'],
+      ['先生の話をノートに書き取った。', '[Latihan] Mencatat pembicaraan guru di buku. (jawaban: b 書き取った)']
+    ]
+  }),
+  V(G2, '書き取り', 'かきとり', 'Dikte, ujian tulis (Noun)', {
+    ex: [['漢字の書き取りテスト。', 'Tes dikte kanji.']]
+  }),
+  V(G2, '結果', 'けっか', 'Hasil', {
+    ex: [['テストの結果が良かった。', 'Hasil tesnya bagus.']]
+  }),
+
+  /* ---- slide 10 ---- */
+  V(G2, 'ついている', '', 'Beruntung, ada keberuntungan', {
+    note: 'Lawannya ついていない = sial, tidak beruntung.',
+    ex: [['今日はついている。テストが簡単だった。', 'Hari ini beruntung, tesnya gampang.']]
+  }),
+  V(G2, 'ついていない', '', 'Sial, tidak beruntung', {
+    ex: [['今日はついていない。電車に遅れた。', 'Hari ini sial, ketinggalan kereta.']]
+  }),
+  V(G2, '済む', 'すむ', 'Selesai (tugasnya selesai)', {
+    note: 'Selesai karena kamu sudah mengerjakannya; beban hilang. Bandingkan 終わる (sehari-hari) dan 終了 (formal).',
+    ex: [
+      ['宿題が済んだら、遊びに行こう。', 'Kalau PR sudah selesai, ayo main.'],
+      ['試験が済んでよかった。', '[Latihan] Syukurlah ujiannya sudah selesai. (jawaban: b 済んで)']
+    ]
+  }),
+  V(GS, '終わる', 'おわる', 'Selesai (sehari-hari)', {
+    note: 'Yang paling umum. Selesai secara alami, waktunya habis. Bandingkan 済む dan 終了.'
+  }),
+  V(GS, '終了', 'しゅうりょう', 'Selesai (formal / resmi)', {
+    note: 'Selesai karena diumumkan / ditutup panitia / sistem. Bandingkan 終わる dan 済む.'
+  }),
+
+  /* ---- slide 11 ---- */
+  V(G2, 'カンニングする', '', 'Menyontek', {
+    ex: [['テストでカンニングしてはいけません。', 'Dilarang menyontek saat tes.']]
+  }),
+  V(G2, '下書きをする', 'したがきをする', 'Membuat konsep kasar, draf', {
+    ex: [['作文の下書きをする。', 'Membuat draf karangan.']]
+  }),
+  V(G2, '清書する', 'せいしょする', 'Menulis versi final dari draf', {
+    note: 'Di slide tertulis しゅじ — kemungkinan 習字（しゅうじ）= kaligrafi.',
+    ex: [['今月の習字の清書を提出した。', 'Sudah mengumpulkan versi final latihan kaligrafi bulan ini.']]
+  }),
+  V(G2, '提出期限を守る', 'ていしゅつきげんをまもる', 'Mematuhi batas waktu pengumpulan', {
+    ex: [['レポートの提出期限を守ってください。', 'Tolong patuhi deadline pengumpulan laporan.']]
+  }),
+  V(GS, '提出期限', 'ていしゅつきげん', 'Batas waktu pengumpulan, deadline', {
+    ex: [['レポートの提出期限は9月30日です。', '[Latihan] Batas pengumpulan laporan adalah 30 September. (jawaban: a 期限)']]
+  })
+];
+
+/* ============================================================
+   LATIHAN SOAL — soal latihan kosakata dari slide 12–13
+   Kunci jawaban tidak tertulis di PPT; ditentukan sendiri.
+   o: pilihan (a, b, c, d) | a: indeks jawaban benar (0 = a)
+   ============================================================ */
+const Q1 = '学校へ行きましょう③ · latihan (slide 12)';
+const Q2 = '学校へ行きましょう③ · latihan (slide 13)';
+const QUIZ = [
+  { type: 'kotoba', g: Q1, q: 'テストで答えを（　　　）時間がなかった。', o: ['見直す', '問われる'], a: 0,
+    id: 'Di tes, tidak ada waktu untuk mengecek ulang jawaban.',
+    n: '見直す = mengecek ulang. 問われる = ditanyai / diuji (soalnya yang diujikan, bukan jawaban yang dicek).' },
+  { type: 'kotoba', g: Q1, q: '先生の話をノートに（　　　）。', o: ['聞き取った', '書き取った'], a: 1,
+    id: 'Mencatat pembicaraan guru di buku catatan.',
+    n: '書き取る = mencatat apa yang didengar (ke buku). 聞き取る = menyimak, tidak ada kegiatan menulis.' },
+  { type: 'kotoba', g: Q1, q: '混んでいる電車で座ることができて（　　　）。', o: ['ついている', '落ち着いている'], a: 0,
+    id: 'Bisa duduk di kereta yang penuh, beruntung banget.',
+    n: 'ついている = beruntung. 落ち着いている = tenang, tidak nyambung dengan konteks “bisa duduk”.' },
+  { type: 'kotoba', g: Q1, q: '試験が（　　　）よかった。', o: ['仕上げて', '済んで'], a: 1,
+    id: 'Syukurlah ujiannya sudah selesai.',
+    n: '済む = selesai (beban hilang). 仕上げる = menyelesaikan sampai tuntas (butuh pelaku dan objek, mis. 宿題を仕上げる).' },
+  { type: 'kotoba', g: Q1, q: '今日の授業でけいごを（　　　）。', o: ['教わった', '予習した'], a: 0,
+    id: 'Di pelajaran hari ini saya diajari bahasa sopan (keigo).',
+    n: '教わる = diajari (oleh guru). 予習 = mempelajari lebih dulu sebelum kelas. Di slide tertulis けいご, maksudnya 敬語.' },
+  { type: 'kotoba', g: Q1, q: '先生の言ったことを（　　　）。', o: ['書き取った', '下書きした'], a: 0,
+    id: 'Mencatat apa yang dikatakan guru.',
+    n: '書き取る = mencatat yang didengar. 下書き = membuat draf kasar dari tulisan sendiri.' },
+  { type: 'kotoba', g: Q2, q: 'ここに、住所と名前を（　　　）ください。', o: ['見直し', '書き直し', '記入して', '予習'], a: 2,
+    id: 'Tolong isi alamat dan nama di sini.',
+    n: '記入する = mengisi (formulir). 見直し / 書き直し = mengecek / menulis ulang, 予習 = belajar lebih dulu.' },
+  { type: 'kotoba', g: Q2, q: 'レポートの提出（　　　）は9月30日です。', o: ['期限', '結果', '担当', '記入'], a: 0,
+    id: 'Batas pengumpulan laporan adalah 30 September.',
+    n: '提出期限 = batas waktu pengumpulan (deadline). 結果 = hasil, 担当 = penanggung jawab, 記入 = pengisian.' }
+];
+
+/* ============================================================
+   Helpers
+   ============================================================ */
+const $  = s => document.querySelector(s);
+const DECK = CARDS, QDECK = QUIZ, N = CARDS.length;
+const TYPE = { kotoba: ['言葉', 'KOTOBA'] };
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+
+const CORNERS = ['tl', 'tr', 'bl', 'br'].map(p =>
+  `<svg class="corner ${p}" viewBox="0 0 48 48" aria-hidden="true">
+     <path d="M3 45 V15 Q3 3 15 3 H45" fill="none" stroke="currentColor" stroke-width="2.6"/>
+     <path d="M9 45 V19 Q9 9 19 9 H45" fill="none" stroke="currentColor" stroke-width="1"/>
+     <path d="M19 9 l5 6 l-5 6 l-5 -6z" fill="currentColor"/>
+     <circle cx="3" cy="45" r="2.2" fill="currentColor"/><circle cx="45" cy="3" r="2.2" fill="currentColor"/>
+   </svg>`).join('');
+
+const head  = c => `${CORNERS}<div class="ribbon">${TYPE[c.t][0]} · ${TYPE[c.t][1]}</div><div class="topic">${esc(c.g)}</div>`;
+const big   = (c, max) => `<div class="jp" data-max="${max}">${esc(c.jp)}</div>`;
+const orn   = '<div class="orn"><i></i><b>◆</b><i></i></div>';
+
+function extra(c) {
+  let h = '';
+  if (c.words) h += `<div class="chips"><span class="lbl">Kata:</span>${c.words.map(w => `<span>${esc(w)}</span>`).join('')}</div>`;
+  if (c.note)  h += [].concat(c.note).map(n => `<p class="note">${esc(n)}</p>`).join("");
+  if (c.ex)    h += c.ex.map(([j, i]) => `<p><span class="ex-jp">${esc(j)}</span><span class="ex-id">${esc(i)}</span></p>`).join('');
+  return h ? `<div class="extra">${h}</div>` : '';
+}
+function info(c) {
+  const reading = c.r && c.r !== c.jp ? `<div class="reading">${esc(c.r)}</div>` : '';
+  return `${reading}${orn}<div class="meaning">${esc(c.m)}</div>${extra(c)}`;
+}
+
+/* Kata Jepang dibuat sebesar mungkin tapi tetap satu baris di dalam kartu */
+function fit(el) {
+  const w = el.parentElement.clientWidth;
+  if (!w) return;
+  const n = [...el.textContent].length || 1;
+  el.style.fontSize = Math.max(22, Math.min(+el.dataset.max, Math.floor(w * 0.96 / n))) + 'px';
+}
+const fitAll = root => root.querySelectorAll('.jp').forEach(fit);
+window.addEventListener('resize', () => fitAll(document));
+
+const screens = ['home', 'learn', 'exercise', 'quiz', 'result'];
+let current = 'home';
+function show(id) {
+  screens.forEach(s => $('#' + s).classList.toggle('active', s === id));
+  current = id;
+  if (id !== 'learn') stopAuto();
+  window.scrollTo(0, 0);
+}
+
+/* ============================================================
+   LEARN KOTOBA — next / before / auto-next 10 detik / looping
+   ============================================================ */
+const AUTO_MS = 10000;
+const L = { i: 0, auto: true, el: 0, last: 0, raf: 0 };
+
+function lRender(dir) {
+  const c = DECK[L.i], card = $('#lcard');
+  card.innerHTML = `<div class="paper">${head(c)}<div class="body"><div class="inner">${big(c, 190)}${info(c)}</div></div></div>`;
+  fitAll(card);
+  $('#lNum').textContent = L.i + 1;
+  card.classList.remove('in-next', 'in-prev');
+  void card.offsetWidth;
+  card.classList.add(dir < 0 ? 'in-prev' : 'in-next');
+  lReset();
+}
+function lGo(d) { L.i = (L.i + d + N) % N; lRender(d); }          // looping: akhir → awal, awal → akhir
+function lReset() { L.el = 0; L.last = performance.now(); lTimerUI(); }
+function lTimerUI() {
+  $('#lFill').style.width = (L.el / AUTO_MS * 100) + '%';
+  $('#lTime').textContent = L.auto ? `Next otomatis dalam ${Math.ceil((AUTO_MS - L.el) / 1000)} dtk` : 'Auto next dijeda';
+  $('#lAuto').textContent = L.auto ? '❚❚ Jeda' : '▶ Auto next';
+}
+function tick() {
+  if (!L.auto || current !== 'learn') return;
+  const now = performance.now();
+  L.el += Math.max(0, Math.min(now - L.last, 200));                // tab di-background tidak bikin loncat
+  L.last = now;
+  if (L.el >= AUTO_MS) lGo(1); else lTimerUI();
+  L.raf = requestAnimationFrame(tick);
+}
+function startAuto() { cancelAnimationFrame(L.raf); if (L.auto) { L.last = performance.now(); L.raf = requestAnimationFrame(tick); } }
+function stopAuto()  { cancelAnimationFrame(L.raf); }
+function lToggle()   { L.auto = !L.auto; lTimerUI(); startAuto(); }
+
+function startLearn() {
+  L.i = 0; L.auto = true;
+  show('learn');
+  lRender(1);
+  startAuto();
+}
+$('#lPrev').onclick = () => lGo(-1);
+$('#lNext').onclick = () => lGo(1);
+$('#lAuto').onclick = lToggle;
+
+let touchX = null;
+$('#lcard').addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, { passive: true });
+$('#lcard').addEventListener('touchend', e => {
+  if (touchX === null) return;
+  const dx = e.changedTouches[0].clientX - touchX; touchX = null;
+  if (Math.abs(dx) > 50) lGo(dx < 0 ? 1 : -1);
+});
+
+/* ============================================================
+   EXERCISE — flashcard: lihat kata → balik → hafal / belum
+   ============================================================ */
+const E = { deck: [], i: 0, flipped: false, busy: false, ok: [], no: [] };
+const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+function eFront(c) { return `<div class="paper">${head(c)}<div class="body center"><div class="inner">${big(c, 190)}</div></div><div class="hint">Ketuk kartu untuk melihat arti ✦</div></div>`; }
+function eBack(c)  { return `<div class="paper">${head(c)}<div class="body"><div class="inner">${big(c, 96)}${info(c)}</div></div></div>`; }
+
+function eRender() {
+  const c = E.deck[E.i];
+  $('#eFront').innerHTML = eFront(c);
+  fitAll($('#eFront'));
+  const setBack = () => { $('#eBack').innerHTML = eBack(c); fitAll($('#eBack')); };
+  if (E.flipped) setTimeout(setBack, 350); else setBack();          // isi sisi belakang diganti setelah kartu terbalik
+  $('#eNum').textContent = E.i + 1;
+  $('#eTotal').textContent = E.deck.length;
+  $('#eOk').textContent = E.ok.length;
+  $('#eNo').textContent = E.no.length;
+  $('#eFill').style.width = (E.i / E.deck.length * 100) + '%';
+  $('#flip').classList.remove('flipped');
+  E.flipped = false;
+  $('#eFlipBtn').hidden = false;
+  $('#eGrade').hidden = true;
+}
+function eFlip() {
+  if (E.busy || E.flipped) return;
+  E.flipped = true;
+  $('#flip').classList.add('flipped');
+  $('#eFlipBtn').hidden = true;
+  $('#eGrade').hidden = false;
+}
+function eAnswer(known) {
+  if (!E.flipped || E.busy) return;
+  (known ? E.ok : E.no).push(E.deck[E.i]);
+  if (E.i + 1 >= E.deck.length) { eFinish(); return; }
+  E.i++;
+  E.busy = true;
+  eRender();
+  setTimeout(() => { E.busy = false; }, 400);
+}
+function startEx(list) {
+  E.deck = shuffle(list || DECK); E.i = 0; E.ok = []; E.no = []; E.flipped = false; E.busy = false;
+  show('exercise');
+  eRender();
+}
+$('#btnEx').onclick = () => startEx();
+$('#flip').onclick = eFlip;
+$('#eFlipBtn').onclick = eFlip;
+$('#eOkBtn').onclick = () => eAnswer(true);
+$('#eNoBtn').onclick = () => eAnswer(false);
+
+/* ---------- Result (dipakai flashcard & latihan soal) ---------- */
+let RES = null;
+function showResult(r) {
+  RES = r;
+  const pct = Math.round(r.ok / r.total * 100);
+  $('#rPct').textContent = pct;
+  $('#rTitle').textContent = pct >= 80 ? 'Luar biasa, Yang Mulia!' : pct >= 50 ? 'Bagus, terus berlatih!' : 'Ayo latih lagi, Ksatria!';
+  $('#rDetail').textContent = `${r.label} ${r.ok} dari ${r.total} ${r.unit}`;
+  const miss = $('#rMissed');
+  miss.hidden = !r.miss.length;
+  miss.innerHTML = r.miss.map(m => `<div class="m"><b>${esc(m.jp)}</b><span>${esc(m.m)}</span></div>`).join('');
+  $('#rRetry').hidden = !r.miss.length;
+  $('#rRetry').textContent = r.retryText;
+  show('result');
+}
+function eFinish() {
+  showResult({
+    ok: E.ok.length, total: E.deck.length, label: 'Hafal', unit: 'kartu',
+    miss: E.no.map(c => ({ jp: c.jp, m: c.m })),
+    retryText: 'Ulangi yang belum hafal',
+    retry: () => startEx(E.no), again: () => startEx()
+  });
+}
+$('#rRetry').onclick = () => RES && RES.retry();
+$('#rAgain').onclick = () => RES && RES.again();
+
+/* ============================================================
+   LATIHAN SOAL — pilihan ganda dari soal-soal di PPT
+   ============================================================ */
+const Q = { deck: [], i: 0, answered: false, ok: [], no: [] };
+const LET = ['a', 'b', 'c', 'd'];
+const BLANK = '（　　　）';
+
+function qStem(q) {
+  if (q.order) return `${esc(q.pre)} <span class="blk">&nbsp;</span> <span class="blk">&nbsp;</span> <span class="blk star">★</span> <span class="blk">&nbsp;</span>${esc(q.post)}`;
+  return esc(q.q).replace(BLANK, `<span class="blk">${BLANK}</span>`);
+}
+function qPlain(q) { return q.order ? q.pre + '＿＿＿＿' + q.post : q.q; }
+
+function qRender() {
+  const q = Q.deck[Q.i];
+  const type = TYPE[q.type];
+  $('#qcard').innerHTML = `<div class="paper">${CORNERS}<div class="ribbon">${type[0]} · ${type[1]}</div><div class="topic">${esc(q.g)}</div>
+    <div class="body"><div class="inner">
+      <div class="qstem">${qStem(q)}</div>
+      ${q.order ? '<p class="qask">Susun keempat kata, lalu pilih kata yang jatuh di posisi ★</p>' : ''}
+      <div class="opts">${q.o.map((o, i) => `<button class="opt" data-i="${i}"><span class="lt">${LET[i]}.</span>${esc(o)}</button>`).join('')}</div>
+      <div class="qfb" id="qfb" hidden></div>
+    </div></div></div>`;
+  $('#qcard').querySelectorAll('.opt').forEach(b => b.onclick = () => qPick(+b.dataset.i));
+  $('#qNum').textContent = Q.i + 1;
+  $('#qTotal').textContent = Q.deck.length;
+  $('#qOk').textContent = Q.ok.length;
+  $('#qNo').textContent = Q.no.length;
+  $('#qFill').style.width = (Q.i / Q.deck.length * 100) + '%';
+  $('#qNext').hidden = true;
+  $('#qNext').textContent = Q.i + 1 >= Q.deck.length ? 'Lihat hasil ›' : 'Lanjut ›';
+  Q.answered = false;
+  const c = $('#qcard'); c.classList.remove('in-next'); void c.offsetWidth; c.classList.add('in-next');
+}
+function qPick(i) {
+  if (Q.answered) return;
+  Q.answered = true;
+  const q = Q.deck[Q.i], right = i === q.a;
+  (right ? Q.ok : Q.no).push(q);
+  $('#qcard').querySelectorAll('.opt').forEach((b, k) => {
+    b.disabled = true;
+    if (k === q.a) b.classList.add('right');
+    else if (k === i) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+  const fb = $('#qfb');
+  fb.innerHTML = `<p class="verdict ${right ? 'ok' : 'no'}">${right ? '✓ Benar!' : '✗ Kurang tepat'} — jawaban: ${LET[q.a]}. ${esc(q.o[q.a])}</p>` +
+    (q.full ? `<p><span class="full">${esc(q.full)}</span></p>` : '') +
+    `<p>${esc(q.id)}</p><p class="note">${esc(q.n)}</p>`;
+  fb.hidden = false;
+  $('#qOk').textContent = Q.ok.length;
+  $('#qNo').textContent = Q.no.length;
+  $('#qFill').style.width = ((Q.i + 1) / Q.deck.length * 100) + '%';
+  $('#qNext').hidden = false;
+  fb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+function qNext() {
+  if (!Q.answered) return;
+  if (Q.i + 1 >= Q.deck.length) { qFinish(); return; }
+  Q.i++;
+  qRender();
+  window.scrollTo(0, 0);
+}
+function qFinish() {
+  showResult({
+    ok: Q.ok.length, total: Q.deck.length, label: 'Benar', unit: 'soal',
+    miss: Q.no.map(q => ({ jp: qPlain(q), m: LET[q.a] + '. ' + q.o[q.a] })),
+    retryText: 'Ulangi soal yang salah',
+    retry: () => startQuiz(Q.no, Q.base), again: () => startQuiz(null, Q.base)
+  });
+}
+function startQuiz(list, base = QDECK) {
+  Q.base = base;
+  Q.deck = shuffle(list || base); Q.i = 0; Q.ok = []; Q.no = []; Q.answered = false;
+  show('quiz');
+  qRender();
+}
+$('#btnQuiz').onclick = () => startQuiz();
+$('#qNext').onclick = qNext;
+
+/* ============================================================
+   Navigasi & keyboard
+   ============================================================ */
+$('#btnLearn').onclick = startLearn;
+document.querySelectorAll('[data-home]').forEach(b => b.onclick = () => show('home'));
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { show('home'); return; }
+  const onButton = e.target.closest && e.target.closest('button');
+  if (current === 'quiz') {
+    const k = e.key.toLowerCase(), idx = '1234'.indexOf(k) >= 0 ? '1234'.indexOf(k) : 'abcd'.indexOf(k);
+    if (k.length === 1 && idx >= 0 && idx < Q.deck[Q.i].o.length) { qPick(idx); return; }
+    if ((e.key === 'ArrowRight' || ((e.key === 'Enter' || e.key === ' ') && !onButton)) && Q.answered) { e.preventDefault(); qNext(); }
+    return;
+  }
+  if (current === 'learn') {
+    if (e.key === 'ArrowRight') lGo(1);
+    else if (e.key === 'ArrowLeft') lGo(-1);
+    else if (e.key === ' ' && !onButton) { e.preventDefault(); lToggle(); }
+  } else if (current === 'exercise') {
+    if (e.key === 'ArrowRight' && E.flipped) eAnswer(true);
+    else if (e.key === 'ArrowLeft' && E.flipped) eAnswer(false);
+    else if ((e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowUp' || e.key === 'ArrowDown') && !onButton) { e.preventDefault(); eFlip(); }
+  }
+});
+
+/* ============================================================
+   Latar: tembok kastil bata/batu tua berlumut (digambar di canvas)
+   ============================================================ */
+(function wall() {
+  const cv = document.getElementById('wall'), ctx = cv.getContext('2d');
+  const mulberry = a => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  let lastW = 0, lastH = 0;
+
+  function draw() {
+    const W = innerWidth, H = innerHeight, dpr = Math.min(devicePixelRatio || 1, 2);
+    lastW = W; lastH = H;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const R = mulberry(1337), rr = (a, b) => a + (b - a) * R(), pick = a => a[Math.floor(R() * a.length)];
+    const S = Math.max(.7, Math.min(1.3, W / 1100));
+
+    /* ---- adukan / celah ---- */
+    ctx.fillStyle = '#12100c'; ctx.fillRect(0, 0, W, H);
+    for (let i = 0; i < W * H / 900; i++) {
+      ctx.fillStyle = R() < .5 ? 'rgba(255,240,210,.05)' : 'rgba(0,0,0,.25)';
+      ctx.fillRect(R() * W, R() * H, 1.5, 1.5);
+    }
+
+    /* ---- susunan bata (running bond, ukuran tidak seragam) ---- */
+    const bricks = [], rows = [];
+    for (let y = -8; y < H;) {
+      const h = Math.round(rr(46, 62) * S);
+      for (let x = -rr(0, 120) * S; x < W;) { const w = Math.round(rr(96, 178) * S); bricks.push({ x, y, w, h }); x += w; }
+      y += h; rows.push(y);
+    }
+    const PAL = [[30, 11, 32], [34, 13, 29], [26, 9, 35], [38, 9, 33], [205, 7, 32], [28, 15, 26], [42, 10, 30]];
+    bricks.forEach(({ x, y, w, h }) => {
+      const g = 3, j = () => rr(-1.6, 1.6);
+      const x0 = x + g + j(), y0 = y + g + j(), x1 = x + w - g + j(), y1 = y + h - g + j();
+      const [hh, ss, ll] = pick(PAL), L = ll + rr(-4, 5), Hh = hh + rr(-4, 4);
+      const grd = ctx.createLinearGradient(x0, y0, x1, y1);
+      grd.addColorStop(0, `hsl(${Hh},${ss}%,${L + 5}%)`); grd.addColorStop(1, `hsl(${Hh},${ss + 2}%,${L - 6}%)`);
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y0 + j()); ctx.lineTo(x1 + j(), y1); ctx.lineTo(x0 + j(), y1 + j()); ctx.closePath();
+      ctx.fillStyle = grd; ctx.fill();
+      ctx.save(); ctx.clip();
+      for (let i = 0, n = (x1 - x0) * (y1 - y0) / 45; i < n; i++) {           // butiran batu
+        ctx.fillStyle = R() < .6 ? `rgba(0,0,0,${rr(.05, .16)})` : `rgba(255,235,200,${rr(.03, .09)})`;
+        const s = rr(.6, 1.8); ctx.fillRect(rr(x0, x1), rr(y0, y1), s, s);
+      }
+      if (R() < .35) {                                                         // noda air hujan
+        const sl = rr(.4, 1) * (y1 - y0), sg = ctx.createLinearGradient(0, y0, 0, y0 + sl);
+        sg.addColorStop(0, 'rgba(0,0,0,.22)'); sg.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = sg; ctx.fillRect(rr(x0, x1 - 8), y0, rr(6, 22), sl);
+      }
+      ctx.fillStyle = 'rgba(255,235,200,.13)'; ctx.fillRect(x0, y0, x1 - x0, 1.5);   // sisi atas kena cahaya
+      ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.fillRect(x0, y1 - 2.5, x1 - x0, 2.5);    // sisi bawah gelap
+      ctx.restore();
+      if (R() < .14) {                                                         // retakan
+        let cx = rr(x0 + 8, x1 - 8), cy = y0 + 2;
+        ctx.beginPath(); ctx.moveTo(cx, cy);
+        for (let k = 0; k < 4; k++) { cx += rr(-9, 9); cy += (y1 - y0) / 4; ctx.lineTo(cx, cy); }
+        ctx.strokeStyle = 'rgba(0,0,0,.55)'; ctx.lineWidth = 1.1; ctx.stroke();
+      }
+    });
+
+    /* ---- lumut: rumpun kecil berlapis gelap → terang ---- */
+    function moss(cx, cy, s) {
+      const sh = ctx.createRadialGradient(cx, cy, 0, cx, cy, s * 1.25);
+      sh.addColorStop(0, 'rgba(6,20,3,.5)'); sh.addColorStop(1, 'rgba(6,20,3,0)');
+      ctx.fillStyle = sh; ctx.fillRect(cx - s * 1.3, cy - s * 1.3, s * 2.6, s * 2.6);
+      const n = Math.round(s * s / 8) + 12;
+      const pass = (count, spread, cols, rmin, rmax) => {
+        for (let i = 0; i < count; i++) {
+          const a = R() * 6.283, d = Math.pow(R(), .65) * s * spread;
+          const r = rr(rmin, rmax) * (1 - .55 * d / (s * spread + 1));
+          ctx.fillStyle = pick(cols); ctx.beginPath();
+          ctx.arc(cx + Math.cos(a) * d, cy + Math.sin(a) * d * .72 - (spread < .7 ? s * .08 : 0), Math.max(.5, r), 0, 6.283); ctx.fill();
+        }
+      };
+      pass(n, 1.0, ['rgba(28,50,15,.95)', 'rgba(40,68,20,.95)'], 2, 5);
+      pass(n * .8, .85, ['rgba(58,98,30,.92)', 'rgba(74,116,36,.92)'], 1.6, 4.2);
+      pass(n * .5, .65, ['rgba(104,150,52,.9)', 'rgba(128,170,64,.88)'], 1, 3);
+      pass(n * .22, .5, ['rgba(176,204,104,.85)', 'rgba(206,220,140,.75)'], .6, 1.6);
+    }
+    // di atas & sudut bata — makin banyak ke arah bawah
+    bricks.forEach(({ x, y, w, h }) => {
+      const f = (y + h / 2) / H;
+      if (R() < .04 + .55 * f * f * f)
+        for (let i = 0, k = 1 + Math.floor(R() * 3); i < k; i++)
+          moss(x + rr(.1, .9) * w, R() < .7 ? y + h - 1 : y + rr(.2, .9) * h, rr(9, 26) * S);
+    });
+    // menjalar di sepanjang celah mendatar
+    for (let i = 0; i < Math.round(H / 70); i++) {
+      const ry = rows[Math.min(rows.length - 1, Math.floor(rows.length * Math.sqrt(R())))], x0 = rr(0, W), len = rr(120, 320) * S;
+      for (let x = x0; x < x0 + len; x += 9 * S) moss(x, ry, rr(5, 10) * S);
+    }
+    // hamparan lumut di dasar tembok
+    for (let x = -10; x < W + 10; x += Math.max(9, 11 * S)) {
+      const hgt = H * (.04 + .12 * R() * R() + .05 * (.5 + .5 * Math.sin(x / (90 * S))));
+      for (let i = 0, c = 1 + Math.floor(R() * 3); i < c; i++) moss(x + rr(-8, 8), H - rr(0, hgt), rr(12, 30) * S);
+    }
+    // tepi kiri-kanan & tetesan lumut dari atas
+    for (let i = 0; i < Math.round(H / 90); i++) moss(R() < .5 ? rr(-5, 12) : W - rr(-5, 12), rr(H * .3, H), rr(12, 28) * S);
+    for (let i = 0; i < Math.round(W / 160); i++) moss(rr(0, W), rr(-4, 14), rr(10, 22) * S);
+
+    /* ---- pencahayaan + vinyet supaya konten tetap terbaca ---- */
+    const vg = ctx.createRadialGradient(W / 2, H * .38, Math.min(W, H) * .15, W / 2, H * .5, Math.max(W, H) * .85);
+    vg.addColorStop(0, 'rgba(255,196,120,.07)'); vg.addColorStop(.45, 'rgba(0,0,0,.32)'); vg.addColorStop(1, 'rgba(0,0,0,.78)');
+    ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+  }
+
+  let t; addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(() => { if (innerWidth !== lastW || Math.abs(innerHeight - lastH) > 150) draw(); }, 200);
+  });
+  draw();
+})();
+
+$('#total').textContent = N;
+$('#totalQ').textContent = QDECK.length;
+$('#lTotal').textContent = N;
+$('#btnLearn b').textContent = 'Learn Kotoba';
+$('#btnLearn span').textContent = 'Semua kotoba beserta artinya & contoh kalimat';
+$('#btnEx span').textContent = 'Flashcard — balik kartu & uji ingatan';
+$('#btnQuiz span').textContent = 'Soal pilihan ganda kosakata dari PPT';
+</script>
+</body>
+</html>
