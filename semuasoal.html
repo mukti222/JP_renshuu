@@ -1,0 +1,1123 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Semua Soal - Latihan JLPT N3</title>
+<script>
+try {
+    var savedTheme = localStorage.getItem("semuasoal.theme");
+    if (["light", "dark", "matcha", "sakura", "sora"].indexOf(savedTheme) >= 0) {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+    }
+} catch (e) {}
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ============ TEMA 1: TERANG ============ */
+:root,
+:root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f6f5f0;
+    --surface: #ffffff;
+    --surface2: #f2f1e9;
+    --primary: #567c66;
+    --primary-ink: #ffffff;
+    --accent: #3f6b52;
+    --text: #22302a;
+    --text-muted: #6d7b74;
+    --border: #e3e1d6;
+    --success: #2f7d57;
+    --success-bg: #e8f4ec;
+    --danger: #b0453c;
+    --danger-bg: #fbeceb;
+    --shadow: 0 1px 2px rgba(34, 48, 42, .05), 0 10px 26px rgba(34, 48, 42, .05);
+    --header-glow: #eef2e9;
+}
+
+/* ============ TEMA 2: GELAP ============ */
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0f1512;
+    --surface: #161e19;
+    --surface2: #1c2620;
+    --primary: #8fc7a6;
+    --primary-ink: #0f1512;
+    --accent: #b8dfc4;
+    --text: #e9f0ea;
+    --text-muted: #93a49a;
+    --border: #28352d;
+    --success: #5cc98d;
+    --success-bg: rgba(92, 201, 141, .11);
+    --danger: #e2786c;
+    --danger-bg: rgba(226, 120, 108, .11);
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 26px rgba(0, 0, 0, .25);
+    --header-glow: #15201a;
+}
+
+/* ============ TEMA 3: MATCHA ============ */
+:root[data-theme="matcha"] {
+    color-scheme: light;
+    --bg: #edf2e2;
+    --surface: #fafcf1;
+    --surface2: #e5ecd6;
+    --primary: #6b8f4e;
+    --primary-ink: #ffffff;
+    --accent: #52713a;
+    --text: #2a3421;
+    --text-muted: #6a7759;
+    --border: #d8e0c4;
+    --success: #4b8850;
+    --success-bg: #e5f0e0;
+    --danger: #b05543;
+    --danger-bg: #f8e7e0;
+    --shadow: 0 1px 2px rgba(42, 52, 33, .06), 0 10px 26px rgba(42, 52, 33, .07);
+    --header-glow: #e7eed6;
+}
+
+/* ============ TEMA 4: SAKURA ============ */
+:root[data-theme="sakura"] {
+    color-scheme: light;
+    --bg: #faf0f1;
+    --surface: #fffbfb;
+    --surface2: #f4e5e6;
+    --primary: #b1848a;
+    --primary-ink: #ffffff;
+    --accent: #9c666f;
+    --text: #3b2c2e;
+    --text-muted: #7e6b6d;
+    --border: #ead7d9;
+    --success: #4e8a6b;
+    --success-bg: #e9f3ee;
+    --danger: #b1504c;
+    --danger-bg: #fbeaea;
+    --shadow: 0 1px 2px rgba(59, 44, 46, .05), 0 10px 26px rgba(59, 44, 46, .06);
+    --header-glow: #f6e3e5;
+}
+
+/* ============ TEMA 5: SORA ============ */
+:root[data-theme="sora"] {
+    color-scheme: light;
+    --bg: #edf2f7;
+    --surface: #fafcfe;
+    --surface2: #e3eaf1;
+    --primary: #557d94;
+    --primary-ink: #ffffff;
+    --accent: #40687d;
+    --text: #26333b;
+    --text-muted: #66777f;
+    --border: #d5dfe8;
+    --success: #3f8068;
+    --success-bg: #e6f2ed;
+    --danger: #a94f4f;
+    --danger-bg: #faeaea;
+    --shadow: 0 1px 2px rgba(38, 51, 59, .05), 0 10px 26px rgba(38, 51, 59, .06);
+    --header-glow: #e2ebf3;
+}
+
+:root {
+    --radius: 16px;
+    --radius-sm: 10px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+        "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 16px 64px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color .2s ease, color .2s ease;
+}
+.container { max-width: 820px; margin: 0 auto; }
+
+/* ---------- Navigasi & header ---------- */
+.top-nav { margin-bottom: 18px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.top-nav a { color: var(--text-muted); text-decoration: none; font-size: 14px; }
+.top-nav a:hover { color: var(--accent); }
+
+.page-header {
+    text-align: center;
+    padding: 26px 20px 28px;
+    background: radial-gradient(ellipse at 50% 0%, var(--header-glow) 0%, var(--surface) 78%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+}
+.page-header h1 {
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+}
+.page-header p { color: var(--text-muted); font-size: 13.5px; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; }
+.legend span {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+
+/* ---------- Toolbar ---------- */
+.toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 2px 12px;
+    margin-bottom: 18px;
+}
+.toolbar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.themes { display: flex; gap: 6px; flex-wrap: wrap; }
+.theme {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: inherit;
+    font-size: 12px;
+    padding: 5px 10px 5px 6px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: border-color .15s, color .15s, transform .15s;
+}
+.theme:hover { color: var(--text); transform: translateY(-1px); }
+.theme .dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--dot-bg);
+    box-shadow: inset 0 0 0 3px var(--dot-fg);
+    flex-shrink: 0;
+}
+.theme[aria-pressed="true"] {
+    border-color: var(--primary);
+    color: var(--text);
+    font-weight: 600;
+    background: var(--surface2);
+}
+
+.filters { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; align-items: center; }
+.filter {
+    font: inherit;
+    font-size: 12.5px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: border-color .15s, color .15s, background .15s;
+}
+.filter:hover { color: var(--text); }
+.filter.is-active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--primary-ink);
+    font-weight: 600;
+}
+.filter small { opacity: .75; font-size: 11px; margin-left: 3px; }
+.btn-ghost {
+    font: inherit;
+    font-size: 12.5px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px dashed var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    margin-left: auto;
+}
+.btn-ghost:hover { color: var(--danger); border-color: var(--danger); }
+
+.cut-form { display: inline-flex; align-items: center; gap: 6px; }
+.cut-form[hidden] { display: none; }
+.cut-form input {
+    width: 78px;
+    font: inherit;
+    font-size: 13px;
+    padding: 5px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    text-align: center;
+}
+.cut-form input:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+.btn-cut {
+    font: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--primary);
+    background: var(--primary);
+    color: var(--primary-ink);
+    cursor: pointer;
+}
+.btn-cut:hover { filter: brightness(1.06); }
+.btn-ghost.small { padding: 5px 9px; margin-left: 0; }
+
+/* ---------- Skor ---------- */
+.scorebar { margin-top: 12px; }
+.score-stats { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--text-muted); }
+.score-stats b { font-weight: 800; font-size: 13.5px; }
+.stat.ok b { color: var(--success); }
+.stat.no b { color: var(--danger); }
+.stat.left b { color: var(--text); }
+.bar { height: 5px; border-radius: 999px; background: var(--surface2); margin-top: 7px; overflow: hidden; }
+.bar span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 999px; transition: width .25s ease; }
+
+/* ---------- Kartu soal ---------- */
+.qcard {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 18px 16px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+}
+.qcard[hidden] { display: none; }
+.qmeta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.qnum {
+    background: var(--primary);
+    color: var(--primary-ink);
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 28px;
+    height: 26px;
+    padding: 0 8px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.qtag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent);
+}
+.qtag.subtle { color: var(--text-muted); font-weight: 500; }
+.qtag.warn { color: var(--danger); border-style: dashed; cursor: help; }
+.instruction { font-size: 12.5px; color: var(--text-muted); margin-bottom: 10px; }
+
+.qtext { font-size: 16px; line-height: 1.85; margin-bottom: 10px; }
+.qtext .target { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; font-weight: 700; }
+.word-prompt { margin-bottom: 12px; }
+.word-prompt .word {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    padding: 6px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent);
+}
+.qtrans {
+    font-size: 13px;
+    color: var(--text-muted);
+    border-left: 2px solid var(--border);
+    padding-left: 10px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+.blank {
+    color: var(--accent);
+    font-weight: 800;
+    background: var(--surface2);
+    border-radius: 5px;
+    padding: 0 4px;
+}
+.star { color: var(--primary); font-weight: 800; }
+
+/* ---------- Bacaan ---------- */
+.passage {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+.passage > summary {
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    padding: 9px 12px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.passage > summary::-webkit-details-marker { display: none; }
+.passage > summary::after {
+    content: "▾";
+    margin-left: auto;
+    color: var(--text-muted);
+    font-size: 11px;
+    transition: transform .15s;
+}
+.passage[open] > summary::after { transform: rotate(180deg); }
+.passage .passage-title { color: var(--text-muted); font-weight: 500; }
+.passage-body { padding: 0 14px 14px; border-top: 1px solid var(--border); }
+.passage-ja { font-size: 15px; line-height: 2; padding-top: 12px; }
+.passage-id { font-size: 12.5px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; border-top: 1px dashed var(--border); padding-top: 10px; }
+
+/* ---------- Pilihan ---------- */
+.choices { display: flex; flex-direction: column; gap: 8px; }
+.choice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    border-radius: var(--radius-sm);
+    padding: 10px 13px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s, transform .15s;
+}
+.choice:hover:not(.is-locked) { border-color: var(--primary); transform: translateX(2px); }
+.choice.is-locked { cursor: default; }
+.choice-mark {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11.5px;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    background: var(--surface);
+    margin-top: 1px;
+}
+.choice-body { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.choice-text { font-size: 15px; line-height: 1.7; overflow-wrap: anywhere; }
+
+.choice.is-correct { background: var(--success-bg); border-color: var(--success); }
+.choice.is-correct .choice-mark { background: var(--success); border-color: var(--success); color: #fff; }
+.choice.is-correct .choice-text { color: var(--success); font-weight: 700; }
+.choice.is-wrong { background: var(--danger-bg); border-color: var(--danger); }
+.choice.is-wrong .choice-mark { background: var(--danger); border-color: var(--danger); color: #fff; }
+.choice.is-wrong .choice-text { color: var(--danger); font-weight: 600; }
+
+.choice-explain {
+    display: none;
+    margin-top: 5px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    border-top: 1px dashed var(--border);
+    padding-top: 6px;
+}
+.qcard.answered .choice-explain { display: block; }
+.choice.is-correct .choice-explain { color: var(--success); border-top-color: var(--success); }
+.qcard.answered .choice { opacity: .55; }
+.qcard.answered .choice.is-correct,
+.qcard.answered .choice.is-wrong { opacity: 1; }
+.choice-explain .tag-ok {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0 7px;
+    margin-left: 6px;
+}
+
+/* ---------- Feedback ---------- */
+.feedback { display: none; margin-top: 14px; border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; line-height: 1.7; }
+.qcard.answered .feedback { display: block; }
+.feedback.ok { background: var(--success-bg); border: 1px solid var(--success); }
+.feedback.no { background: var(--danger-bg); border: 1px solid var(--danger); }
+.fb-head { font-weight: 800; font-size: 13.5px; margin-bottom: 4px; }
+.feedback.ok .fb-head { color: var(--success); }
+.feedback.no .fb-head { color: var(--danger); }
+.fb-line { color: var(--text); }
+.fb-line b { font-weight: 700; }
+.fb-why { color: var(--text); margin-top: 6px; }
+.fb-why .lbl { font-weight: 700; color: var(--text-muted); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; display: block; }
+.order-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; font-size: 12.5px; color: var(--text-muted); }
+.order-line .chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 13px;
+    color: var(--text);
+}
+.full-sentence {
+    margin-top: 10px;
+    background: var(--surface);
+    border: 1px solid var(--primary);
+    border-radius: var(--radius-sm);
+    padding: 10px 13px;
+    font-size: 14.5px;
+    line-height: 1.9;
+}
+.full-sentence .title { display: block; font-size: 10.5px; font-weight: 700; color: var(--accent); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 3px; }
+.fb-note {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 1px dashed var(--border);
+    padding-top: 8px;
+    line-height: 1.6;
+}
+
+/* ---------- Tombol lompat ke soal belum dijawab ---------- */
+.fab {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 50;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: calc(100vw - 36px);
+    padding: 9px 15px;
+    border-radius: 999px;
+    border: 1px solid var(--primary);
+    background: var(--primary);
+    color: var(--primary-ink);
+    font: inherit;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .18);
+    transition: transform .15s ease, filter .15s ease, background .2s ease, color .2s ease;
+}
+.fab[hidden] { display: none; }
+.fab:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.06); }
+.fab:disabled { cursor: default; }
+.fab.done { background: var(--surface); color: var(--text-muted); border-color: var(--border); box-shadow: var(--shadow); }
+.fab .fab-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .7; flex-shrink: 0; }
+
+@keyframes cardFlash {
+    0% { box-shadow: 0 0 0 0 transparent; }
+    25% { box-shadow: 0 0 0 4px var(--primary); }
+    100% { box-shadow: var(--shadow); }
+}
+.qcard.flash { animation: cardFlash 1.4s ease; border-color: var(--primary); }
+@media (prefers-reduced-motion: reduce) {
+    .qcard.flash { animation: none; border-color: var(--primary); }
+}
+
+/* ---------- Status / error ---------- */
+.loading, .load-error {
+    text-align: center;
+    padding: 40px 20px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.8;
+    background: var(--surface);
+}
+.load-error { border-style: solid; border-color: var(--danger); color: var(--text); }
+.load-error code { background: var(--surface2); padding: 1px 6px; border-radius: 5px; font-size: 13px; }
+
+footer { text-align: center; color: var(--text-muted); font-size: 12.5px; margin-top: 24px; line-height: 1.7; }
+
+@media (max-width: 560px) {
+    body { padding: 16px 12px 48px; }
+    .page-header h1 { font-size: 21px; }
+    .qcard { padding: 15px 14px 14px; }
+    .qtext { font-size: 15px; }
+    .choice-text { font-size: 14.5px; }
+    .btn-ghost { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav">
+        <a href="library.html">&larr; Kembali ke Question Library</a>
+        <a href="index.html">Beranda</a>
+    </div>
+
+    <div class="page-header">
+        <h1>Semua Soal &middot; JLPT N3</h1>
+        <p id="header-meta">Memuat data soal&hellip;</p>
+        <div class="legend">
+            <span>文字・語彙 &middot; Aksara &amp; Kosakata</span>
+            <span>文法 &middot; Tata Bahasa</span>
+            <span>Jawaban benar/salah + alasan</span>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <div class="toolbar-row">
+            <div class="themes" role="group" aria-label="Pilih tema warna">
+                <button type="button" class="theme" data-theme="light" aria-pressed="false">
+                    <span class="dot" style="--dot-bg:#f6f5f0;--dot-fg:#567c66"></span>Terang
+                </button>
+                <button type="button" class="theme" data-theme="dark" aria-pressed="false">
+                    <span class="dot" style="--dot-bg:#1c2620;--dot-fg:#8fc7a6"></span>Gelap
+                </button>
+                <button type="button" class="theme" data-theme="matcha" aria-pressed="false">
+                    <span class="dot" style="--dot-bg:#e5ecd6;--dot-fg:#6b8f4e"></span>Matcha
+                </button>
+                <button type="button" class="theme" data-theme="sakura" aria-pressed="false">
+                    <span class="dot" style="--dot-bg:#f4e5e6;--dot-fg:#b1848a"></span>Sakura
+                </button>
+                <button type="button" class="theme" data-theme="sora" aria-pressed="false">
+                    <span class="dot" style="--dot-bg:#e3eaf1;--dot-fg:#557d94"></span>Sora
+                </button>
+            </div>
+        </div>
+        <div class="filters" id="filters"></div>
+        <div class="scorebar">
+            <div class="score-stats">
+                <span class="stat ok"><b id="stat-ok">0</b> benar</span>
+                <span class="stat no"><b id="stat-no">0</b> salah</span>
+                <span class="stat left"><b id="stat-done">0</b><span id="stat-total">/0</span> dijawab</span>
+                <span class="cut-form" id="cut-form" hidden>
+                    <input id="cut-input" type="number" min="0" step="1" inputmode="numeric" value="102"
+                        aria-label="Nomor soal terakhir yang dijawab benar" title="Jawab benar soal 1 sampai nomor ini" />
+                    <button type="button" class="btn-cut" id="cut-ok">OK</button>
+                    <button type="button" class="btn-ghost small" id="cut-cancel">Batal</button>
+                </span>
+                <button type="button" class="btn-ghost" id="cut-btn">Cut</button>
+                <button type="button" class="btn-ghost" id="reset-btn">Reset jawaban</button>
+            </div>
+            <div class="bar"><span id="bar-fill"></span></div>
+        </div>
+    </div>
+
+    <div id="list">
+        <div class="loading" id="loading">Memuat <b>n3_soal_kunci_jawaban.json</b>&hellip;</div>
+    </div>
+
+    <footer>
+        Sumber data: <code>n3_soal_kunci_jawaban.json</code> &middot; dimuat langsung ke halaman ini<br />
+        Kunci jawaban disusun untuk latihan mandiri &mdash; bukan kunci resmi JLPT.
+    </footer>
+</div>
+
+<button type="button" class="fab" id="fab-next" hidden aria-label="Lompat ke soal berikutnya yang belum dijawab">
+    <span class="fab-dot" aria-hidden="true"></span>
+    <span id="fab-label">Memuat&hellip;</span>
+</button>
+
+<script>
+(function () {
+    "use strict";
+
+    var THEME_KEY = "semuasoal.theme";
+    var THEMES = ["light", "dark", "matcha", "sakura", "sora"];
+    var SECTION_LABEL = { moji_goi: "文字・語彙", bunpou: "文法" };
+    var TYPE_LABEL = {
+        fill_blank: "Isi rumpang",
+        usage: "Pemakaian kata",
+        passage_blank: "Isi bacaan",
+        synonym: "Sinonim",
+        counter: "Kata bantu bilangan",
+        sentence_order: "Susunan kalimat",
+        grammar: "Tata bahasa",
+        reading: "Cara baca",
+        prefix_suffix: "Kanji imbuhan",
+        kanji: "Kanji"
+    };
+    var CONFIDENCE_LABEL = {
+        medium: "Soal ambigu / ada alternatif wajar",
+        low: "Perlu dicek ulang (kemungkinan typo sumber)"
+    };
+
+    var state = {
+        data: null,
+        questions: [],
+        passages: {},
+        answers: {},
+        byId: {},
+        filter: "all"
+    };
+
+    var els = {
+        list: document.getElementById("list"),
+        filters: document.getElementById("filters"),
+        headerMeta: document.getElementById("header-meta"),
+        statOk: document.getElementById("stat-ok"),
+        statNo: document.getElementById("stat-no"),
+        statDone: document.getElementById("stat-done"),
+        statTotal: document.getElementById("stat-total"),
+        barFill: document.getElementById("bar-fill"),
+        resetBtn: document.getElementById("reset-btn"),
+        cutBtn: document.getElementById("cut-btn"),
+        cutForm: document.getElementById("cut-form"),
+        cutInput: document.getElementById("cut-input"),
+        cutOk: document.getElementById("cut-ok"),
+        cutCancel: document.getElementById("cut-cancel"),
+        fab: document.getElementById("fab-next"),
+        fabLabel: document.getElementById("fab-label")
+    };
+
+    /* ---------- util ---------- */
+    function esc(value) {
+        return String(value == null ? "" : value).replace(/[&<>"']/g, function (ch) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
+        });
+    }
+
+    function fmt(value) {
+        var html = esc(value);
+        html = html.replace(/（[\s　]*）/g, '<span class="blank">（　　）</span>');
+        html = html.replace(/[⑦⑧⑨⑩㉑㉒㉓㉔㉕]/g, '<span class="blank">$&</span>');
+        html = html.replace(/[＿]{2,}/g, '<span class="blank">$&</span>');
+        html = html.replace(/★/g, '<span class="star">★</span>');
+        return html;
+    }
+
+    function correctOption(q) {
+        for (var i = 0; i < q.options.length; i++) {
+            if (q.options[i].is_correct) return q.options[i];
+        }
+        return null;
+    }
+
+    function optionByKey(q, key) {
+        for (var i = 0; i < q.options.length; i++) {
+            if (q.options[i].key === key) return q.options[i];
+        }
+        return null;
+    }
+
+    /* ---------- tema ---------- */
+    function applyTheme(name) {
+        var theme = THEMES.indexOf(name) >= 0 ? name : "light";
+        document.documentElement.setAttribute("data-theme", theme);
+        var buttons = document.querySelectorAll(".theme");
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].setAttribute("aria-pressed", buttons[i].getAttribute("data-theme") === theme ? "true" : "false");
+        }
+        try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+    }
+
+    document.querySelectorAll(".theme").forEach(function (btn) {
+        btn.addEventListener("click", function () { applyTheme(btn.getAttribute("data-theme")); });
+    });
+
+    /* ---------- render kartu ---------- */
+    function buildPassage(q, openedPassages) {
+        if (!q.passage_id) return "";
+        var passage = state.passages[q.passage_id];
+        if (!passage) return "";
+        var isFirst = !openedPassages[q.passage_id];
+        openedPassages[q.passage_id] = true;
+        var body = "";
+        if (passage.text_ja) body += '<div class="passage-ja">' + fmt(passage.text_ja) + "</div>";
+        if (passage.text_id) body += '<div class="passage-id">' + esc(passage.text_id) + "</div>";
+        if (passage.note) body += '<div class="passage-id">Catatan: ' + esc(passage.note) + "</div>";
+        return (
+            '<details class="passage"' + (isFirst ? " open" : "") + ">" +
+                "<summary><span>Bacaan</span><span class=\"passage-title\">" + esc(passage.title || passage.id) + "</span></summary>" +
+                '<div class="passage-body">' + body + "</div>" +
+            "</details>"
+        );
+    }
+
+    function buildPrompt(q) {
+        var prompt = String(q.prompt || "");
+        var isBlankOnly = q.blank_label && prompt.trim() === q.blank_label;
+        if (isBlankOnly) {
+            return '<div class="qtext">Bagian <span class="blank">' + esc(prompt.trim()) + "</span> pada bacaan di atas &mdash; pilih kata yang tepat.</div>";
+        }
+        if (q.type === "usage" && prompt.length <= 12) {
+            return '<div class="qtext word-prompt"><span class="word">' + esc(prompt) + "</span></div>";
+        }
+        if (q.type === "reading" && q.target) {
+            var html = esc(prompt);
+            var target = esc(q.target);
+            html = html.split(target).join('<span class="target">' + target + "</span>");
+            return '<div class="qtext">' + html + "</div>";
+        }
+        return '<div class="qtext">' + fmt(prompt) + "</div>";
+    }
+
+    function buildChoices(q) {
+        var html = '<div class="choices">';
+        q.options.forEach(function (opt) {
+            var extra = "";
+            if (opt.also_acceptable) extra = '<span class="tag-ok">juga bisa diterima</span>';
+            html +=
+                '<button type="button" class="choice" data-key="' + esc(opt.key) + '">' +
+                    '<span class="choice-mark">' + esc(opt.key) + "</span>" +
+                    '<span class="choice-body">' +
+                        '<span class="choice-text">' + esc(opt.text) + extra + "</span>" +
+                        '<span class="choice-explain">' + esc(opt.reason || "Tidak ada alasan tambahan.") + "</span>" +
+                    "</span>" +
+                "</button>";
+        });
+        html += "</div>";
+        return html;
+    }
+
+    function cardHTML(q, openedPassages) {
+        var section = SECTION_LABEL[q.section] || q.section || "";
+        var type = TYPE_LABEL[q.type] || q.type || "";
+        var meta =
+            '<div class="qmeta">' +
+                '<span class="qnum">' + esc(q.number) + "</span>" +
+                '<span class="qtag">' + esc(section) + "</span>" +
+                '<span class="qtag subtle">' + esc(type) + (q.topic ? " &middot; " + esc(q.topic) : "") + "</span>" +
+                (q.confidence && q.confidence !== "high"
+                    ? '<span class="qtag warn" title="' + esc(CONFIDENCE_LABEL[q.confidence] || q.confidence) + '">' + esc(q.confidence) + "</span>"
+                    : "") +
+            "</div>";
+
+        var html = '<article class="qcard" id="q-' + esc(q.id) + '" data-id="' + esc(q.id) + '">';
+        html += meta;
+        if (q.instruction_id) html += '<div class="instruction">' + esc(q.instruction_id) + "</div>";
+        html += buildPassage(q, openedPassages);
+        html += buildPrompt(q);
+        if (q.prompt_translation_id) html += '<div class="qtrans">' + esc(q.prompt_translation_id) + "</div>";
+        html += buildChoices(q);
+        html += '<div class="feedback" aria-live="polite"></div>';
+        html += "</article>";
+        return html;
+    }
+
+    function renderList() {
+        var opened = {};
+        var html = "";
+        state.questions.forEach(function (q) { html += cardHTML(q, opened); });
+        els.list.innerHTML = html;
+        els.list.querySelectorAll(".choice").forEach(function (btn) {
+            btn.addEventListener("click", onChoiceClick);
+        });
+        updateScore();
+    }
+
+    /* ---------- jawab ---------- */
+    function setAnswer(q, chosenKey) {
+        var card = document.getElementById("q-" + q.id);
+        if (!card) return;
+        var key = correctOption(q);
+        state.answers[q.id] = chosenKey;
+
+        card.classList.add("answered");
+        card.querySelectorAll(".choice").forEach(function (choice) {
+            var cKey = choice.getAttribute("data-key");
+            var isRight = !!key && cKey === key.key;
+            var isPicked = cKey === chosenKey;
+            choice.classList.add("is-locked");
+            choice.classList.toggle("is-correct", isRight);
+            choice.classList.toggle("is-wrong", isPicked && !isRight);
+            choice.querySelector(".choice-mark").textContent = isRight ? "✓" : (isPicked ? "✕" : cKey);
+        });
+
+        fillFeedback(card, q, chosenKey);
+    }
+
+    function clearAnswer(q) {
+        delete state.answers[q.id];
+        var card = document.getElementById("q-" + q.id);
+        if (!card) return;
+        card.classList.remove("answered");
+        var box = card.querySelector(".feedback");
+        box.className = "feedback";
+        box.innerHTML = "";
+        card.querySelectorAll(".choice").forEach(function (choice) {
+            choice.classList.remove("is-correct", "is-wrong", "is-locked");
+            choice.querySelector(".choice-mark").textContent = choice.getAttribute("data-key");
+        });
+    }
+
+    function onChoiceClick(event) {
+        var btn = event.currentTarget;
+        var card = btn.closest(".qcard");
+        if (!card || card.classList.contains("answered")) return;
+        var q = state.byId[card.getAttribute("data-id")];
+        if (!q) return;
+        setAnswer(q, btn.getAttribute("data-key"));
+        updateScore();
+    }
+
+    function fillFeedback(card, q, chosenKey) {
+        var box = card.querySelector(".feedback");
+        var key = correctOption(q);
+        var isRight = !!key && chosenKey === key.key;
+        var html = '<div class="fb-head">' + (isRight ? "✓ Benar!" : "✕ Belum tepat") + "</div>";
+
+        if (isRight) {
+            html += '<div class="fb-line">Jawaban kamu <b>' + esc(chosenKey) + ". " + esc(optionByKey(q, chosenKey) ? optionByKey(q, chosenKey).text : "") + "</b> sudah tepat.</div>";
+        } else {
+            html += '<div class="fb-line">Jawaban kamu: <b>' + esc(chosenKey) + ". " + esc(optionByKey(q, chosenKey) ? optionByKey(q, chosenKey).text : "") + "</b><br />";
+            html += "Jawaban benar: <b>" + esc(key ? key.key + ". " + key.text : q.correct_text || "-") + "</b></div>";
+        }
+
+        if (q.explanation) {
+            html += '<div class="fb-why"><span class="lbl">Alasan</span>' + esc(q.explanation) + "</div>";
+        }
+
+        if (q.type === "sentence_order") {
+            if (Array.isArray(q.correct_order) && q.correct_order.length) {
+                html += '<div class="order-line">Urutan benar:';
+                q.correct_order.forEach(function (k) {
+                    var opt = optionByKey(q, k);
+                    html += '<span class="chip">' + esc(opt ? opt.text : k) + "</span>";
+                });
+                html += "</div>";
+            }
+            if (q.full_sentence) {
+                html += '<div class="full-sentence"><span class="title">Kalimat lengkap</span>' + fmt(q.full_sentence) + "</div>";
+            }
+        }
+
+        if (q.review_note) {
+            html += '<div class="fb-note">Catatan review: ' + esc(q.review_note) + "</div>";
+        }
+
+        box.className = "feedback " + (isRight ? "ok" : "no");
+        box.innerHTML = html;
+    }
+
+    /* ---------- skor ---------- */
+    function updateScore() {
+        var done = 0, ok = 0, no = 0;
+        state.questions.forEach(function (q) {
+            var picked = state.answers[q.id];
+            if (!picked) return;
+            done++;
+            var key = correctOption(q);
+            if (key && picked === key.key) ok++;
+            else no++;
+        });
+        els.statOk.textContent = ok;
+        els.statNo.textContent = no;
+        els.statDone.textContent = done;
+        els.statTotal.textContent = "/" + state.questions.length;
+        var pct = state.questions.length ? (done / state.questions.length) * 100 : 0;
+        els.barFill.style.width = pct.toFixed(1) + "%";
+        updateFab(done);
+    }
+
+    /* ---------- lompat ke soal belum dijawab ---------- */
+    function nextPending(scope) {
+        for (var i = 0; i < state.questions.length; i++) {
+            var q = state.questions[i];
+            if (scope !== "all" && q.section !== scope) continue;
+            if (!state.answers[q.id]) return q;
+        }
+        return null;
+    }
+
+    function updateFab(done) {
+        if (!state.questions.length) { els.fab.hidden = true; return; }
+        els.fab.hidden = false;
+        var pending = nextPending(state.filter) || nextPending("all");
+        var remaining = state.questions.length - done;
+        if (!pending) {
+            els.fab.classList.add("done");
+            els.fab.disabled = true;
+            els.fabLabel.textContent = "Semua soal terjawab ✓";
+            els.fab.title = "Tidak ada soal yang belum dijawab";
+            return;
+        }
+        els.fab.classList.remove("done");
+        els.fab.disabled = false;
+        els.fabLabel.textContent = "Soal " + pending.number + " · " + remaining + " belum";
+        els.fab.title = "Lompat ke soal " + pending.number + " yang belum dijawab";
+    }
+
+    function scrollToCard(card) {
+        var toolbar = document.querySelector(".toolbar");
+        var offset = (toolbar ? toolbar.getBoundingClientRect().height : 0) + 14;
+        var top = card.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    }
+
+    /* ---------- filter ---------- */
+    function buildFilters() {
+        var counts = { all: state.questions.length };
+        state.questions.forEach(function (q) {
+            counts[q.section] = (counts[q.section] || 0) + 1;
+        });
+        var items = [{ id: "all", label: "Semua" }];
+        Object.keys(SECTION_LABEL).forEach(function (id) {
+            if (counts[id]) items.push({ id: id, label: SECTION_LABEL[id] });
+        });
+
+        els.filters.innerHTML = items.map(function (item) {
+            return '<button type="button" class="filter' + (item.id === "all" ? " is-active" : "") + '" data-filter="' + item.id + '">' +
+                esc(item.label) + "<small>" + (counts[item.id] || 0) + "</small></button>";
+        }).join("");
+
+        els.filters.querySelectorAll(".filter").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                setFilter(btn.getAttribute("data-filter"));
+            });
+        });
+    }
+
+    function setFilter(id) {
+        state.filter = id;
+        els.filters.querySelectorAll(".filter").forEach(function (b) {
+            b.classList.toggle("is-active", b.getAttribute("data-filter") === id);
+        });
+        applyFilter();
+        updateScore();
+    }
+
+    function applyFilter() {
+        state.questions.forEach(function (q) {
+            var card = document.getElementById("q-" + q.id);
+            if (!card) return;
+            card.hidden = state.filter !== "all" && q.section !== state.filter;
+        });
+    }
+
+    /* ---------- reset ---------- */
+    els.resetBtn.addEventListener("click", function () {
+        if (!Object.keys(state.answers).length) return;
+        state.questions.forEach(clearAnswer);
+        updateScore();
+    });
+
+    /* ---------- cut: jawab benar 1..N ---------- */
+    function cutTo(limit) {
+        state.questions.forEach(function (q) {
+            var key = correctOption(q);
+            if (key && q.number <= limit) setAnswer(q, key.key);
+            else clearAnswer(q);
+        });
+        updateScore();
+    }
+
+    function openCut() {
+        var total = state.questions.length;
+        if (!total) return;
+        els.cutForm.hidden = false;
+        els.cutInput.max = String(total);
+        els.cutInput.value = String(Math.min(102, total));
+        els.cutInput.focus();
+        els.cutInput.select();
+    }
+
+    function applyCut() {
+        var total = state.questions.length;
+        if (!total) return;
+        var value = parseInt(els.cutInput.value, 10);
+        if (!isFinite(value)) { els.cutInput.focus(); return; }
+        var limit = Math.max(0, Math.min(value, total));
+        els.cutInput.value = String(limit);
+        cutTo(limit);
+        els.cutForm.hidden = true;
+    }
+
+    els.cutBtn.addEventListener("click", openCut);
+    els.cutOk.addEventListener("click", applyCut);
+    els.cutCancel.addEventListener("click", function () {
+        els.cutForm.hidden = true;
+    });
+    els.cutInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") { event.preventDefault(); applyCut(); }
+        if (event.key === "Escape") { els.cutForm.hidden = true; }
+    });
+
+    /* ---------- FAB: lompat ke soal belum dijawab ---------- */
+    els.fab.addEventListener("click", function () {
+        if (els.fab.disabled) return;
+        var target = nextPending(state.filter);
+        if (!target) {
+            target = nextPending("all");
+            if (!target) return;
+            setFilter("all");
+        }
+        var card = document.getElementById("q-" + target.id);
+        if (!card) return;
+        scrollToCard(card);
+        card.classList.add("flash");
+        window.setTimeout(function () { card.classList.remove("flash"); }, 1500);
+    });
+
+    /* ---------- muat data ---------- */
+    function showError(err) {
+        var isFile = location.protocol === "file:";
+        els.headerMeta.textContent = "Data soal gagal dimuat";
+        els.list.innerHTML =
+            '<div class="load-error">' +
+                "<b>Gagal memuat <code>n3_soal_kunci_jawaban.json</code>.</b><br />" +
+                esc(err && err.message ? err.message : String(err)) + "<br /><br />" +
+                (isFile
+                    ? "Halaman ini membuka file lewat <code>file://</code>, sehingga browser memblokir pembacaan JSON. " +
+                      "Jalankan server statis di folder ini (mis. <code>npx serve</code> atau <code>python -m http.server</code>), " +
+                      "lalu buka halaman lewat <code>http://localhost</code>."
+                    : "Pastikan file JSON berada di folder yang sama dengan halaman ini.") +
+            "</div>";
+    }
+
+    async function init() {
+        applyTheme(document.documentElement.getAttribute("data-theme") || "light");
+        try {
+            var res = await fetch("n3_soal_kunci_jawaban.json", { cache: "no-store" });
+            if (!res.ok) throw new Error("HTTP " + res.status + " " + res.statusText);
+            state.data = await res.json();
+        } catch (err) {
+            showError(err);
+            return;
+        }
+
+        var data = state.data;
+        state.questions = (data.questions || []).slice().sort(function (a, b) {
+            return (a.number || 0) - (b.number || 0);
+        });
+        (data.passages || []).forEach(function (p) { state.passages[p.id] = p; });
+        state.questions.forEach(function (q) { state.byId[q.id] = q; });
+
+        if (!state.questions.length) {
+            showError(new Error("Array 'questions' kosong."));
+            return;
+        }
+
+        var sectionCounts = {};
+        state.questions.forEach(function (q) { sectionCounts[q.section] = (sectionCounts[q.section] || 0) + 1; });
+        els.headerMeta.textContent =
+            state.questions.length + " soal pilihan ganda · " +
+            (data.passages ? data.passages.length : 0) + " bacaan · " +
+            (sectionCounts.moji_goi || 0) + " aksara & kosakata + " + (sectionCounts.bunpou || 0) + " tata bahasa";
+
+        buildFilters();
+        renderList();
+        applyFilter();
+    }
+
+    init();
+})();
+</script>
+</body>
+</html>
