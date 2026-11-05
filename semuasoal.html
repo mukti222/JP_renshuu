@@ -7,7 +7,7 @@
 <script>
 try {
     var savedTheme = localStorage.getItem("semuasoal.theme");
-    if (["light", "dark", "matcha", "sakura", "sora"].indexOf(savedTheme) >= 0) {
+    if (["light", "dark", "matcha", "sakura", "sora", "midnight"].indexOf(savedTheme) >= 0) {
         document.documentElement.setAttribute("data-theme", savedTheme);
     }
 } catch (e) {}
@@ -114,6 +114,26 @@ try {
     --danger-bg: #faeaea;
     --shadow: 0 1px 2px rgba(38, 51, 59, .05), 0 10px 26px rgba(38, 51, 59, .06);
     --header-glow: #e2ebf3;
+}
+
+/* ============ TEMA 6: MIDNIGHT (palet soalbab2bunpou) ============ */
+:root[data-theme="midnight"] {
+    color-scheme: dark;
+    --bg: #0f0f1a;
+    --surface: #1a1a2e;
+    --surface2: #16213e;
+    --primary: #e63946;
+    --primary-ink: #ffffff;
+    --accent: #f0c27f;
+    --text: #f1f1f6;
+    --text-muted: #9ca3af;
+    --border: #2a2a4a;
+    --success: #22c55e;
+    --success-bg: rgba(34, 197, 94, .12);
+    --danger: #ef4444;
+    --danger-bg: rgba(239, 68, 68, .12);
+    --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 10px 26px rgba(0, 0, 0, .3);
+    --header-glow: #1a1a3e;
 }
 
 :root {
@@ -340,13 +360,25 @@ body {
     border: 1px solid var(--border);
     color: var(--accent);
 }
+/* Terjemahan kalimat hanya tampil setelah soal dijawab */
 .qtrans {
+    display: none;
     font-size: 13px;
     color: var(--text-muted);
     border-left: 2px solid var(--border);
     padding-left: 10px;
     margin-bottom: 12px;
     line-height: 1.6;
+}
+.qcard.answered .qtrans { display: block; }
+.qtrans .qtrans-lbl {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2px;
 }
 .blank {
     color: var(--accent);
@@ -598,6 +630,9 @@ footer { text-align: center; color: var(--text-muted); font-size: 12.5px; margin
                 <button type="button" class="theme" data-theme="sora" aria-pressed="false">
                     <span class="dot" style="--dot-bg:#e3eaf1;--dot-fg:#557d94"></span>Sora
                 </button>
+                <button type="button" class="theme" data-theme="midnight" aria-pressed="false">
+                    <span class="dot" style="--dot-bg:#1a1a2e;--dot-fg:#e63946"></span>Midnight
+                </button>
             </div>
         </div>
         <div class="filters" id="filters"></div>
@@ -639,7 +674,7 @@ footer { text-align: center; color: var(--text-muted); font-size: 12.5px; margin
     "use strict";
 
     var THEME_KEY = "semuasoal.theme";
-    var THEMES = ["light", "dark", "matcha", "sakura", "sora"];
+    var THEMES = ["light", "dark", "matcha", "sakura", "sora", "midnight"];
     var SECTION_LABEL = { moji_goi: "文字・語彙", bunpou: "文法" };
     var TYPE_LABEL = {
         fill_blank: "Isi rumpang",
@@ -804,7 +839,9 @@ footer { text-align: center; color: var(--text-muted); font-size: 12.5px; margin
         if (q.instruction_id) html += '<div class="instruction">' + esc(q.instruction_id) + "</div>";
         html += buildPassage(q, openedPassages);
         html += buildPrompt(q);
-        if (q.prompt_translation_id) html += '<div class="qtrans">' + esc(q.prompt_translation_id) + "</div>";
+        if (q.prompt_translation_id) {
+            html += '<div class="qtrans"><span class="qtrans-lbl">Terjemahan</span>' + esc(q.prompt_translation_id) + "</div>";
+        }
         html += buildChoices(q);
         html += '<div class="feedback" aria-live="polite"></div>';
         html += "</article>";
