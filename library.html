@@ -101,6 +101,24 @@ body {
     color: var(--text-muted);
     font-size: 18px;
 }
+button.chapter-card {
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+.kotoba-panel {
+    margin: -6px 0 22px;
+    padding-left: 14px;
+    border-left: 2px solid var(--border);
+}
+.kotoba-panel .chapter-card { padding: 14px 16px; margin-bottom: 10px; }
+.kotoba-panel .chapter-title { font-size: 16px; }
+.kotoba-panel .chapter-desc { font-size: 13px; }
+.kotoba-caret { transition: transform 0.2s; }
+#btnKotoba[aria-expanded="true"] .kotoba-caret { transform: rotate(90deg); }
 footer {
     text-align: center;
     color: var(--text-muted);
@@ -116,6 +134,118 @@ footer {
     <div class="page-header">
         <h1>📚 Question Library</h1>
         <p>Pilih chapter untuk berlatih soal beserta penjelasannya</p>
+    </div>
+
+    <button class="chapter-card" id="btnKotoba" aria-expanded="false" aria-controls="kotobaList">
+        <div class="chapter-meta">
+            <span class="chapter-tag">11 deck</span>
+            <span class="chapter-tag">Flashcard</span>
+            <span class="chapter-arrow kotoba-caret">&rarr;</span>
+        </div>
+        <div class="chapter-title">Kotoba Soumatome</div>
+        <div class="chapter-desc">総まとめ &middot; kumpulan flashcard 言葉 &amp; 漢字 dari materi PPT &mdash; klik untuk membuka daftar deck.</div>
+    </button>
+
+    <div class="kotoba-panel" id="kotobaList" hidden>
+    <a class="chapter-card" href="kotoba/9-w3-kotoba-flashcard.html">
+        <div class="chapter-meta">
+            <span class="chapter-tag">9 · W3</span>
+            <span class="chapter-tag">言葉</span>
+            <span class="chapter-arrow">&rarr;</span>
+        </div>
+        <div class="chapter-title">9 · W3 &mdash; Kotoba</div>
+        <div class="chapter-desc">Flashcard kosakata &middot; kartu kata, contoh kalimat, exercise &amp; latihan soal.</div>
+    </a>
+    <a class="chapter-card" href="kotoba/9-w4-kotoba-flashcard.html">
+        <div class="chapter-meta">
+            <span class="chapter-tag">9 · W4</span>
+            <span class="chapter-tag">言葉</span>
+            <span class="chapter-arrow">&rarr;</span>
+        </div>
+        <div class="chapter-title">9 · W4 &mdash; Kotoba</div>
+        <div class="chapter-desc">Flashcard kosakata &middot; kartu kata, contoh kalimat, exercise &amp; latihan soal.</div>
+    </a>
+    <a class="chapter-card" href="kotoba/10-w1-kotoba-flashcard.html">
+        <div class="chapter-meta">
+            <span class="chapter-tag">10 · W1</span>
+            <span class="chapter-tag">言葉</span>
+            <span class="chapter-arrow">&rarr;</span>
+        </div>
+        <div class="chapter-title">10 · W1 &mdash; Kotoba</div>
+        <div class="chapter-desc">Flashcard kosakata &middot; kartu kata, contoh kalimat, exercise &amp; latihan soal.</div>
+    </a>
+    <a class="chapter-card" href="kotoba/10-w1.5-kotoba-flashcard.html">
+        <div class="chapter-meta">
+            <span class="chapter-tag">10 · W1.5</span>
+            <span class="chapter-tag">言葉</span>
+            <span class="chapter-arrow">&rarr;</span>
+        </div>
+        <div class="chapter-title">10 · W1.5 &mdash; Kotoba</div>
+        <div class="chapter-desc">Flashcard kosakata &middot; kartu kata, contoh kalimat, exercise &amp; latihan soal.</div>
+    </a>
+    <a class="chapter-card" href="kotoba/10-w1.7-kotoba-flashcard.html">
+        <div class="chapter-meta">
+            <span class="chapter-tag">10 · W1.7</span>
+            <span class="chapter-tag">言葉</span>
+            <span class="chapter-arrow">&rarr;</span>
+        </div>
+        <div class="chapter-title">10 · W1.7 &mdash; Kotoba</div>
+        <div class="chapter-desc">Flashcard kosakata &middot; kartu kata, contoh kalimat, exercise &amp; latihan soal.</div>
+    </a>
+    <a class="chapter-card" href="kotoba/10-w2-kotoba-flashcard.html">
+        <div class="chapter-meta">
+            <span class="chapter-tag">10 · W2</span>
+            <span class="chapter-tag">言葉</span>
+            <span class="chapter-arrow">&rarr;</span>
+        </div>
+        <div class="chapter-title">10 · W2 &mdash; Kotoba</div>
+        <div class="chapter-desc">Flashcard kosakata &middot; kartu kata, contoh kalimat, exercise &amp; latihan soal.</div>
+    </a>
+    <a class="chapter-card" href="kotoba/10-w3-kotoba-flashcard.html">
+        <div class="chapter-meta">
+            <span class="chapter-tag">10 · W3</span>
+            <span class="chapter-tag">言葉</span>
+            <span class="chapter-arrow">&rarr;</span>
+        </div>
+        <div class="chapter-title">10 · W3 &mdash; Kotoba</div>
+        <div class="chapter-desc">Flashcard kosakata &middot; kartu kata, contoh kalimat, exercise &amp; latihan soal.</div>
+    </a>
+    <a class="chapter-card" href="kotoba/10-w3.5-kotoba-flashcard.html">
+        <div class="chapter-meta">
+            <span class="chapter-tag">10 · W3.5</span>
+            <span class="chapter-tag">言葉</span>
+            <span class="chapter-arrow">&rarr;</span>
+        </div>
+        <div class="chapter-title">10 · W3.5 &mdash; Kotoba</div>
+        <div class="chapter-desc">Flashcard kosakata &middot; kartu kata, contoh kalimat, exercise &amp; latihan soal.</div>
+    </a>
+    <a class="chapter-card" href="kotoba/10-w4-kotoba-flashcard.html">
+        <div class="chapter-meta">
+            <span class="chapter-tag">10 · W4</span>
+            <span class="chapter-tag">言葉</span>
+            <span class="chapter-arrow">&rarr;</span>
+        </div>
+        <div class="chapter-title">10 · W4 &mdash; Kotoba</div>
+        <div class="chapter-desc">Flashcard kosakata &middot; kartu kata, contoh kalimat, exercise &amp; latihan soal.</div>
+    </a>
+    <a class="chapter-card" href="kotoba/10-w4-kanji-flashcard.html">
+        <div class="chapter-meta">
+            <span class="chapter-tag">10 · W4</span>
+            <span class="chapter-tag">漢字</span>
+            <span class="chapter-arrow">&rarr;</span>
+        </div>
+        <div class="chapter-title">10 · W4 &mdash; Kanji</div>
+        <div class="chapter-desc">Flashcard kanji &amp; 熟語 &middot; kartu kanji, kata berkanji, contoh kalimat &amp; latihan soal.</div>
+    </a>
+    <a class="chapter-card" href="kotoba/11-w1-kotoba-flashcard.html">
+        <div class="chapter-meta">
+            <span class="chapter-tag">11 · W1</span>
+            <span class="chapter-tag">言葉 & 漢字</span>
+            <span class="chapter-arrow">&rarr;</span>
+        </div>
+        <div class="chapter-title">11 · W1 &mdash; Kotoba</div>
+        <div class="chapter-desc">パソコンを使いましょう &amp; 注文 &middot; 51 kartu (語彙, 漢字, 熟語) + 16 soal latihan.</div>
+    </a>
     </div>
 
     <a class="chapter-card" href="semuasoal.html">
@@ -148,5 +278,16 @@ footer {
 
     <footer>Question Library &middot; Pilih chapter untuk mulai berlatih</footer>
 </div>
+    <script>
+    (function () {
+        const btn = document.getElementById('btnKotoba');
+        const list = document.getElementById('kotobaList');
+        btn.addEventListener('click', () => {
+            const open = btn.getAttribute('aria-expanded') === 'true';
+            btn.setAttribute('aria-expanded', String(!open));
+            list.hidden = open;
+        });
+    })();
+    </script>
 </body>
 </html>
