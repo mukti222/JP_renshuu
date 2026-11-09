@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Soal Bab 4 Kosakata - Latihan JLPT N3</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+    --bg: #0f0f1a;
+    --surface: #1a1a2e;
+    --surface2: #16213e;
+    --primary: #e63946;
+    --accent: #f0c27f;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --text: #f1f1f6;
+    --text-muted: #9ca3af;
+    --border: #2a2a4a;
+    --radius: 16px;
+    --radius-sm: 10px;
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 32px 16px 64px;
+}
+.container { max-width: 760px; margin: 0 auto; }
+.top-nav { margin-bottom: 20px; }
+.top-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+}
+.top-nav a:hover { color: var(--accent); }
+.page-header {
+    text-align: center;
+    padding: 28px 20px 32px;
+    background: radial-gradient(ellipse at 50% 0%, #1a1a3e 0%, #0f0f1a 70%);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-bottom: 28px;
+}
+.page-header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+}
+.page-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 16px;
+}
+.legend span {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+.qcard {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 20px 18px;
+    margin-bottom: 18px;
+}
+.qmeta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.qnum {
+    background: var(--primary);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.qtag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent);
+}
+.passage-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    font-size: 15px;
+    line-height: 1.9;
+}
+.passage-box .title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.qtext {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 14px;
+}
+.blank {
+    color: var(--accent);
+    font-weight: 700;
+}
+.choices {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.choice {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    background: var(--surface2);
+}
+.choice-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.choice-mark {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+.choice-text { font-size: 15px; flex: 1; }
+.choice.correct {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: var(--success);
+}
+.choice.correct .choice-mark {
+    background: var(--success);
+    border-color: var(--success);
+    color: #fff;
+}
+.choice.correct .choice-text { color: var(--success); font-weight: 700; }
+.choice.wrong .choice-mark { color: var(--danger); border-color: var(--danger); }
+.choice-explain {
+    margin-top: 6px;
+    padding-left: 30px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+.choice.correct .choice-explain { color: rgba(34, 197, 94, 0.85); }
+.answer-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--success);
+    background: rgba(34, 197, 94, 0.15);
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+.order-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.order-chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 14px;
+}
+.order-chip.star {
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 700;
+}
+.full-sentence {
+    background: rgba(240, 194, 127, 0.08);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-top: 4px;
+}
+.full-sentence .title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.note {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 10px;
+    line-height: 1.6;
+    border-top: 1px dashed var(--border);
+    padding-top: 10px;
+}
+footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-top: 24px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav"><a href="library.html">&larr; Kembali ke Question Library</a></div>
+
+    <div class="page-header">
+        <h1>Soal Bab 4 &middot; Kosakata</h1>
+        <p>Latihan JLPT N3 &middot; 32 soal kosakata &middot; jawaban benar sudah ditandai, jawaban salah disertai alasan singkat</p>
+        <div class="legend">
+            <span>意味 (arti kata)</span>
+            <span>語彙 &middot; isian</span>
+            <span>使い方 (pemakaian)</span>
+        </div>
+    </div>
+
+    <!-- Q1 : 1日目 1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">1</span><span class="qtag">1日目 &middot; 意味</span></div>
+        <div class="qtext">（学校などで）お昼ご飯の時などに、みんなに同じものを食べさせる</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">学食（がくしょく）</span></div>
+                <div class="choice-explain">Kantin sekolah/kampus &mdash; tempatnya, bukan makanannya. Tidak ada arti "memberi makan bersama".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">昼食（ちゅうしょく）</span></div>
+                <div class="choice-explain">Makan siang (umum, siapa pun yang makan) &mdash; tidak mengandung makna "disediakan sekolah untuk semua orang".</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">給食（きゅうしょく）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">給食 = makanan yang disediakan sekolah (school lunch). Tepat untuk "di sekolah, semua diberi makanan yang sama pada jam makan siang".</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q2 : 1日目 2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">2</span><span class="qtag">1日目 &middot; 意味</span></div>
+        <div class="qtext">5×2＝10 のような計算式のこと</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">かけ算（かけざん）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">かけ算 = perkalian. Tanda × dibaca かける, jadi 5×2＝10 adalah かけ算.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">ひき算（ひきざん）</span></div>
+                <div class="choice-explain">Pengurangan (tanda −, dibaca ひく) &mdash; bukan bentuk 5×2.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">たし算（たしざん）</span></div>
+                <div class="choice-explain">Penjumlahan (tanda ＋, dibaca たす) &mdash; bukan bentuk 5×2.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q3 : 2日目 1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">3</span><span class="qtag">2日目 &middot; 意味</span></div>
+        <div class="qtext">高校や大学で卒業のために必要な基準となるもの</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">講義（こうぎ）</span></div>
+                <div class="choice-explain">Kuliah/mata kuliah &mdash; kegiatan belajarnya, bukan "satuan yang harus dipenuhi untuk lulus".</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">単位（たんい）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">単位 = SKS/kredit. 単位を取る = mengambil SKS; sejumlah 単位 wajib dikumpulkan sebagai syarat kelulusan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">受験（じゅけん）</span></div>
+                <div class="choice-explain">Ujian masuk &mdash; dilakukan sebelum masuk sekolah/kampus, bukan patokan kelulusan.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q4 : 2日目 2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">4</span><span class="qtag">2日目 &middot; 意味</span></div>
+        <div class="qtext">学問にすぐれていて、研究などを仕事としている人</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">学者（がくしゃ）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">学者 = cendekiawan/akademisi: orang yang unggul dalam ilmu dan menjadikan penelitian sebagai pekerjaannya.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">学人（がくじん）</span></div>
+                <div class="choice-explain">Bukan kata Jepang yang dipakai untuk "cendekiawan" &mdash; bentuk yang dibuat-buat.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">学教（がっきょう）</span></div>
+                <div class="choice-explain">Bukan kata untuk orang &mdash; 学教 tidak bermakna "ahli ilmu".</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q5 : 3日目 1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">5</span><span class="qtag">3日目 &middot; 意味</span></div>
+        <div class="qtext">何も見ないで書いたり言ったりできるように覚える</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">見直す（みなおす）</span></div>
+                <div class="choice-explain">Memeriksa ulang &mdash; artinya mengecek kembali, bukan menghafal sampai bisa tanpa melihat.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">聞き取る（ききとる）</span></div>
+                <div class="choice-explain">Menangkap/mendengar dengan jelas &mdash; soal pendengaran, bukan menghafal.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">暗記する（あんきする）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">暗記する = menghafal, yaitu mengingat sampai bisa menulis/mengucapkan tanpa melihat apa pun.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q6 : 3日目 2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">6</span><span class="qtag">3日目 &middot; 意味</span></div>
+        <div class="qtext">（下書きしたものを）新たにきれいに書く</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">再書する（さいしょする）</span></div>
+                <div class="choice-explain">Bukan kata baku untuk "menulis ulang dengan rapi" &mdash; 再書 bukan kosakata yang dipakai.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">新書する（しんしょする）</span></div>
+                <div class="choice-explain">新書 adalah jenis buku (terbitan bersampul kecil), bukan kata kerja "menulis ulang".</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">清書する（せいしょする）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">清書する = menulis kembali draf menjadi versi bersih/rapi (menyalin bersih).</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q7 : 4日目 1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">7</span><span class="qtag">4日目 &middot; 意味</span></div>
+        <div class="qtext">しなければならない仕事や勉強をまじめにしない</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">もうける</span></div>
+                <div class="choice-explain">Mendapat untung (儲ける) &mdash; soal keuntungan uang, bukan bermalas-malasan.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">なまける<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">なまける (怠ける) = bermalas-malasan, tidak serius mengerjakan tugas/pekerjaan yang seharusnya dilakukan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">まとめる</span></div>
+                <div class="choice-explain">Merangkum/menyatukan &mdash; tidak berhubungan dengan "tidak serius bekerja".</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q8 : 4日目 2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">8</span><span class="qtag">4日目 &middot; 意味</span></div>
+        <div class="qtext">仕事で一緒に物事をする人</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">仕事友人（しごとゆうじん）</span></div>
+                <div class="choice-explain">Bukan kata majemuk yang lazim &mdash; "teman kerja" tidak diungkapkan dengan 仕事友人.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">仕事社員（しごとしゃいん）</span></div>
+                <div class="choice-explain">社員 berarti karyawan, bukan rekan setara yang bekerja bersama dalam satu pekerjaan.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">仕事仲間（しごとなかま）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">仕事仲間 = rekan kerja/teman sekerja, orang yang melakukan pekerjaan bersama kita.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q9 : 5日目 1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">9</span><span class="qtag">5日目 &middot; 意味</span></div>
+        <div class="qtext">何度も経験した結果、特別なことだと感じなくなる</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">なれる<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">なれる (慣れる) = menjadi terbiasa, sehingga hal yang tadinya terasa khusus kini terasa biasa karena sering dialami.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">くりかえす</span></div>
+                <div class="choice-explain">Mengulang &mdash; menyatakan tindakan berulang, bukan perasaan "sudah tidak istimewa".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">つながる</span></div>
+                <div class="choice-explain">Terhubung/tersambung &mdash; tidak berhubungan dengan kebiasaan.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q10 : 5日目 2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">10</span><span class="qtag">5日目 &middot; 意味</span></div>
+        <div class="qtext">新年を祝うあいさつを書いたハガキ</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">新年状（しんねんじょう）</span></div>
+                <div class="choice-explain">Bukan istilah yang dipakai untuk kartu ucapan tahun baru &mdash; bentuk yang dibuat-buat.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">年賀状（ねんがじょう）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">年賀状 = kartu pos ucapan tahun baru, dikirim untuk menyampaikan salam tahun baru.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">年始状（ねんしじょう）</span></div>
+                <div class="choice-explain">Bukan kata yang lazim; 年始 (awal tahun) memang ada, tetapi kartu ucapannya disebut 年賀状.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q11 : 6日目 1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">11</span><span class="qtag">6日目 &middot; 意味</span></div>
+        <div class="qtext">送られてきたメールを、さらに他のところに送ること</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">返信（へんしん）</span></div>
+                <div class="choice-explain">Membalas &mdash; dikirim kembali ke pengirim aslinya, bukan diteruskan ke pihak lain.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">転送（てんそう）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">転送 = meneruskan (forward): email yang diterima dikirim lagi ke alamat/tujuan lain.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">受信（じゅしん）</span></div>
+                <div class="choice-explain">Menerima &mdash; kebalikannya: di sini emailnya justru dikirim keluar lagi.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q12 : 6日目 2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">12</span><span class="qtag">6日目 &middot; 意味</span></div>
+        <div class="qtext">どこに何があるか、すぐに利用できるようにする</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">作成する（さくせいする）</span></div>
+                <div class="choice-explain">Membuat (dokumen/barang) &mdash; bukan menata agar mudah ditemukan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">仕上げる（しあげる）</span></div>
+                <div class="choice-explain">Menyelesaikan/menyempurnakan pekerjaan sampai tuntas &mdash; bukan merapikan letak barang.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">整理する（せいりする）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">整理する = merapikan/menata, sehingga tahu di mana sesuatu berada dan bisa langsung dipakai.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q13 : 問題1 1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">13</span><span class="qtag">問題1 &middot; 語彙</span></div>
+        <div class="qtext">6人で6,000円だから、<span class="blank">（　　　）</span>すると一人1,000円です。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. 足し算（たしざん）</span></div>
+                <div class="choice-explain">Penjumlahan (6,000＋6) &mdash; hasilnya bukan 1.000 per orang.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. 引き算（ひきざん）</span></div>
+                <div class="choice-explain">Pengurangan &mdash; 6.000 dikurangi 6 tidak menghasilkan 1.000.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. かけ算（かけざん）</span></div>
+                <div class="choice-explain">Perkalian &mdash; 6.000×6 justru makin besar, bukan dibagi rata.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">4. 割り算（わりざん）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">割り算 = pembagian: 6.000÷6＝1.000. Membagi total ke enam orang adalah 割り算.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q14 : 問題1 2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">14</span><span class="qtag">問題1 &middot; 語彙</span></div>
+        <div class="qtext">8×3は <span class="blank">（　　　）</span> と読みます。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. 8たす3</span></div>
+                <div class="choice-explain">Itu bacaan untuk 8＋3 (penjumlahan), bukan 8×3.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. 8かける3<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">Tanda × dibaca かける, jadi 8×3 dibaca「はち かける さん」.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. 8わる3</span></div>
+                <div class="choice-explain">Itu bacaan untuk 8÷3 (pembagian).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. 8ひく3</span></div>
+                <div class="choice-explain">Itu bacaan untuk 8−3 (pengurangan).</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q15 : 問題1 3 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">15</span><span class="qtag">問題1 &middot; 語彙</span></div>
+        <div class="qtext">卒業するためには、全部で150単位 <span class="blank">（　　　）</span> といけない。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. 受けない</span></div>
+                <div class="choice-explain">受ける dipakai untuk 試験・講義 (mengikuti ujian/kuliah); tidak berpasangan dengan 単位.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. 取らない<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">Kolokasi bakunya「単位を取る」= mengambil SKS &mdash; 150単位取らないといけない (harus mengambil 150 SKS).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. 受験しない</span></div>
+                <div class="choice-explain">受験する = mengikuti ujian masuk; 単位 bukan sesuatu yang "diujikan" seperti itu.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. 専攻しない</span></div>
+                <div class="choice-explain">専攻する = mengambil jurusan/bidang studi, objeknya bidang ilmu (経済学など), bukan 単位.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q16 : 問題1 4 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">16</span><span class="qtag">問題1 &middot; 語彙</span></div>
+        <div class="qtext">試験で <span class="blank">（　　　）</span> 問題の意味がわからなかった。</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">1. 問われている<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">問う = menanyakan. 「問われている問題」= soal yang ditanyakan (isi pertanyaannya) &mdash; artinya tidak paham.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. 書き取っている</span></div>
+                <div class="choice-explain">書き取る = menuliskan apa yang didengar/dibaca; tidak cocok menerangkan "arti soal yang tidak dipahami".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. 作成している</span></div>
+                <div class="choice-explain">作成する = membuat/menyusun &mdash; kalau soalnya dibuat sendiri, tidak masuk akal dalam konteks ujian.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. 記入されている</span></div>
+                <div class="choice-explain">記入する = mengisi/menuliskan (jawaban, formulir) &mdash; bukan "apa yang ditanyakan".</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q17 : 問題1 5 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">17</span><span class="qtag">問題1 &middot; 語彙</span></div>
+        <div class="qtext">履歴書をメールに <span class="blank">（　　　）</span> して送ります。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. 転送（てんそう）</span></div>
+                <div class="choice-explain">Meneruskan email yang sudah diterima &mdash; di sini kita justru mengirim berkas baru.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. 返信（へんしん）</span></div>
+                <div class="choice-explain">Membalas &mdash; 履歴書 bukan balasan, melainkan berkas yang ditempelkan ke email.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">3. 添付（てんぷ）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">添付 = lampiran: 「メールに添付して送る」= mengirim dengan melampirkan (file) di email.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. 整理（せいり）</span></div>
+                <div class="choice-explain">Merapikan &mdash; tidak menghasilkan lampiran pada email.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q18 : 問題1 6 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">18</span><span class="qtag">問題1 &middot; 語彙</span></div>
+        <div class="qtext">合計を <span class="blank">（　　　）</span> と、2万円になります。</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">1. 出す<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「合計を出す」= menghitung/mengeluarkan total &mdash; kalau dihitung, jumlahnya jadi 20.000 yen.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. 得る（える）</span></div>
+                <div class="choice-explain">得る = memperoleh; tidak dipakai untuk "menghitung total".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. なる</span></div>
+                <div class="choice-explain">「合計をなると」tidak gramatikal &mdash; なる tidak mengambil objek を seperti itu.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. やる</span></div>
+                <div class="choice-explain">やる = melakukan/melakukan sesuatu untuk orang lain; bukan kata untuk menghitung total.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q19 : 問題1 7 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">19</span><span class="qtag">問題1 &middot; 語彙</span></div>
+        <div class="qtext">えんぴつが丸くなったので、<span class="blank">（　　　）</span> ましょう。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. まとめ</span></div>
+                <div class="choice-explain">まとめる = merangkum/menyatukan &mdash; pensil yang tumpul tidak dirangkum.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. つなぎ</span></div>
+                <div class="choice-explain">つなぐ = menyambung &mdash; tidak ada hubungannya dengan pensil yang harus diruncingkan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. はかり</span></div>
+                <div class="choice-explain">はかる = menimbang/mengukur &mdash; bukan tindakan yang membuat pensil tajam lagi.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">4. けずり<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「えんぴつをけずる」= meraut pensil. Karena sudah tumpul/bulat, mari diraut.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q20 : 問題1 8 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">20</span><span class="qtag">問題1 &middot; 語彙</span></div>
+        <div class="qtext">パソコンで「はな」と入力して「花」に <span class="blank">（　　　）</span> する。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. 送信（そうしん）</span></div>
+                <div class="choice-explain">Mengirim (email/pesan) &mdash; bukan mengubah huruf jadi kanji.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. 変更（へんこう）</span></div>
+                <div class="choice-explain">Mengubah (setting, jadwal) &mdash; untuk konversi kana ke kanji istilahnya bukan 変更.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. 作成（さくせい）</span></div>
+                <div class="choice-explain">Membuat dokumen &mdash; di sini yang terjadi adalah pengubahan bentuk tulisan.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">4. 変換（へんかん）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">変換 = konversi: 「はな」diubah (henkan) menjadi kanji「花」.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q21 : 問題1 9 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">21</span><span class="qtag">問題1 &middot; 語彙</span></div>
+        <div class="qtext">彼とは、メールの <span class="blank">（　　　）</span> をしています。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. 受信（じゅしん）</span></div>
+                <div class="choice-explain">受信 hanya "menerima" &mdash; 「メールの受信をしている」tidak menyatakan saling berkirim.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. やりとり<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">やりとり = saling bertukar: 「メールのやりとりをする」= saling berkirim email (dua arah).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. チェック</span></div>
+                <div class="choice-explain">Memeriksa &mdash; bukan kegiatan berkirim pesan bolak-balik.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. くりかえし</span></div>
+                <div class="choice-explain">Pengulangan &mdash; 「メールのくりかえし」bukan ungkapan untuk komunikasi dua arah.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q22 : 問題1 10 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">22</span><span class="qtag">問題1 &middot; 語彙</span></div>
+        <div class="qtext">疲れていたので、授業中に <span class="blank">（　　　）</span> しまった。</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">1. 居眠りして（いねむりして）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">居眠りする = mengantuk lalu tertidur (dalam posisi duduk) &mdash; pas dengan 授業中に (saat pelajaran) karena lelah.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. 休学して（きゅうがくして）</span></div>
+                <div class="choice-explain">休学する = cuti sekolah/kuliah (dalam hitungan semester) &mdash; tidak bisa terjadi "saat pelajaran".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. なまけて</span></div>
+                <div class="choice-explain">Bermalas-malasan &mdash; soal kebiasaan tidak serius, bukan tertidur karena kelelahan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. サボって</span></div>
+                <div class="choice-explain">Membolos (tidak hadir) &mdash; bertentangan dengan 授業中に yang berarti sedang di dalam kelas.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q23 : 問題2 11 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">23</span><span class="qtag">問題2 &middot; 使い方 &mdash; 専攻</span></div>
+        <div class="qtext">つぎのことばの使い方として最もよいものを、1・2・3・4から一つえらびなさい。<br><b>専攻（せんこう）</b></div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. ぼくは大学では理工学部を専攻しています。</span></div>
+                <div class="choice-explain">専攻する mengambil bidang ilmu (経済学・物理学など) sebagai objek, bukan 学部 (fakultas). Bentuk bakunya: 「理工学部で〜を専攻しています」.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. 妹さん、文学部ですよね。専攻は何ですか。<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">専攻 sebagai kata benda = "jurusan/bidang studi utama": 「専攻は何ですか」= "jurusan (kamu) apa?" &mdash; pemakaian paling wajar.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. 経済学の専攻に遅刻してしまった。</span></div>
+                <div class="choice-explain">専攻 bukan tempat/kegiatan yang bisa didatangi, jadi tidak bisa dijadikan sasaran 遅刻する.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. 心理学のレポートを専攻した。</span></div>
+                <div class="choice-explain">専攻する objeknya bidang ilmu (心理学), bukan レポート &mdash; laporan tidak bisa "dijurusan".</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q24 : 問題2 12 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">24</span><span class="qtag">問題2 &middot; 使い方 &mdash; 得意</span></div>
+        <div class="qtext"><b>得意（とくい）</b></div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">1. 私は水泳が得意です。<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">得意 = pandai/unggul (tentang kemampuan diri): 「〜が得意だ」= "saya jago berenang" &mdash; pemakaian paling lazim.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. スポーツが得意な高校へ入学した。</span></div>
+                <div class="choice-explain">得意 dipakai untuk orang (kemampuan pribadi). Untuk sekolah/lembaga yang "unggul", kata yang tepat スポーツが盛んな高校 / 強い高校.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. 授業料を1年分まとめて払うほうが得意だ。</span></div>
+                <div class="choice-explain">得意 bukan "lebih menguntungkan/lebih baik"; untuk itu dipakai 得だ / 都合がいい.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. テストの結果がよかったので、みんなに得意にした。</span></div>
+                <div class="choice-explain">Tidak ada bentuk「得意にする」; untuk membanggakan diri pada orang lain dipakai 自慢する.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q25 : 問題2 13 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">25</span><span class="qtag">問題2 &middot; 使い方 &mdash; 済ませる</span></div>
+        <div class="qtext"><b>済ませる（すませる）</b></div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. 提出を済ませて、期限を守ろう。</span></div>
+                <div class="choice-explain">済ませる mengambil pekerjaan/tugas yang harus diselesaikan (宿題・仕事・用事・食事). Untuk menyerahkan dokumen dipakai 提出する, bukan 提出を済ませる.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. この仕事を済ませてから、ご飯にしよう。<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「仕事を済ませる」= menyelesaikan pekerjaan &mdash; setelah selesai, baru makan. Pemakaian paling wajar.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. 履歴書を済ませてから、面接に行く予定だ。</span></div>
+                <div class="choice-explain">履歴書 adalah benda/dokumen, bukan tugas yang "diselesaikan"; yang benar 履歴書を書いてから.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. 医学部を済ませてから、医者になった。</span></div>
+                <div class="choice-explain">Untuk menyelesaikan sekolah/fakultas dipakai 卒業する: 医学部を卒業してから.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q26 : 問題2 14 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">26</span><span class="qtag">問題2 &middot; 使い方 &mdash; やり取り</span></div>
+        <div class="qtext"><b>やり取り（やりとり）</b></div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. 新しいパソコンをやり取りして、レポートを作成した。</span></div>
+                <div class="choice-explain">やり取り = saling bertukar (dua arah). Untuk "menerima barang" dipakai 受け取る.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. 今日の授業をもう一度やり取りした。</span></div>
+                <div class="choice-explain">Untuk mengulang pelajaran dipakai 復習する &mdash; やり取り bukan "mengulang".</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">3. 彼とは毎年、年賀状のやり取りだけしています。<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「年賀状のやり取り」= saling berkirim kartu tahun baru &mdash; pertukaran dua arah, pemakaian paling tepat.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. コンビニのバイトで、生活費をやり取りしています。</span></div>
+                <div class="choice-explain">Uang tidak "dipertukarkan" begitu; untuk memperoleh biaya hidup dipakai 稼ぐ, dan untuk mengatur pemakaian uang dipakai やりくりする.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q27 : 問題2 15 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">27</span><span class="qtag">問題2 &middot; 使い方 &mdash; もうかる</span></div>
+        <div class="qtext"><b>もうかる（儲かる）</b></div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. たくさんお金がもうかったので、節約しなければならない。</span></div>
+                <div class="choice-explain">Isinya bertentangan: kalau untungnya banyak, tidak perlu berhemat. Lagi pula もうかる menerangkan usaha/penjualan, bukan お金がもうかる.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. 今月は、お客さんがあまり来ないのでもうかった。</span></div>
+                <div class="choice-explain">Kalau pelanggan tidak datang, justru tidak untung &mdash; logikanya terbalik.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. 今月はお金を使うことが多くて、生活費がもうかった。</span></div>
+                <div class="choice-explain">Banyak mengeluarkan uang berarti rugi, bukan もうかった; 生活費 juga tidak bisa menjadi subjek もうかる.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">4. 新しい商品がよく売れたので、店はたいへんもうかった。<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">もうかる = mendapat untung: barang baru laku, jadi toko sangat untung &mdash; subjeknya usaha/toko, sesuai pemakaian.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q28 : 問題3 16 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">28</span><span class="qtag">問題3 &middot; 言い換え &mdash; 定規</span></div>
+        <div class="qtext">紙のサイズを <span class="blank">定規（じょうぎ）</span> で測る。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. はかり</span></div>
+                <div class="choice-explain">はかり = timbangan &mdash; untuk menimbang berat, bukan mengukur panjang/kertas.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. ものさし<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">ものさし = penggaris (alat ukur panjang) &mdash; sama dengan 定規 dalam konteks mengukur ukuran kertas.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. マウス</span></div>
+                <div class="choice-explain">マウス = mouse komputer &mdash; tidak dipakai mengukur kertas.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. はさみ</span></div>
+                <div class="choice-explain">はさみ = gunting &mdash; untuk memotong, bukan mengukur.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q29 : 問題3 17 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">29</span><span class="qtag">問題3 &middot; 言い換え &mdash; 学費</span></div>
+        <div class="qtext">大学の <span class="blank">学費（がくひ）</span> は年々高くなる。</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">1. 授業料（じゅぎょうりょう）<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">学費 = biaya pendidikan/kuliah; yang paling dekat maknanya adalah 授業料 (uang kuliah) yang dibayar tiap tahun.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. 奨学金（しょうがくきん）</span></div>
+                <div class="choice-explain">奨学金 = beasiswa (bantuan dana), bukan biaya yang harus dibayar.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. 給料（きゅうりょう）</span></div>
+                <div class="choice-explain">給料 = gaji yang diterima dari pekerjaan, bukan biaya kuliah.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. 受験料（じゅけんりょう）</span></div>
+                <div class="choice-explain">受験料 = biaya pendaftaran ujian masuk &mdash; hanya dibayar sekali saat ujian, bukan biaya tahunan.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q30 : 問題3 18 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">30</span><span class="qtag">問題3 &middot; 言い換え &mdash; 削除する</span></div>
+        <div class="qtext">不要なメールを <span class="blank">削除（さくじょ）</span> した。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. チェックした</span></div>
+                <div class="choice-explain">チェックする = memeriksa, bukan menghapus.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. 消した<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">削除する = menghapus; 消す (menghilangkan/menghapus) adalah padanan sehari-harinya.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. 整理した</span></div>
+                <div class="choice-explain">整理する = merapikan/menata &mdash; emailnya masih ada, hanya ditata.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. 転送した</span></div>
+                <div class="choice-explain">転送する = meneruskan ke alamat lain, bukan menghapus.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q31 : 問題3 19 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">31</span><span class="qtag">問題3 &middot; 言い換え &mdash; きつい</span></div>
+        <div class="qtext">工事現場の仕事は、<span class="blank">きつい</span>。</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">1. つらい<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">きつい = berat/melelahkan secara fisik; つらい = menyiksa/menyesakkan &mdash; paling dekat maknanya untuk pekerjaan yang berat.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. 違い（ちがい）</span></div>
+                <div class="choice-explain">違い = perbedaan &mdash; bukan kata sifat untuk merasakan beratnya pekerjaan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. ついてない</span></div>
+                <div class="choice-explain">ついてない = sedang sial/kurang beruntung &mdash; soal nasib, bukan beratnya pekerjaan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. 慣れない（なれない）</span></div>
+                <div class="choice-explain">慣れない = belum terbiasa &mdash; menyatakan kebiasaan, bukan rasa berat/lelah.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q32 : 問題3 20 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">32</span><span class="qtag">問題3 &middot; 言い換え &mdash; サボる</span></div>
+        <div class="qtext">授業を <span class="blank">サボっていた</span> ので、勉強の内容がわからない。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. そろえて</span></div>
+                <div class="choice-explain">そろえる = menyiapkan/melengkapi agar sama &mdash; tidak berarti "tidak masuk kelas".</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. なまけて<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">サボる = membolos/bermalas-malasan; なまける (malas, tidak serius) paling dekat maknanya, sehingga pelajarannya jadi tidak dipahami.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. まとめて</span></div>
+                <div class="choice-explain">まとめる = merangkum/menyatukan &mdash; tidak menyatakan membolos.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. けずって</span></div>
+                <div class="choice-explain">けずる = meraut/mengikis (pensil) &mdash; tidak ada hubungannya dengan tidak mengikuti kelas.</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>Sumber: materi 語彙 Bab 4 (1日目&ndash;6日目 &middot; 問題1&ndash;3) &middot; Dibuat untuk latihan mandiri</footer>
+</div>
+</body>
+</html>
