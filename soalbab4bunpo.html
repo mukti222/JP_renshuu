@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Soal Bab 4 Bunpou - Latihan JLPT N3</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+    --bg: #0f0f1a;
+    --surface: #1a1a2e;
+    --surface2: #16213e;
+    --primary: #e63946;
+    --accent: #f0c27f;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --text: #f1f1f6;
+    --text-muted: #9ca3af;
+    --border: #2a2a4a;
+    --radius: 16px;
+    --radius-sm: 10px;
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 32px 16px 64px;
+}
+.container { max-width: 760px; margin: 0 auto; }
+.top-nav { margin-bottom: 20px; }
+.top-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+}
+.top-nav a:hover { color: var(--accent); }
+.page-header {
+    text-align: center;
+    padding: 28px 20px 32px;
+    background: radial-gradient(ellipse at 50% 0%, #1a1a3e 0%, #0f0f1a 70%);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-bottom: 28px;
+}
+.page-header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+}
+.page-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 16px;
+}
+.legend span {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+.section-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 30px 0 14px;
+    padding-left: 2px;
+}
+.section-title:first-of-type { margin-top: 0; }
+.qcard {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 20px 18px;
+    margin-bottom: 18px;
+}
+.qmeta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.qnum {
+    background: var(--primary);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.qtag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent);
+}
+.passage-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    font-size: 15px;
+    line-height: 1.9;
+}
+.passage-box .title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.passage-box p + p { margin-top: 10px; }
+.qtext {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 14px;
+}
+.blank {
+    color: var(--accent);
+    font-weight: 700;
+}
+.choices {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.choice {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    background: var(--surface2);
+}
+.choice-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.choice-mark {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+.choice-text { font-size: 15px; flex: 1; }
+.choice.correct {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: var(--success);
+}
+.choice.correct .choice-mark {
+    background: var(--success);
+    border-color: var(--success);
+    color: #fff;
+}
+.choice.correct .choice-text { color: var(--success); font-weight: 700; }
+.choice.wrong .choice-mark { color: var(--danger); border-color: var(--danger); }
+.choice-explain {
+    margin-top: 6px;
+    padding-left: 30px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+.choice.correct .choice-explain { color: rgba(34, 197, 94, 0.85); }
+.answer-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--success);
+    background: rgba(34, 197, 94, 0.15);
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+.order-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.order-chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 14px;
+}
+.order-chip.star {
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 700;
+}
+.full-sentence {
+    background: rgba(240, 194, 127, 0.08);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-top: 4px;
+}
+.full-sentence .title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.note {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 10px;
+    line-height: 1.6;
+    border-top: 1px dashed var(--border);
+    padding-top: 10px;
+}
+footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-top: 24px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav"><a href="library.html">&larr; Kembali ke Question Library</a></div>
+
+    <div class="page-header">
+        <h1>Soal Bab 4 &middot; Bunpou</h1>
+        <p>Latihan JLPT N3 &middot; 25 soal tata bahasa &middot; jawaban benar sudah ditandai, jawaban salah disertai alasan singkat</p>
+        <div class="legend">
+            <span>問題1 &middot; isian 文法</span>
+            <span>問題2 &middot; susunan kalimat</span>
+            <span>問題3 &middot; bacaan</span>
+        </div>
+    </div>
+
+    <div class="section-title">問題1 &mdash; Pilih kata yang paling tepat untuk bagian （　）</div>
+
+    <!-- Q1 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">1</span><span class="qtag">問題1 &middot; のかわりに／にかわって</span></div>
+        <div class="qtext">友達がうちに泊まりに来たとき、ベッド<span class="blank">（　　　）</span>ソファーに寝てもらった。</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">1. のかわりに<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「名詞＋のかわりに」= sebagai ganti (benda). Bed digantikan sofa &mdash; tamu tidur di sofa sebagai ganti kasur. Tepat.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. にかわって</span></div>
+                <div class="choice-explain">「人＋にかわって」= mewakili/menggantikan <b>orang</b> (mis. 私にかわって挨拶する). Tidak dipakai untuk benda seperti ベッド.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. のわりに</span></div>
+                <div class="choice-explain">「〜のわりに」= padahal/dibandingkan dengan ~ (hasil di luar dugaan). Tidak berarti \"sebagai ganti\".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. のせいで</span></div>
+                <div class="choice-explain">「〜のせいで」= gara-gara (akibat buruk). Di sini tidak ada hubungan sebab-akibat yang negatif.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">2</span><span class="qtag">問題1 &middot; おかげで</span></div>
+        <div class="qtext">車に乗せていただいた<span class="blank">（　　　）</span>、電車に間に合いました。</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">1. おかげで<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「〜おかげで」= berkat ~ (hasil baik). Berkat diberi tumpangan, jadi bisa mengejar kereta. Pas dengan hasil positif di belakangnya.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. わりに</span></div>
+                <div class="choice-explain">「〜わりに」= padahal/dibandingkan ~, hasilnya tidak sesuai dugaan. Bukan hubungan sebab-akibat.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. ついでに</span></div>
+                <div class="choice-explain">「〜ついでに」= sekalian (saat melakukan hal lain). Tidak menyatakan penyebab.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. かわりに</span></div>
+                <div class="choice-explain">「〜かわりに」= sebagai ganti/sebagai balasannya. Tidak cocok dengan \"berkat tumpangan, jadi tidak terlambat\".</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">3</span><span class="qtag">問題1 &middot; 敬語 ご〜なさる</span></div>
+        <div class="qtext">社長「体調が悪いから、帰るよ。」<br>秘書「はい、どうぞ、ご無理<span class="blank">（　　　）</span>ください。」</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. いたさないで</span></div>
+                <div class="choice-explain">いたす adalah kenjougo (merendahkan diri sendiri), jadi tidak boleh dipakai untuk tindakan 社長.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. なさらないで<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「ご無理なさらないでください」= mohon jangan memaksakan diri. なさる = bentuk hormat (sonkeigo) dari する, tepat untuk tindakan atasan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. いらっしゃらないで</span></div>
+                <div class="choice-explain">いらっしゃる adalah bentuk hormat dari いる／行く／来る, bukan dari する &mdash; tidak bisa menggantikan 無理する.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. もうさないで</span></div>
+                <div class="choice-explain">もうす adalah kenjougo dari 言う (\"mengatakan\"), bukan する, dan juga merendahkan diri.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">4</span><span class="qtag">問題1 &middot; のわりに</span></div>
+        <div class="qtext">この絵、5歳の子<span class="blank">（　　　）</span>よく描けていますね。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. くせに</span></div>
+                <div class="choice-explain">「〜くせに」= padahal ~ (bernada mencela/menyalahkan). Di sini justru memuji, jadi tidak cocok.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. のわりに<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「〜のわりに」= padahal (dibandingkan dengan) ~ &mdash; untuk usia 5 tahun, gambarnya bagus sekali (di luar dugaan, tapi positif).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. なんか</span></div>
+                <div class="choice-explain">なんか = \"hal seperti ~\" (meremehkan). Kalau dipakai di sini, maknanya jadi merendahkan anaknya.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. だもん</span></div>
+                <div class="choice-explain">だもん = \"soalnya/karena\" (bahasa percakapan, seperti anak kecil membela diri), bukan untuk membandingkan.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">5</span><span class="qtag">問題1 &middot; くらい（程度）</span></div>
+        <div class="qtext">川があふれて家が流される<span class="blank">（　　　）</span>雨が降った。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. について</span></div>
+                <div class="choice-explain">「〜について」= tentang/mengenai. Tidak menyatakan tingkat/derajat.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. かぎり</span></div>
+                <div class="choice-explain">「〜かぎり」= sejauh/selama (batas). Tidak dipakai untuk menyatakan \"sampai-sampai\".</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">3. くらい<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「〜くらい」di sini menyatakan derajat: hujan turun <b>sampai-sampai</b> sungai meluap dan rumah hanyut.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. うちに</span></div>
+                <div class="choice-explain">「〜うちに」= selagi/sementara (sebelum keadaan berubah). Tidak menyatakan derajat.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">6</span><span class="qtag">問題1 &middot; 〜ほど（比例）</span></div>
+        <div class="qtext">「弱い犬<span class="blank">（　　　）</span>よくほえる」と言います。</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">1. ほど<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">Pola「AはBほど〜」dalam peribahasa = \"semakin A, semakin ~\": 「弱い犬ほどよくほえる」= semakin lemah anjingnya, semakin sering menggonggong.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. くらい</span></div>
+                <div class="choice-explain">くらい menyatakan perkiraan jumlah/derajat (\"kira-kira/sebanyak\"), bukan perbandingan \"semakin... semakin\".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. さえ</span></div>
+                <div class="choice-explain">さえ = \"bahkan\" (hal yang paling tidak terduga). Tidak membentuk peribahasa ini.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. かぎり</span></div>
+                <div class="choice-explain">かぎり = sejauh/selama (batas), tidak dipakai untuk pola perbandingan seperti ini.</div>
+            </div>
+        </div>
+        <div class="note">Catatan: 弱い犬ほどよくほえる = \"tong kosong nyaring bunyinya\" (yang lemah justru paling banyak bicara).</div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">7</span><span class="qtag">問題1 &middot; 〜しかない</span></div>
+        <div class="qtext">洗濯機が壊れてしまったから、手で洗う<span class="blank">（　　　）</span>。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. ことか</span></div>
+                <div class="choice-explain">「〜ことか」= betapa ~ (ungkapan perasaan, biasanya dengan どんなに／何度). Tidak berarti \"tidak ada pilihan lain\".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. ものか</span></div>
+                <div class="choice-explain">「〜ものか」= \"tidak akan ~!\" (menolak dengan tegas). Bertentangan dengan situasi terpaksa.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">3. しかない<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「動詞辞書形＋しかない」= tidak ada pilihan selain ~. Mesin cuci rusak, jadi mau tidak mau harus mencuci dengan tangan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. ことはない</span></div>
+                <div class="choice-explain">「〜ことはない」= tidak perlu ~. Justru kebalikan dari makna yang dibutuhkan.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">8</span><span class="qtag">問題1 &middot; っけ</span></div>
+        <div class="qtext">コーヒーと紅茶、お好きなのはどちらでした<span class="blank">（　　　）</span>。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. もの</span></div>
+                <div class="choice-explain">もの = benda/hal. Tidak bisa menutup pertanyaan seperti どちらでした〜.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. こそ</span></div>
+                <div class="choice-explain">こそ = partikel penegas \"justru\". Tidak dipakai untuk mengingat-ingat/mengonfirmasi.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">3. っけ<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「〜でしたっけ」= menanyakan kembali sesuatu yang lupa/ingin dikonfirmasi (\"tadi yang mana, ya?\"). Tepat untuk menanyakan pesanan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. ことか</span></div>
+                <div class="choice-explain">「〜ことか」= betapa ~ (emosi). Tidak dipakai untuk bertanya kembali.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">9</span><span class="qtag">問題1 &middot; 〜ということだ（伝聞）</span></div>
+        <div class="qtext">先生の話では、来年から試験の形式が変わる<span class="blank">（　　　）</span>。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. ものか</span></div>
+                <div class="choice-explain">「〜ものか」= menolak dengan tegas (\"tidak mungkin ~\"). Bertentangan dengan 先生の話では.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. しかない</span></div>
+                <div class="choice-explain">「〜しかない」= tidak ada pilihan selain. Tidak menyampaikan \"kabarnya/konon\".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. ことだ</span></div>
+                <div class="choice-explain">「〜ことだ」= sebaiknya ~ (saran/nasihat). Tidak cocok untuk melaporkan isi pembicaraan orang lain.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">4. ということだ<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「〜ということだ」= konon/kabarnya ~ (伝聞). 「先生の話では…変わるということだ」= menurut kata guru, konon mulai tahun depan format ujian berubah.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">10</span><span class="qtag">問題1 &middot; 〜ことか</span></div>
+        <div class="qtext">あの建物が完成するのに、いったい何年かかる<span class="blank">（　　　）</span>。</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">1. ことか<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「疑問詞＋ことか」= betapa ~! (ungkapan heran/keluhan yang kuat). 「いったい何年かかることか」= entah berapa tahun lagi (yang dibutuhkan).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. ことだ</span></div>
+                <div class="choice-explain">「〜ことだ」= sebaiknya ~. Di sini bukan nasihat, melainkan keluhan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. ものか</span></div>
+                <div class="choice-explain">「〜ものか」= \"tidak akan ~!\" &mdash; menempel pada kata kerja bentuk kamus tanpa 疑問詞 seperti ini menjadi penolakan, bukan keluhan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. しかない</span></div>
+                <div class="choice-explain">しかない = tidak ada pilihan selain. Tidak menyampaikan perasaan \"betapa lamanya\".</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">11</span><span class="qtag">問題1 &middot; 〜ことか（感情）</span></div>
+        <div class="qtext">教えたことを生徒がどんどん覚えていくのを見ることは、うれしい<span class="blank">（　　　）</span>。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. ことだ</span></div>
+                <div class="choice-explain">「〜ことだ」= sebaiknya ~ (nasihat) atau seruan sederhana; tidak menyatakan \"betapa senangnya\".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. ことじゃない</span></div>
+                <div class="choice-explain">Bentuk negatif ini berarti \"bukan hal ~\" &mdash; bertentangan dengan perasaan senang yang jelas di kalimat.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">3. ことか<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「い形容詞＋ことか」= betapa ~! &mdash; menegaskan betapa senangnya melihat murid cepat mengingat yang diajarkan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. ことはない</span></div>
+                <div class="choice-explain">「〜ことはない」= tidak perlu ~. Maknanya jadi terbalik dari yang dimaksud.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">12</span><span class="qtag">問題1 &middot; くせに</span></div>
+        <div class="qtext">できない<span class="blank">（　　　）</span>できるなんて言わないほうがいいよ。</div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">1. くせに<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「〜くせに」= padahal ~ (mencela/ menyayangkan). Padahal tidak bisa, jangan bilang bisa &mdash; nada menyalahkan, cocok di sini.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. なんて</span></div>
+                <div class="choice-explain">なんて = \"hal seperti ~\" (meremehkan) atau penanda kutipan. Tidak menyatakan \"padahal\".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. なんか</span></div>
+                <div class="choice-explain">なんか mirip なんて (merendahkan), dan tidak bisa menyambung できない ke できる dengan makna \"padahal\".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. わりに</span></div>
+                <div class="choice-explain">「〜わりに」= dibandingkan ~, hasilnya tidak sesuai dugaan &mdash; bukan untuk mencela pertentangan seperti ini.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">13</span><span class="qtag">問題1 &middot; 〜ば〜ほど</span></div>
+        <div class="qtext">体はともかく、頭は使えば使う<span class="blank">（　　　）</span>よくなるらしい。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. くらい</span></div>
+                <div class="choice-explain">くらい = kira-kira/sebanyak/sampai. Tidak membentuk pola \"semakin... semakin\".</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. ほど<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「〜ば〜ほど」= semakin ~ semakin ~. 「使えば使うほどよくなる」= semakin dipakai, semakin bagus.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. かぎり</span></div>
+                <div class="choice-explain">かぎり = sejauh/selama (batas), bukan penanda perbandingan berbanding lurus.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. さえ</span></div>
+                <div class="choice-explain">さえ = bahkan. Tidak dipakai dalam pola 〜ば〜ほど.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">14</span><span class="qtag">問題1 &middot; 〜ことはない</span></div>
+        <div class="qtext">また次回がんばればいいじゃないか。がっかりする<span class="blank">（　　　）</span>よ。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. ことだ</span></div>
+                <div class="choice-explain">「〜ことだ」= sebaiknya ~. Kalau dipakai, artinya \"sebaiknya kecewa\" &mdash; jelas bertentangan dengan kalimat sebelumnya.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. ものか</span></div>
+                <div class="choice-explain">「〜ものか」= menolak dengan tegas (\"tidak akan ~\"). Tidak menyatakan \"tidak perlu\".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. ものの</span></div>
+                <div class="choice-explain">「〜ものの」= meskipun ~ (tetapi). Tidak bisa menutup kalimat dengan よ seperti ini.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">4. ことはない<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「動詞辞書形＋ことはない」= tidak perlu ~. Karena masih bisa berusaha lagi, tidak perlu kecewa.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">15</span><span class="qtag">問題1 &middot; なんか</span></div>
+        <div class="qtext">こんな天気のいい日に、家の中で仕事<span class="blank">（　　　）</span>したくない。</div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. だもん</span></div>
+                <div class="choice-explain">だもん = \"soalnya\" (alasan, bahasa percakapan). Tidak bisa disisipkan antara 仕事 dan したくない.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. もんか</span></div>
+                <div class="choice-explain">「〜もんか」dipakai di akhir kalimat (\"tidak akan ~!\"), bukan di tengah sebelum したくない.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">3. なんか<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「名詞＋なんか」= hal seperti ~ (meremehkan). 「仕事なんかしたくない」= tidak mau melakukan hal seperti kerja (di hari secerah ini).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. ことか</span></div>
+                <div class="choice-explain">ことか = betapa (ungkapan emosi), tidak bisa menjadi objek dari したくない.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">問題2 &mdash; Susun kalimat; pilih kata yang menempati ★</div>
+
+    <!-- Q16 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">16</span><span class="qtag">問題2 &middot; にとっての</span></div>
+        <div class="qtext">教師に　＿＿＿　＿＿＿　＿★＿　＿＿＿　成長です。</div>
+        <div class="order-bank">
+            <span class="order-chip">喜びは</span>
+            <span class="order-chip">学生の</span>
+            <span class="order-chip">とっての</span>
+            <span class="order-chip">最大の</span>
+        </div>
+        <div class="full-sentence">
+            <div class="title">Susunan lengkap</div>
+            教師にとっての最大の喜びは学生の成長です。
+        </div>
+        <div class="choices" style="margin-top:12px;">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">1. 喜びは<span class="answer-badge">Jawaban Benar (posisi ★)</span></span></div>
+                <div class="choice-explain">Urutan: とっての &rarr; 最大の &rarr; 喜びは (★) &rarr; 学生の. \"Bagi seorang guru, kebahagiaan terbesarnya adalah perkembangan muridnya.\"</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. 学生の</span></div>
+                <div class="choice-explain">学生の menempel langsung ke 成長です (\"perkembangan murid\"), jadi posisinya ke-4, bukan di ★.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. とっての</span></div>
+                <div class="choice-explain">「教師にとっての」harus langsung mengikuti 教師に &mdash; posisinya ke-1.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. 最大の</span></div>
+                <div class="choice-explain">最大の menerangkan 喜び (\"kebahagiaan terbesar\"), jadi posisinya ke-2.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q17 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">17</span><span class="qtag">問題2 &middot; どんなに〜ことか</span></div>
+        <div class="qtext">一人で日本へ来てから、今までどんなに　＿＿＿　＿＿＿　＿★＿　＿＿＿　か。</div>
+        <div class="order-bank">
+            <span class="order-chip">気持ちを</span>
+            <span class="order-chip">がまんした</span>
+            <span class="order-chip">さびしい</span>
+            <span class="order-chip">こと</span>
+        </div>
+        <div class="full-sentence">
+            <div class="title">Susunan lengkap</div>
+            一人で日本へ来てから、今までどんなにさびしい気持ちをがまんしたことか。
+        </div>
+        <div class="choices" style="margin-top:12px;">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. 気持ちを</span></div>
+                <div class="choice-explain">気持ちを adalah objek dari がまんした, jadi posisinya ke-2 (setelah さびしい yang menerangkannya).</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. がまんした<span class="answer-badge">Jawaban Benar (posisi ★)</span></span></div>
+                <div class="choice-explain">Urutan: さびしい &rarr; 気持ちを &rarr; がまんした (★) &rarr; こと. \"Betapa seringnya saya menahan perasaan sepi.\"</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. さびしい</span></div>
+                <div class="choice-explain">さびしい menerangkan 気持ち, jadi harus paling depan (ke-1).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. こと</span></div>
+                <div class="choice-explain">こと membentuk pola 「どんなに〜ことか」di akhir, jadi posisinya ke-4.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">18</span><span class="qtag">問題2 &middot; 〜んだって（伝聞）</span></div>
+        <div class="qtext">世界のいろいろなところで今もまだ　＿＿＿　＿＿＿　＿★＿　＿＿＿　って。</div>
+        <div class="order-bank">
+            <span class="order-chip">戦争が</span>
+            <span class="order-chip">いる</span>
+            <span class="order-chip">んだ</span>
+            <span class="order-chip">続いて</span>
+        </div>
+        <div class="full-sentence">
+            <div class="title">Susunan lengkap</div>
+            世界のいろいろなところで今もまだ戦争が続いているんだって。
+        </div>
+        <div class="choices" style="margin-top:12px;">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. 戦争が</span></div>
+                <div class="choice-explain">戦争が adalah subjek, harus paling depan setelah 今もまだ &mdash; posisinya ke-1.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. いる<span class="answer-badge">Jawaban Benar (posisi ★)</span></span></div>
+                <div class="choice-explain">Urutan: 戦争が &rarr; 続いて &rarr; いる (★) &rarr; んだ. \"Katanya di berbagai belahan dunia peperangan masih terus berlangsung.\"</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. んだ</span></div>
+                <div class="choice-explain">んだ menempel sebelum って (penanda kutipan) di akhir kalimat &mdash; posisinya ke-4.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. 続いて</span></div>
+                <div class="choice-explain">続いて adalah bentuk て dari 続く yang harus menempel ke いる &mdash; posisinya ke-2.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q19 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">19</span><span class="qtag">問題2 &middot; 〜ようになったせいで</span></div>
+        <div class="qtext">携帯電話やパソコンで　＿＿＿　＿＿＿　＿★＿　＿＿＿　仕事から離れられなくなった。</div>
+        <div class="order-bank">
+            <span class="order-chip">連絡できる</span>
+            <span class="order-chip">いつでも</span>
+            <span class="order-chip">せいで</span>
+            <span class="order-chip">ようになった</span>
+        </div>
+        <div class="full-sentence">
+            <div class="title">Susunan lengkap</div>
+            携帯電話やパソコンでいつでも連絡できるようになったせいで、仕事から離れられなくなった。
+        </div>
+        <div class="choices" style="margin-top:12px;">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. 連絡できる</span></div>
+                <div class="choice-explain">連絡できる menempel setelah いつでも &mdash; posisinya ke-2.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. いつでも</span></div>
+                <div class="choice-explain">いつでも menerangkan 連絡できる, jadi paling depan &mdash; posisinya ke-1.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. せいで</span></div>
+                <div class="choice-explain">せいで menutup klausa penyebab sebelum koma &mdash; posisinya ke-4 (bukan di ★).</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">4. ようになった<span class="answer-badge">Jawaban Benar (posisi ★)</span></span></div>
+                <div class="choice-explain">Urutan: いつでも &rarr; 連絡できる &rarr; ようになった (★) &rarr; せいで. \"Gara-gara jadi bisa dihubungi kapan saja, saya tidak bisa lepas dari pekerjaan.\"</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q20 -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">20</span><span class="qtag">問題2 &middot; だって〜んだもん</span></div>
+        <div class="qtext">A「いつまでゲームをしているの。」<br>B「＿＿＿　＿＿＿　＿★＿　＿＿＿　もん。」</div>
+        <div class="order-bank">
+            <span class="order-chip">おもしろくて</span>
+            <span class="order-chip">んだ</span>
+            <span class="order-chip">やめられない</span>
+            <span class="order-chip">だって</span>
+        </div>
+        <div class="full-sentence">
+            <div class="title">Susunan lengkap</div>
+            だって、おもしろくてやめられないんだもん。
+        </div>
+        <div class="choices" style="margin-top:12px;">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. おもしろくて</span></div>
+                <div class="choice-explain">おもしろくて menjelaskan alasan setelah だって &mdash; posisinya ke-2.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. んだ</span></div>
+                <div class="choice-explain">んだ langsung menempel ke もん di akhir &mdash; posisinya ke-4.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">3. やめられない<span class="answer-badge">Jawaban Benar (posisi ★)</span></span></div>
+                <div class="choice-explain">Urutan: だって &rarr; おもしろくて &rarr; やめられない (★) &rarr; んだ. \"Soalnya seru, jadi nggak bisa berhenti.\"</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. だって</span></div>
+                <div class="choice-explain">だって adalah kata pembuka \"soalnya/kan...\", jadi harus paling depan &mdash; posisinya ke-1.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">問題3 &mdash; Bacaan: pilih kata yang tepat untuk 【21】&ndash;【25】</div>
+
+    <!-- Q21-25: shared passage -->
+    <div class="qcard">
+        <div class="qmeta"><span class="qnum">21-25</span><span class="qtag">Bacaan &middot; Tata Bahasa</span></div>
+        <div class="passage-box">
+            <div class="title">Bacaan: Menjaga Ladang dari Hewan Liar</div>
+            <p>各地で野生の動物から畑を守るにはどうしたらいいか、話し合われています。<span class="blank">【21】</span>、野生の動物に野菜や果物を食べられてしまって困っているからです。</p>
+            <p>以前は山に木の実、<span class="blank">【22】</span>、野生の動物の食べ物がたくさんあったのですが、気候や人間の山に対するかかわり方などの環境の変化<span class="blank">【23】</span>、それが少なくなってしまいました。<span class="blank">【24】</span>動物たちは必要な食べ物を求めて、山から下りてくるようになったのです。</p>
+            <p>また、農村では、年をとった、農業では食べていけないなどの理由で畑の仕事をやめてしまう人も増えていて、荒れた農地が増え続けています。<span class="blank">【25】</span>、動物が畑に入りやすくなったのも原因の一つと言われています。</p>
+        </div>
+
+        <div class="qtext" style="margin-top:16px;"><b>【21】</b></div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. そこで</span></div>
+                <div class="choice-explain">そこで = \"oleh karena itu, lalu...\" (menyambung tindakan). Tidak cocok karena kalimat berikutnya berisi <b>alasan</b> (…からです).</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. その結果</span></div>
+                <div class="choice-explain">その結果 = \"hasilnya\" &mdash; dipakai sebelum akibat, bukan sebelum alasan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. それで</span></div>
+                <div class="choice-explain">それで = \"karena itu\" (percakapan). Juga menyatakan akibat, bukan alasan.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">4. なぜならば<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">なぜならば = \"sebab\" &mdash; pasangkan dengan 〜からです di akhir: \"…karena mereka kewalahan karena sayur dan buahnya dimakan hewan liar\".</div>
+            </div>
+        </div>
+
+        <div class="qtext" style="margin-top:18px;"><b>【22】</b></div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. にかわって</span></div>
+                <div class="choice-explain">にかわって = menggantikan (orang). Tidak berfungsi merangkum/menjelaskan ulang.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. つまり<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">つまり = \"artinya/dengan kata lain\" &mdash; merangkum ulang \"buah-buahan di gunung\" menjadi \"makanan hewan liar\".</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. それで</span></div>
+                <div class="choice-explain">それで = karena itu (akibat). Di sini tidak ada hubungan sebab-akibat, melainkan penjelasan ulang.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. そのわりに</span></div>
+                <div class="choice-explain">そのわりに = padahal/dibandingkan dengan itu (hasil di luar dugaan). Tidak sesuai alurnya.</div>
+            </div>
+        </div>
+
+        <div class="qtext" style="margin-top:18px;"><b>【23】</b></div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. のわりに</span></div>
+                <div class="choice-explain">のわりに = padahal ~ (perbandingan). Tidak menyatakan sebab.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. のおかげで</span></div>
+                <div class="choice-explain">おかげで = berkat (hasil baik), sedangkan di sini akibatnya buruk (makanan jadi berkurang).</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">3. により<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">「名詞＋により」= karena/disebabkan oleh ~ (bentuk tulis). 「環境の変化により、それが少なくなってしまいました」= akibat perubahan lingkungan, makanan itu jadi berkurang.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. にとって</span></div>
+                <div class="choice-explain">にとって = bagi (sudut pandang). Tidak menyatakan sebab.</div>
+            </div>
+        </div>
+
+        <div class="qtext" style="margin-top:18px;"><b>【24】</b></div>
+        <div class="choices">
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">1. それでも</span></div>
+                <div class="choice-explain">それでも = meskipun begitu. Kalimat berikutnya adalah akibat langsung, bukan pertentangan.</div>
+            </div>
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">2. そのために<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">そのために = \"karena itulah\" &mdash; akibat dari makanan yang berkurang: hewan turun gunung mencari makan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. そのうえ</span></div>
+                <div class="choice-explain">そのうえ = \"selain itu/tambahan lagi\" &mdash; menambahkan informasi, bukan menyatakan akibat.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. しかし</span></div>
+                <div class="choice-explain">しかし = tetapi. Tidak ada pertentangan di sini.</div>
+            </div>
+        </div>
+
+        <div class="qtext" style="margin-top:18px;"><b>【25】</b></div>
+        <div class="choices">
+            <div class="choice correct">
+                <div class="choice-row"><span class="choice-mark">✓</span><span class="choice-text">1. その結果<span class="answer-badge">Jawaban Benar</span></span></div>
+                <div class="choice-explain">その結果 = \"hasilnya\" &mdash; akibat dari makin banyaknya lahan terlantar: hewan jadi lebih mudah masuk ke ladang.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">2. なぜなら</span></div>
+                <div class="choice-explain">なぜなら menuntut penjelasan sebab di belakangnya (biasanya diakhiri から／ので), sedangkan kalimatnya berupa kesimpulan.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">3. ついでに</span></div>
+                <div class="choice-explain">ついでに = \"sekalian\" (saat melakukan hal lain). Tidak menyatakan hubungan sebab-akibat.</div>
+            </div>
+            <div class="choice wrong">
+                <div class="choice-row"><span class="choice-mark">✕</span><span class="choice-text">4. けれども</span></div>
+                <div class="choice-explain">けれども = tetapi. Bertentangan dengan alur yang justru melanjutkan akibat.</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>Soal Bab 4 &middot; Bunpou &middot; Latihan JLPT N3</footer>
+</div>
+</body>
+</html>
