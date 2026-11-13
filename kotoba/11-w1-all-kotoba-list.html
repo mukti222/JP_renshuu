@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>言葉の王国 — Daftar Kotoba &amp; Kanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Noto+Serif+JP:wght@600;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b2415; --moss:#3f5f2a; --moss-d:#1f3216;
+  --gold:#c9a94a; --gold-l:#ecdc9a; --gold-d:#7d6a26;
+  --parch:#efe8c4;
+  --jp:"Noto Serif JP","Yu Mincho","YuMincho","Hiragino Mincho ProN","MS PMincho","Songti SC",serif;
+  --title:"Cinzel","Trajan Pro","Palatino Linotype",Georgia,serif;
+  --text:"Cormorant Garamond","Palatino Linotype","Book Antiqua",Georgia,serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{min-height:100vh;color:var(--parch);font-family:var(--text);background:#14110d}
+#wall{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0;pointer-events:none}
+main{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-bottom:80px}
+
+/* ---------- Header ---------- */
+header{width:min(880px,100%);padding:34px 18px 10px;text-align:center}
+.crown{width:86px;height:64px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.6))}
+h1{margin:6px 0 0;font-family:var(--jp);font-weight:900;font-size:clamp(2.1rem,7vw,3.4rem);letter-spacing:.08em;
+  background:linear-gradient(#f6ecb8,#c9a94a 45%,#7d6a26);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 3px 0 rgba(0,0,0,.55))}
+.sub{margin:4px 0 0;font-family:var(--title);letter-spacing:.2em;font-size:clamp(.7rem,2.4vw,.95rem);color:var(--gold-l);text-transform:uppercase}
+.src{margin:4px 0 0;color:#e2dab0;font-size:1rem;font-style:italic}
+
+/* ---------- Bar lengket ---------- */
+.bar{position:sticky;top:0;z-index:5;width:100%;display:flex;justify-content:center;
+  padding:10px 12px;background:linear-gradient(rgba(18,16,12,.96),rgba(18,16,12,.82) 70%,rgba(18,16,12,0))}
+.bar-in{width:min(880px,100%);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.stat{font-family:var(--title);font-size:.95rem;letter-spacing:.08em;color:var(--gold-l);white-space:nowrap}
+.stat b{font-size:1.3rem;color:#f6ecb8}
+.track{flex:1;min-width:120px;height:9px;border-radius:99px;background:rgba(0,0,0,.55);
+  border:1px solid rgba(201,169,74,.5);overflow:hidden}
+.fill{height:100%;width:0;border-radius:99px;background:linear-gradient(#e9d88a,#a58c3a);transition:width .35s ease}
+.btn{font-family:var(--title);font-weight:700;letter-spacing:.06em;font-size:.8rem;color:var(--gold-l);
+  background:linear-gradient(#557a3a,#243a1a);border:2px solid var(--gold);border-radius:99px;padding:7px 15px;cursor:pointer;
+  box-shadow:0 3px 0 #0c1608,0 8px 16px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.12);transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.18)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #0c1608}
+.btn:focus-visible{outline:3px solid var(--gold-l);outline-offset:3px}
+
+/* ---------- Daftar ---------- */
+.list{width:min(880px,100%);padding:6px 12px 0;display:flex;flex-direction:column;gap:9px}
+.day{margin:20px 0 4px;align-self:center;padding:7px 30px;border-radius:99px;
+  font-family:var(--title);font-weight:700;letter-spacing:.14em;font-size:.78rem;color:var(--gold-l);
+  background:linear-gradient(#557a3a,#243a1a);border:2px solid var(--gold);
+  box-shadow:0 4px 0 #0c1608,0 10px 20px rgba(0,0,0,.5),inset 0 0 0 1px rgba(245,220,138,.25)}
+.day:first-child{margin-top:6px}
+
+.row{display:flex;align-items:center;gap:13px;padding:9px 12px 9px 10px;border-radius:99px;
+  background:linear-gradient(90deg,rgba(87,124,60,.5),rgba(34,52,24,.6) 48%,rgba(18,26,13,.72));
+  border:2px solid rgba(201,169,74,.5);
+  box-shadow:inset 0 0 0 1px rgba(245,220,138,.1),0 6px 16px rgba(0,0,0,.42);
+  transition:transform .18s,box-shadow .18s,filter .18s,opacity .32s,height .32s,padding .32s,margin .32s,border-width .32s,background .2s}
+.row:hover{transform:translateX(4px);filter:brightness(1.14);
+  box-shadow:inset 0 0 0 1px rgba(245,220,138,.2),0 8px 22px rgba(0,0,0,.5),0 0 22px rgba(212,175,55,.28)}
+
+.num{flex:none;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;
+  font-family:var(--title);font-weight:700;font-size:.82rem;color:var(--gold-l);
+  background:radial-gradient(circle at 40% 30%,#4f7336,#1a2a10);
+  border:2px solid rgba(201,169,74,.8);box-shadow:inset 0 0 10px rgba(0,0,0,.5),0 2px 6px rgba(0,0,0,.4)}
+.txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.jp{font-family:var(--jp);font-weight:900;font-size:clamp(1.15rem,3.6vw,1.5rem);line-height:1.25;color:#f6ecb8;
+  text-shadow:0 1px 0 rgba(0,0,0,.6);word-break:break-word}
+.line2{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;min-width:0}
+.rom{font-family:var(--text);font-style:italic;font-weight:700;font-size:1rem;color:var(--gold);letter-spacing:.02em}
+.mean{font-family:var(--text);font-weight:600;font-size:1rem;color:#e4dfb4}
+.dash{color:rgba(201,169,74,.6)}
+.tag{flex:none;font-family:var(--title);font-weight:700;letter-spacing:.1em;font-size:.62rem;padding:3px 9px;border-radius:99px;
+  border:1px solid rgba(201,169,74,.55);color:#dfe6b8;background:rgba(0,0,0,.3);white-space:nowrap}
+.tag.kanji{color:#f7dcae;border-color:rgba(220,150,90,.6)}
+.tag.jukugo{color:#cfe6f0;border-color:rgba(120,175,200,.5)}
+
+/* ---------- Centang ---------- */
+.check{flex:none;width:42px;height:42px;border-radius:50%;cursor:pointer;padding:0;display:grid;place-items:center;
+  border:2px solid rgba(201,169,74,.85);background:radial-gradient(circle at 40% 30%,rgba(31,50,22,.9),rgba(12,20,8,.9));
+  color:transparent;transition:transform .15s,background .2s,color .2s,box-shadow .2s,filter .15s}
+.check svg{width:22px;height:22px;stroke:currentColor;stroke-width:3.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.check:hover{transform:scale(1.1);color:rgba(236,220,154,.45);filter:brightness(1.2);box-shadow:0 0 16px rgba(212,175,55,.45)}
+.check:active{transform:scale(.94)}
+.check:focus-visible{outline:3px solid var(--gold-l);outline-offset:3px}
+.row.checked .check{color:#2a2408;background:linear-gradient(#e9d88a,#a58c3a);box-shadow:0 0 18px rgba(233,216,138,.65)}
+.row.gone{opacity:0;transform:translateX(60px) scale(.97);height:0!important;padding-top:0;padding-bottom:0;margin-top:-9px;border-width:0}
+
+.empty{display:none;width:min(880px,100%);padding:20px 16px;text-align:center;font-size:1.15rem;font-style:italic;color:var(--gold-l)}
+.empty.on{display:block}
+footer.sig{width:min(880px,100%);padding:26px 16px 0;text-align:center;font-family:var(--title);
+  letter-spacing:.22em;font-size:.66rem;color:rgba(236,220,154,.45);text-transform:uppercase}
+@media (max-width:520px){
+  .row{gap:9px;padding:8px 9px}
+  .num{width:32px;height:32px;font-size:.72rem}
+  .check{width:38px;height:38px}
+  .tag{display:none}
+  .jp{font-size:1.1rem}
+  .rom,.mean{font-size:.92rem}
+}
+</style>
+</head>
+<body>
+<canvas id="wall"></canvas>
+<main>
+  <header>
+    <svg class="crown" viewBox="0 0 64 48" aria-hidden="true">
+      <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f6ecb8"/><stop offset=".55" stop-color="#c9a94a"/><stop offset="1" stop-color="#7d6a26"/>
+      </linearGradient></defs>
+      <path d="M4 40 L2 12 L16 24 L32 4 L48 24 L62 12 L60 40 Z" fill="url(#cg)" stroke="#4b370b" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="4" y="40" width="56" height="6" rx="3" fill="url(#cg)" stroke="#4b370b" stroke-width="2"/>
+      <circle cx="32" cy="22" r="3.4" fill="#2a2408" opacity=".55"/>
+    </svg>
+    <h1>すべての語彙</h1>
+    <p class="sub">Daftar Kotoba &amp; Kanji · 第4週 1日目–6日目</p>
+    <p class="src">Klik centang di kanan untuk menandai sudah hafal — barisnya akan menghilang.</p>
+  </header>
+
+  <div class="bar">
+    <div class="bar-in">
+      <span class="stat">Sisa <b id="sisa">0</b> / <span id="total">0</span></span>
+      <div class="track"><div class="fill" id="fill"></div></div>
+      <button class="btn" id="reset" type="button">Tampilkan semua</button>
+    </div>
+  </div>
+
+  <div class="list" id="list"></div>
+  <p class="empty" id="empty">Semua sudah ditandai. おめでとう！ 🎉</p>
+  <p class="sig">言葉の王国 · Kotoba Renshuu</p>
+</main>
+
+<script>
+/* ============================================================
+   DATA — semua kartu dari 11-w1-all-kotoba.html
+   t = jenis (kotoba / kanji / jukugo), d = hari, r = bacaan kana
+   ============================================================ */
+const ALL = [{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"教科","r":"きょうか","m":"Mata pelajaran (arti umum)"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"科目","r":"かもく","m":"Mata pelajaran yang spesifik"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"時間割","r":"じかんわり","m":"Jadwal pelajaran"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"入学式","r":"にゅうがくしき","m":"Upacara penerimaan siswa baru"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"卒業式","r":"そつぎょうしき","m":"Upacara kelulusan"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"出席する","r":"しゅっせきする","m":"Hadir (absen masuk)"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"欠席する","r":"けっせきする","m":"Tidak hadir / absen"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"通学する","r":"つうがくする","m":"Berangkat sekolah (pulang-pergi)"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"通勤する","r":"つうきんする","m":"Berangkat kerja (pulang-pergi)"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"学期","r":"がっき","m":"Semester / periode ajaran"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"今学期","r":"こんがっき","m":"Semester ini"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"前期","r":"ぜんき","m":"Semester awal / paruh pertama"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"後期","r":"こうき","m":"Semester akhir / paruh kedua"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"同じ学年","r":"おなじがくねん","m":"Satu angkatan"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"自習する","r":"じしゅうする","m":"Belajar mandiri (tanpa diajar guru)"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"削る","r":"けずる","m":"Meraut / menyerut / memangkas"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"測る","r":"はかる","m":"Mengukur (panjang, tinggi, suhu — butuh alat ukur)"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"合計を出す","r":"ごうけいをだす","m":"Menghitung / mengeluarkan totalnya"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"足し算","r":"たしざん","m":"Penjumlahan"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"引き算","r":"ひきざん","m":"Pengurangan"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"掛け算","r":"かけざん","m":"Perkalian"},{"t":"kotoba","d":"1日目 · 学校へ行きましょう①","jp":"割り算","r":"わりざん","m":"Pembagian"},{"t":"kanji","d":"1日目 · 学校へ行きましょう①","jp":"砂","r":"すな","m":"Pasir"},{"t":"jukugo","d":"1日目 · 学校へ行きましょう①","jp":"砂糖","r":"さとう","m":"Gula"},{"t":"kanji","d":"1日目 · 学校へ行きましょう①","jp":"塩","r":"しお","m":"Garam"},{"t":"jukugo","d":"1日目 · 学校へ行きましょう①","jp":"食塩","r":"しょくえん","m":"Garam dapur"},{"t":"kanji","d":"1日目 · 学校へ行きましょう①","jp":"油","r":"あぶら","m":"Minyak (semua jenis minyak)"},{"t":"jukugo","d":"1日目 · 学校へ行きましょう①","jp":"しょう油","r":"しょうゆ","m":"Kecap asin (soy sauce)"},{"t":"jukugo","d":"1日目 · 学校へ行きましょう①","jp":"灯油","r":"とうゆ","m":"Minyak tanah"},{"t":"jukugo","d":"1日目 · 学校へ行きましょう①","jp":"石油","r":"せきゆ","m":"Minyak bumi (mentah)"},{"t":"kanji","d":"1日目 · 学校へ行きましょう①","jp":"緑","r":"みどり","m":"Hijau"},{"t":"jukugo","d":"1日目 · 学校へ行きましょう①","jp":"緑茶","r":"りょくちゃ","m":"Teh hijau"},{"t":"kanji","d":"1日目 · 学校へ行きましょう①","jp":"紅","r":"べに／こう","m":"Merah tua, merah cerah"},{"t":"jukugo","d":"1日目 · 学校へ行きましょう①","jp":"紅茶","r":"こうちゃ","m":"Teh hitam (disebut \"teh merah\" dalam bahasa Jepang)"},{"t":"jukugo","d":"1日目 · 学校へ行きましょう①","jp":"口紅","r":"くちべに","m":"Lipstik"},{"t":"kanji","d":"1日目 · 学校へ行きましょう①","jp":"冊","r":"さつ","m":"Eksemplar (satuan buku)"},{"t":"jukugo","d":"1日目 · 学校へ行きましょう①","jp":"冊数","r":"さっすう","m":"Jumlah buku"},{"t":"kanji","d":"1日目 · 学校へ行きましょう①","jp":"個","r":"こ","m":"Satuan benda kecil"},{"t":"jukugo","d":"1日目 · 学校へ行きましょう①","jp":"個人","r":"こじん","m":"Individu / pribadi"},{"t":"jukugo","d":"1日目 · 学校へ行きましょう①","jp":"個数","r":"こすう","m":"Jumlah benda"},{"t":"kanji","d":"1日目 · 学校へ行きましょう①","jp":"枚","r":"まい","m":"Lembar (satuan)"},{"t":"jukugo","d":"1日目 · 学校へ行きましょう①","jp":"枚数","r":"まいすう","m":"Jumlah lembar"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"受験する","r":"じゅけんする","m":"Mengikuti ujian masuk"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"学部","r":"がくぶ","m":"Fakultas"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"単位をとる","r":"たんいをとる","m":"Mengambil (dan lulus) SKS"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"セミ","r":"セミ","m":"Seminar (kelas kecil diskusi)"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"専攻する","r":"せんこうする","m":"Mengambil jurusan / spesialisasi"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"学科","r":"がっか","m":"Jurusan / program studi"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"経済学","r":"けいざいがく","m":"Ilmu ekonomi"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"政治学","r":"せいじがく","m":"Ilmu politik"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"心理学","r":"しんりがく","m":"Psikologi"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"言語学","r":"げんごがく","m":"Linguistik"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"物理学","r":"ぶつりがく","m":"Ilmu fisika"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"受ける","r":"うける","m":"Mengikuti (kuliah, ujian)"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"講義","r":"こうぎ","m":"Kuliah (mata kuliah / perkuliahan)"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"補習","r":"ほしゅう","m":"Les tambahan / bimbingan tambahan"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"補講","r":"ほこう","m":"Kelas pengganti"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"進学","r":"しんがく","m":"Melanjutkan sekolah ke jenjang lebih tinggi"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"希望する","r":"きぼうする","m":"Mengajukan harapan / mengharapkan"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"合格発表","r":"ごうかくはっぴょう","m":"Pengumuman kelulusan ujian"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"合格","r":"ごうかく","m":"Lulus ujian / seleksi (kata benda)"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"受かる","r":"うかる","m":"Lulus ujian / seleksi (verba)"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"不合格","r":"ふごうかく","m":"Tidak lulus ujian / seleksi"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"落ちる","r":"おちる","m":"Tidak lulus ujian / seleksi"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"授業料","r":"じゅぎょうりょう","m":"Uang kuliah / SPP (per semester)"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"学費","r":"がくひ","m":"Total biaya kuliah / sekolah"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"奨学金","r":"しょうがくきん","m":"Beasiswa"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"大学教授","r":"だいがくきょうじゅ","m":"Profesor universitas"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"学者","r":"がくしゃ","m":"Cendekiawan / ilmuwan / akademisi"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"居眠りをする","r":"いねむりをする","m":"Ketiduran / mengantuk di kelas"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"サボる","r":"サボる","m":"Membolos"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"休学する","r":"きゅうがくする","m":"Cuti kuliah"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"講義に間に合う","r":"こうぎにまにあう","m":"Masuk kuliah tepat waktu"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"講義に遅れる","r":"こうぎにおくれる","m":"Terlambat kuliah"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"遅刻する","r":"ちこくする","m":"Telat (formal)"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"成績がいい","r":"せいせきがいい","m":"Nilainya bagus"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"成績が悪い","r":"せいせきがわるい","m":"Nilainya jelek"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"単位を落とす","r":"たんいをおとす","m":"Tidak lulus mata kuliah"},{"t":"kotoba","d":"2日目 · 学校へ行きましょう②","jp":"寝坊","r":"ねぼう","m":"Bangun kesiangan"},{"t":"kanji","d":"2日目 · 学校へ行きましょう②","jp":"広","r":"こう","m":"Luas, lebar; menyebar"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"広告","r":"こうこく","m":"Iklan"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"広告メール","r":"こうこくメール","m":"Email iklan (spam)"},{"t":"kanji","d":"2日目 · 学校へ行きましょう②","jp":"利","r":"り","m":"Menguntungkan, berguna"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"便利な","r":"べんりな","m":"Praktis, berguna"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"利用","r":"りよう","m":"Menggunakan (fasilitas)"},{"t":"kanji","d":"2日目 · 学校へ行きましょう②","jp":"割","r":"わる／われる／わり","m":"Memecah (TRA) · pecah (INT) · rasio"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"割る","r":"わる","m":"Memecah / membagi (TRA)"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"割れる","r":"われる","m":"Pecah / retak (INT)"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"割合","r":"わりあい","m":"Proporsi / persentase / rasio"},{"t":"kanji","d":"2日目 · 学校へ行きましょう②","jp":"倍","r":"ばい","m":"Kali lipat"},{"t":"kanji","d":"2日目 · 学校へ行きましょう②","jp":"値","r":"ね","m":"Harga"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"値段","r":"ねだん","m":"Harga"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"値上げ","r":"ねあげ","m":"Kenaikan harga"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"値下げ","r":"ねさげ","m":"Penurunan harga / diskon"},{"t":"kanji","d":"2日目 · 学校へ行きましょう②","jp":"品","r":"ひん／しな","m":"Barang, produk"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"商品","r":"しょうひん","m":"Produk / barang dagangan"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"商店","r":"しょうてん","m":"Toko / kedai"},{"t":"kanji","d":"2日目 · 学校へ行きましょう②","jp":"店","r":"てん","m":"Toko"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"本店","r":"ほんてん","m":"Kantor pusat (toko)"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"支店","r":"してん","m":"Kantor cabang (toko / bank)"},{"t":"kanji","d":"2日目 · 学校へ行きましょう②","jp":"支","r":"し","m":"Cabang · menopang / membayar"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"支社","r":"ししゃ","m":"Kantor cabang (perusahaan)"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"本社","r":"ほんしゃ","m":"Kantor pusat (perusahaan)"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"支払う","r":"しはらう","m":"Membayar"},{"t":"jukugo","d":"2日目 · 学校へ行きましょう②","jp":"支払い","r":"しはらい","m":"Pembayaran"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"記入する","r":"きにゅうする","m":"Mengisi (formulir / jawaban)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"見直す","r":"みなおす","m":"Mengecek ulang / melihat kembali (verba)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"見直し","r":"みなおし","m":"Pengecekan ulang (kata benda)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"書き直す","r":"かきなおす","m":"Menulis ulang"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"間違う","r":"まちがう","m":"Salah / keliru (INT — fokus ke orangnya)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"間違える","r":"まちがえる","m":"Membuat kesalahan pada sesuatu (TRA)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"まとめる","r":"まとめる","m":"Merangkum / mengumpulkan jadi satu"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"仕上げる","r":"しあげる","m":"Menyelesaikan sampai tuntas / finishing"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"提出する","r":"ていしゅつする","m":"Menyerahkan (tugas ke guru)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"担当","r":"たんとう","m":"Penanggung jawab"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"担当者","r":"たんとうしゃ","m":"PIC / orang yang bertanggung jawab"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"教わる","r":"おそわる","m":"Diajari (kebalikan 教える)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"習う","r":"ならう","m":"Mempelajari (pelajaran / keterampilan)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"繰り返す","r":"くりかえす","m":"Mengulangi (verba)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"繰り返し","r":"くりかえし","m":"Pengulangan (kata benda)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"暗記する","r":"あんきする","m":"Menghafal mati-matian"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"覚える","r":"おぼえる","m":"Mengingat / menghafal (umum)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"問われる","r":"とわれる","m":"Ditanyai / diuji (verba)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"問い","r":"とい","m":"Pertanyaan / soal (formal)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"落ち着いて","r":"おちついて","m":"Dengan tenang"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"聞き直す","r":"ききなおす","m":"Mendengar / bertanya ulang karena tidak dengar"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"言い直す","r":"いいなおす","m":"Mengucapkan ulang / mengoreksi ucapan"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"聞き取る","r":"ききとる","m":"Menyimak / menangkap ucapan (verba)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"聞き取り","r":"ききとり","m":"Kegiatan menyimak (kata benda)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"書き取る","r":"かきとる","m":"Mencatat apa yang didengar (verba)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"書き取り","r":"かきとり","m":"Dikte / ujian tulis (kata benda)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"結果","r":"けっか","m":"Hasil"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"ついている","r":"ついている","m":"Beruntung / sedang mujur"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"ついていない","r":"ついていない","m":"Sial / tidak beruntung"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"済む","r":"すむ","m":"Selesai (tugasnya beres, beban hilang)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"カンニングする","r":"カンニングする","m":"Menyontek"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"下書き","r":"したがき","m":"Konsep kasar / draf"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"清書する","r":"せいしょする","m":"Menulis versi final (dari draf)"},{"t":"kotoba","d":"3日目 · 学校へ行きましょう③","jp":"提出期限を守る","r":"ていしゅつきげんをまもる","m":"Mematuhi batas waktu pengumpulan"},{"t":"kanji","d":"3日目 · 学校へ行きましょう③","jp":"米","r":"こめ／べい","m":"Beras; Amerika (dalam 米国)"},{"t":"kanji","d":"3日目 · 学校へ行きましょう③","jp":"価","r":"か","m":"Nilai, harga"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"価格","r":"かかく","m":"Harga (formal / istilah bisnis)"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"定価","r":"ていか","m":"Harga resmi / harga bandrol"},{"t":"kanji","d":"3日目 · 学校へ行きましょう③","jp":"格","r":"かく","m":"Tingkat, kelas; status"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"格安","r":"かくやす","m":"Super murah / harga miring"},{"t":"kanji","d":"3日目 · 学校へ行きましょう③","jp":"級","r":"きゅう","m":"Tingkat / kelas (kemampuan)"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"高級","r":"こうきゅう","m":"Mewah / kelas atas (tentang barang)"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"上級","r":"じょうきゅう","m":"Tingkat atas / mahir (skill, level)"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"中級","r":"ちゅうきゅう","m":"Tingkat menengah"},{"t":"kanji","d":"3日目 · 学校へ行きましょう③","jp":"残","r":"のこる／のこす／ざん","m":"Sisa · menyisakan · sisa"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"残る","r":"のこる","m":"Tersisa (INT)"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"残す","r":"のこす","m":"Menyisakan (TRA)"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"残り","r":"のこり","m":"Sisanya"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"残業","r":"ざんぎょう","m":"Kerja lembur"},{"t":"kanji","d":"3日目 · 学校へ行きましょう③","jp":"型","r":"かた","m":"Ukuran, model, tipe"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"大型","r":"おおがた","m":"Ukuran besar"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"小型","r":"こがた","m":"Ukuran kecil"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"新型","r":"しんがた","m":"Model baru / tipe baru"},{"t":"kanji","d":"3日目 · 学校へ行きましょう③","jp":"混","r":"こむ","m":"Padat, penuh (orang)"},{"t":"kanji","d":"3日目 · 学校へ行きましょう③","jp":"振","r":"ふる","m":"Mengayunkan; transfer (uang)"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"振り込む","r":"ふりこむ","m":"Transfer uang (ke rekening)"},{"t":"kanji","d":"3日目 · 学校へ行きましょう③","jp":"税","r":"ぜい","m":"Pajak"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"消費税","r":"しょうひぜい","m":"PPN (pajak konsumsi)"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"税金","r":"ぜいきん","m":"Pajak (umum)"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"税込","r":"ぜいこみ","m":"Sudah termasuk pajak"},{"t":"jukugo","d":"3日目 · 学校へ行きましょう③","jp":"税抜き","r":"ぜいぬき","m":"Belum termasuk pajak"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"バイト","r":"バイト","m":"Kerja part-time"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"コンビニの店員","r":"コンビニのてんいん","m":"Pegawai minimarket (konbini)"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"英会話講師","r":"えいかいわこうし","m":"Guru les percakapan bahasa Inggris"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"翻訳","r":"ほんやく","m":"Penerjemahan tulisan / penerjemah tertulis"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"通訳","r":"つうやく","m":"Penerjemahan lisan / interpreter"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"事務の手伝い","r":"じむのてつだい","m":"Membantu pekerjaan administrasi (admin)"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"ホームヘルパー","r":"ホームヘルパー","m":"Asisten rumah tangga untuk lansia"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"仕事を探す","r":"しごとをさがす","m":"Mencari pekerjaan"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"履歴書","r":"りれきしょ","m":"CV / daftar riwayat hidup"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"面接","r":"めんせつ","m":"Wawancara (kerja)"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"従業員","r":"じゅうぎょういん","m":"Karyawan / pegawai (formal)"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"仕事仲間","r":"しごとなかま","m":"Rekan kerja (satu tempat kerja)"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"給料","r":"きゅうりょう","m":"Gaji (bulanan)"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"給料日","r":"きゅうりょうび","m":"Hari gajian"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"時給","r":"じきゅう","m":"Gaji per jam"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"ボーナス","r":"ボーナス","m":"Bonus"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"交通費","r":"こうつうひ","m":"Uang transport"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"勤務時間","r":"きんむじかん","m":"Jam kerja"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"雇う","r":"やとう","m":"Mempekerjakan (hire)"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"雇われる","r":"やとわれる","m":"Dipekerjakan (be hired)"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"きつい仕事","r":"きついしごと","m":"Pekerjaan berat / melelahkan"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"お金を稼ぐ","r":"おかねをかせぐ","m":"Mencari / menghasilkan uang dengan kerja keras"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"お金を儲ける","r":"おかねをもうける","m":"Mendapatkan keuntungan / profit (TRA)"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"お金が儲かる","r":"おかねがもうかる","m":"Uangnya / bisnisnya menguntungkan (INT)"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"仕事を済ます","r":"しごとをすます","m":"Menyelesaikan pekerjaan (yang ada di depan mata)"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"仕事を済ませる","r":"しごとをすませる","m":"Menyelesaikan pekerjaan (lebih sopan/formal)"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"なまけもの","r":"なまけもの","m":"Pemalas / orang yang malas"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"働き者","r":"はたらきもの","m":"Pekerja keras / orang rajin"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"首になる","r":"くびになる","m":"Dipecat (idiom)"},{"t":"kotoba","d":"4日目 · 仕事をしましょう","jp":"辞めさせられる","r":"やめさせられる","m":"Dipaksa berhenti / disuruh mengundurkan diri"},{"t":"kanji","d":"4日目 · 仕事をしましょう","jp":"申","r":"もうす","m":"Mengatakan (formal); mendaftar"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"申し込む","r":"もうしこむ","m":"Mendaftar (lomba, kerja part-time)"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"申込書","r":"もうしこみしょ","m":"Formulir pendaftaran"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"申告","r":"しんこく","m":"Pelaporan / deklarasi (pajak, bea cukai)"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"申請","r":"しんせい","m":"Pengajuan resmi (visa, izin)"},{"t":"kanji","d":"4日目 · 仕事をしましょう","jp":"記","r":"き","m":"Mencatat, menuliskan"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"記入","r":"きにゅう","m":"Mengisi formulir"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"記号","r":"きごう","m":"Simbol / lambang (@, #, %, &)"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"日記","r":"にっき","m":"Buku harian"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"記事","r":"きじ","m":"Artikel / berita"},{"t":"kanji","d":"4日目 · 仕事をしましょう","jp":"例","r":"れい／たとえる","m":"Contoh; mengibaratkan"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"例える","r":"たとえる","m":"Mengibaratkan"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"例えば","r":"たとえば","m":"Misalnya"},{"t":"kanji","d":"4日目 · 仕事をしましょう","jp":"齢","r":"れい","m":"Usia"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"年齢","r":"ねんれい","m":"Umur / usia"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"高齢","r":"こうれい","m":"Usia lanjut"},{"t":"kanji","d":"4日目 · 仕事をしましょう","jp":"歳","r":"さい","m":"Umur (satuan tahun)"},{"t":"kanji","d":"4日目 · 仕事をしましょう","jp":"連","r":"れん／つれる","m":"Berurutan; membawa/mengajak (orang)"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"連絡","r":"れんらく","m":"Menghubungi"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"連休","r":"れんきゅう","m":"Libur panjang / libur berurutan"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"連れていく","r":"つれていく","m":"Mengajak pergi (orang / hewan)"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"連れて来る","r":"つれてくる","m":"Membawa / mengajak datang"},{"t":"kanji","d":"4日目 · 仕事をしましょう","jp":"性","r":"せい","m":"Sifat; jenis kelamin"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"性別","r":"せいべつ","m":"Jenis kelamin"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"性格","r":"せいかく","m":"Kepribadian / karakter"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"女性","r":"じょせい","m":"Wanita / perempuan"},{"t":"jukugo","d":"4日目 · 仕事をしましょう","jp":"男性","r":"だんせい","m":"Pria / laki-laki"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"触る","r":"さわる","m":"Menyentuh, memegang, mengoperasikan"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"初心者","r":"しょしんしゃ","m":"Pemula (beginner)"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"入門講座","r":"にゅうもんこうざ","m":"Kelas pengantar / kelas pemula"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"慣れる","r":"なれる","m":"Terbiasa"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"新製品","r":"しんせいひん","m":"Produk baru / model baru"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"新品","r":"しんぴん","m":"Barang baru (belum pernah dipakai)"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"中古","r":"ちゅうこ","m":"Barang bekas / second"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"画面","r":"がめん","m":"Layar"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"インストールする","r":"","m":"Menginstal"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"クリックする","r":"","m":"Mengklik"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"ファイルを開く","r":"ファイルをひらく","m":"Membuka file"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"閉じる","r":"とじる","m":"Menutup"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"添付ファイル","r":"てんぷファイル","m":"File lampiran"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"年賀状","r":"ねんがじょう","m":"Kartu ucapan tahun baru"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"つなぐ","r":"","m":"Menghubungkan"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"世界中","r":"せかいじゅう","m":"Seluruh dunia"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"情報を得る","r":"じょうほうをえる","m":"Memperoleh / mendapatkan informasi"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"オークションに参加する","r":"オークションにさんかする","m":"Mengikuti lelang"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"品物を出す","r":"しなものをだす","m":"Mengeluarkan barang ke lelang (menjualnya)"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"出品する","r":"しゅっぴんする","m":"Memajang barang untuk dijual / dilelang"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"ホームページを作る","r":"ホームページをつくる","m":"Membuat website / homepage"},{"t":"kotoba","d":"5日目 · パソコンを使いましょう","jp":"ブログを作る","r":"ブログをつくる","m":"Membuat blog"},{"t":"kanji","d":"5日目 · パソコンを使いましょう","jp":"届","r":"とどく／とどける","m":"Sampai / tiba (INT) · mengantarkan (TRA)"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"届く","r":"とどく","m":"Sampai, tiba, terkirim (INT)"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"届ける","r":"とどける","m":"Mengantarkan, mengirimkan (TRA)"},{"t":"kanji","d":"5日目 · パソコンを使いましょう","jp":"望","r":"ぼう／のぞむ","m":"Harapan · mengharapkan, menginginkan"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"失望","r":"しつぼう","m":"Kecewa, putus asa"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"望む","r":"のぞむ","m":"Mengharapkan, menginginkan"},{"t":"kanji","d":"5日目 · パソコンを使いましょう","jp":"希","r":"き","m":"Harapan, keinginan"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"希望","r":"きぼう","m":"Harapan, keinginan, cita-cita (KB)"},{"t":"kanji","d":"5日目 · パソコンを使いましょう","jp":"額","r":"がく","m":"Jumlah uang · dahi"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"金額","r":"きんがく","m":"Jumlah uang, nominal"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"半額","r":"はんがく","m":"Setengah harga / diskon 50%"},{"t":"kanji","d":"5日目 · パソコンを使いましょう","jp":"宅","r":"たく","m":"Rumah, kediaman"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"自宅","r":"じたく","m":"Rumah sendiri / rumahku"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"宅配","r":"たくはい","m":"Antar ke rumah / home delivery"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"お宅","r":"おたく","m":"Rumah Anda (sopan)"},{"t":"kanji","d":"5日目 · パソコンを使いましょう","jp":"配","r":"はい／くばる","m":"Membagikan · pengantaran, pembagian"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"配る","r":"くばる","m":"Membagikan"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"配達","r":"はいたつ","m":"Pengantaran / delivery"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"心配","r":"しんぱい","m":"Khawatir"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"配送料","r":"はいそうりょう","m":"Ongkos kirim"},{"t":"kanji","d":"5日目 · パソコンを使いましょう","jp":"荷","r":"に／か","m":"Barang, muatan"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"入荷","r":"にゅうか","m":"Barang masuk / stok masuk ke toko"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"出荷","r":"しゅっか","m":"Pengiriman barang / barang keluar gudang"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"荷物","r":"にもつ","m":"Paket, barang bawaan, bagasi"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"手荷物","r":"てにもつ","m":"Barang bawaan tangan / hand carry"},{"t":"kanji","d":"5日目 · パソコンを使いましょう","jp":"換","r":"かん／かえる","m":"Menukar, berganti"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"乗り換え","r":"のりかえ","m":"Transit / ganti kendaraan"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"交換","r":"こうかん","m":"Tukar / exchange"},{"t":"jukugo","d":"5日目 · パソコンを使いましょう","jp":"代金引換","r":"だいきんひきかえ","m":"COD / bayar di tempat"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"受信する","r":"じゅしんする","m":"Menerima (email / data / pesan)"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"送信する","r":"そうしんする","m":"Mengirim (email / data / pesan)"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"返信する","r":"へんしんする","m":"Membalas (email)"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"転送する","r":"てんそうする","m":"Meneruskan / forward (email)"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"新規作成する","r":"しんきさくせいする","m":"Membuat baru (file / folder)"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"まとめて送る","r":"まとめておくる","m":"Mengirim sekaligus (banyak sekaligus)"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"整理する","r":"せいりする","m":"Merapikan / mengorganisir"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"チェックする","r":"チェックする","m":"Mengecek"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"入力する","r":"にゅうりょくする","m":"Menginput / mengetik"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"ローマ字で入力する","r":"ローマじでにゅうりょくする","m":"Mengetik dengan romaji"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"漢字に変換する","r":"かんじにへんかんする","m":"Mengubah menjadi kanji"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"挿入する","r":"そうにゅうする","m":"Menyisipkan (gambar, teks)"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"削除する","r":"さくじょする","m":"Menghapus / delete"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"宛先","r":"あてさき","m":"Alamat tujuan / penerima"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"差出人","r":"さしだしにん","m":"Pengirim"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"件名","r":"けんめい","m":"Subjek / perihal email"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"メールのやり取りをする","r":"メールのやりとりをする","m":"Saling berkirim email / berkomunikasi lewat email"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"写真を添付する","r":"しゃしんをてんぷする","m":"Melampirkan foto (ke email)"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"改行する","r":"かいぎょうする","m":"Pindah baris / ganti baris"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"開封する","r":"かいふうする","m":"Membuka (surat / email)"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"送信者のメールアドレスを登録する","r":"そうしんしゃのメールアドレスをとうろくする","m":"Mendaftarkan alamat email pengirim"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"アドレス帳","r":"アドレスちょう","m":"Buku alamat / daftar kontak"},{"t":"kotoba","d":"6日目 · メールを書きましょう","jp":"送信が完了する","r":"そうしんがかんりょうする","m":"Pengiriman selesai / berhasil terkirim"},{"t":"kanji","d":"6日目 · メールを書きましょう","jp":"在","r":"ざい","m":"Ada, berada"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"不在","r":"ふざい","m":"Tidak ada di tempat"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"現在","r":"げんざい","m":"Sekarang / saat ini"},{"t":"kanji","d":"6日目 · メールを書きましょう","jp":"受","r":"うける／うかる","m":"Menerima; mengikuti (ujian)"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"受け取る","r":"うけとる","m":"Menerima (barang fisik)"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"受取人","r":"うけとりにん","m":"Penerima (orang)"},{"t":"kanji","d":"6日目 · メールを書きましょう","jp":"預","r":"あずける／よきん","m":"Menitipkan; tabungan"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"預ける","r":"あずける","m":"Menitipkan (barang / uang)"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"預金","r":"よきん","m":"Tabungan / simpanan di bank"},{"t":"kanji","d":"6日目 · メールを書きましょう","jp":"衣","r":"い","m":"Pakaian"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"衣類","r":"いるい","m":"Pakaian (istilah formal / toko / laundry)"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"衣服","r":"いふく","m":"Pakaian (yang dipakai di badan)"},{"t":"kanji","d":"6日目 · メールを書きましょう","jp":"参","r":"さん","m":"Ikut serta; datang (sopan)"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"参加","r":"さんか","m":"Ikut serta / partisipasi"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"参考書","r":"さんこうしょ","m":"Buku referensi / buku panduan belajar"},{"t":"kanji","d":"6日目 · メールを書きましょう","jp":"達","r":"たつ","m":"Mencapai, maju"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"上達","r":"じょうたつ","m":"Kemajuan / menjadi mahir"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"速達","r":"そくたつ","m":"Pos kilat / pengiriman cepat"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"友達","r":"ともだち","m":"Teman"},{"t":"kanji","d":"6日目 · メールを書きましょう","jp":"勤","r":"つとめる／きん","m":"Menjabat, bertugas; kerja"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"勤める","r":"つとめる","m":"Menjabat / bekerja di (perusahaan)"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"通勤","r":"つうきん","m":"Pergi-pulang kerja"},{"t":"kanji","d":"6日目 · メールを書きましょう","jp":"帯","r":"おび／たい","m":"Sabuk; rentang (waktu)"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"携帯電話","r":"けいたいでんわ","m":"Ponsel"},{"t":"jukugo","d":"6日目 · メールを書きましょう","jp":"時間帯","r":"じかんたい","m":"Rentang waktu / jam-jam tertentu"}];
+
+/* ============================================================
+   Kana → romaji (Hepburn sederhana)
+   ============================================================ */
+const KANA = {
+  'あ':'a','い':'i','う':'u','え':'e','お':'o',
+  'か':'ka','き':'ki','く':'ku','け':'ke','こ':'ko',
+  'さ':'sa','し':'shi','す':'su','せ':'se','そ':'so',
+  'た':'ta','ち':'chi','つ':'tsu','て':'te','と':'to',
+  'な':'na','に':'ni','ぬ':'nu','ね':'ne','の':'no',
+  'は':'ha','ひ':'hi','ふ':'fu','へ':'he','ほ':'ho',
+  'ま':'ma','み':'mi','む':'mu','め':'me','も':'mo',
+  'や':'ya','ゆ':'yu','よ':'yo',
+  'ら':'ra','り':'ri','る':'ru','れ':'re','ろ':'ro',
+  'わ':'wa','ゐ':'i','ゑ':'e','を':'o','ん':'n',
+  'が':'ga','ぎ':'gi','ぐ':'gu','げ':'ge','ご':'go',
+  'ざ':'za','じ':'ji','ず':'zu','ぜ':'ze','ぞ':'zo',
+  'だ':'da','ぢ':'ji','づ':'zu','で':'de','ど':'do',
+  'ば':'ba','び':'bi','ぶ':'bu','べ':'be','ぼ':'bo',
+  'ぱ':'pa','ぴ':'pi','ぷ':'pu','ぺ':'pe','ぽ':'po',
+  'ゔ':'vu','ゎ':'wa','ゕ':'ka','ゖ':'ke',
+  'ぁ':'a','ぃ':'i','ぅ':'u','ぇ':'e','ぉ':'o',
+  'ゃ':'ya','ゅ':'yu','ょ':'yo','っ':'','ー':'-','・':' ','　':' '
+};
+const DIGRAPH = {
+  'きゃ':'kya','きゅ':'kyu','きょ':'kyo','しゃ':'sha','しゅ':'shu','しょ':'sho',
+  'ちゃ':'cha','ちゅ':'chu','ちょ':'cho','にゃ':'nya','にゅ':'nyu','にょ':'nyo',
+  'ひゃ':'hya','ひゅ':'hyu','ひょ':'hyo','みゃ':'mya','みゅ':'myu','みょ':'myo',
+  'りゃ':'rya','りゅ':'ryu','りょ':'ryo','ぎゃ':'gya','ぎゅ':'gyu','ぎょ':'gyo',
+  'じゃ':'ja','じゅ':'ju','じょ':'jo','びゃ':'bya','びゅ':'byu','びょ':'byo',
+  'ぴゃ':'pya','ぴゅ':'pyu','ぴょ':'pyo','ぢゃ':'ja','ぢゅ':'ju','ぢょ':'jo',
+  'ふぁ':'fa','ふぃ':'fi','ふぇ':'fe','ふぉ':'fo',
+  'てぃ':'ti','でぃ':'di','とぅ':'tu','どぅ':'du',
+  'うぃ':'wi','うぇ':'we','うぉ':'wo','ゔぁ':'va','ゔぃ':'vi','ゔぇ':'ve','ゔぉ':'vo',
+  'しぇ':'she','ちぇ':'che','じぇ':'je'
+};
+const toHira = s => s.replace(/[\u30a1-\u30f6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
+const unit = (s, i) => {
+  const two = s.slice(i, i + 2);
+  if (DIGRAPH[two]) return { r: DIGRAPH[two], n: 2 };
+  const one = s[i];
+  if (KANA[one] !== undefined) return { r: KANA[one], n: 1 };
+  return { r: one, n: 1 };
+};
+function romaji(src) {
+  const s = toHira(String(src || ''));
+  let out = '';
+  for (let i = 0; i < s.length;) {
+    const c = s[i];
+    if (c === 'っ') {                                   // sokuon: gandakan konsonan berikut
+      const nx = unit(s, i + 1).r;
+      if (nx && /^[a-z]/.test(nx)) out += /^ch/.test(nx) ? 't' : nx[0];
+      i++; continue;
+    }
+    if (c === 'ー') {                                   // vokal panjang
+      const m = out.match(/[aeiou]$/);
+      if (m) out += m[0];
+      i++; continue;
+    }
+    if (c === 'ん') {                                   // n, pakai apostrof sebelum vokal / y
+      const nx = unit(s, i + 1).r;
+      out += 'n' + (nx && /^[aeiouy]/.test(nx) ? "'" : '');
+      i++; continue;
+    }
+    const u = unit(s, i);
+    out += u.r; i += u.n;
+  }
+  return out.replace(/\s+/g, ' ').trim();
+}
+
+/* ============================================================
+   Render daftar + centang
+   ============================================================ */
+const KEY = 'renshuu-allkotoba-sembunyi-v1';
+const TYPE = { kotoba: '語彙', kanji: '漢字', jukugo: '熟語' };
+const $ = s => document.querySelector(s);
+const list = $('#list'), sisaEl = $('#sisa'), fillEl = $('#fill'), emptyEl = $('#empty');
+let hidden = new Set();
+try { hidden = new Set(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch (e) { hidden = new Set(); }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify([...hidden])); } catch (e) {} };
+
+let rows = [];
+function build() {
+  list.innerHTML = '';
+  rows = ALL.map((c, i) => ({ c, i })).filter(({ i }) => !hidden.has(i));
+  let day = null;
+  rows.forEach(({ c, i }, n) => {
+    if (c.d !== day) {
+      day = c.d;
+      const h = document.createElement('div');
+      h.className = 'day';
+      h.textContent = day;
+      list.appendChild(h);
+    }
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.dataset.i = i;
+    row.innerHTML =
+      '<span class="num">' + (i + 1) + '</span>' +
+      '<span class="txt">' +
+        '<span class="jp"></span>' +
+        '<span class="line2"><span class="rom"></span><span class="dash">—</span><span class="mean"></span></span>' +
+      '</span>' +
+      '<span class="tag ' + c.t + '">' + TYPE[c.t] + '</span>' +
+      '<button class="check" type="button" aria-label="Tandai sudah hafal: ' + c.jp + '" title="Sudah hafal">' +
+        '<svg viewBox="0 0 24 24"><path d="M4 12.5 L9.5 18 L20 6.5"/></svg>' +
+      '</button>';
+    row.querySelector('.jp').textContent = c.jp;
+    row.querySelector('.rom').textContent = romaji(c.r) || c.r;
+    row.querySelector('.mean').textContent = c.m;
+    list.appendChild(row);
+  });
+  update();
+}
+
+function update() {
+  const total = ALL.length, left = total - hidden.size;
+  sisaEl.textContent = left;
+  $('#total').textContent = total;
+  fillEl.style.width = ((total - left) / total * 100).toFixed(2) + '%';
+  emptyEl.classList.toggle('on', left === 0);
+}
+
+function tick(btn) {
+  const row = btn.closest('.row');
+  const i = Number(row.dataset.i);
+  if (hidden.has(i)) return;
+  hidden.add(i);
+  save();
+  row.classList.add('checked');
+  update();
+  // tinggi dikunci dulu, paksa reflow, baru animasikan ke 0 & hapus dari DOM
+  row.style.height = row.offsetHeight + 'px';
+  row.style.overflow = 'hidden';
+  void row.offsetHeight;
+  row.classList.add('gone');
+  setTimeout(() => { row.remove(); }, 360);
+}
+
+list.addEventListener('click', e => {
+  const btn = e.target.closest('.check');
+  if (!btn) return;
+  tick(btn);
+});
+
+$('#reset').addEventListener('click', () => {
+  hidden.clear();
+  save();
+  build();
+});
+
+build();
+
+/* ============================================================
+   Latar: tembok kastil bata/batu tua berlumut (digambar di canvas)
+   ============================================================ */
+(function wall() {
+  const cv = document.getElementById('wall'), ctx = cv.getContext('2d');
+  const mulberry = a => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  let lastW = 0, lastH = 0;
+
+  function draw() {
+    const W = innerWidth, H = innerHeight, dpr = Math.min(devicePixelRatio || 1, 2);
+    lastW = W; lastH = H;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const R = mulberry(1337), rr = (a, b) => a + (b - a) * R(), pick = a => a[Math.floor(R() * a.length)];
+    const S = Math.max(.7, Math.min(1.3, W / 1100));
+
+    ctx.fillStyle = '#12100c'; ctx.fillRect(0, 0, W, H);
+    for (let i = 0; i < W * H / 900; i++) {
+      ctx.fillStyle = R() < .5 ? 'rgba(255,240,210,.05)' : 'rgba(0,0,0,.25)';
+      ctx.fillRect(R() * W, R() * H, 1.5, 1.5);
+    }
+
+    const bricks = [], rows = [];
+    for (let y = -8; y < H;) {
+      const h = Math.round(rr(46, 62) * S);
+      for (let x = -rr(0, 120) * S; x < W;) { const w = Math.round(rr(96, 178) * S); bricks.push({ x, y, w, h }); x += w; }
+      y += h; rows.push(y);
+    }
+    const PAL = [[30, 11, 32], [34, 13, 29], [26, 9, 35], [38, 9, 33], [205, 7, 32], [28, 15, 26], [42, 10, 30]];
+    bricks.forEach(({ x, y, w, h }) => {
+      const g = 3, j = () => rr(-1.6, 1.6);
+      const x0 = x + g + j(), y0 = y + g + j(), x1 = x + w - g + j(), y1 = y + h - g + j();
+      const [hh, ss, ll] = pick(PAL), L = ll + rr(-4, 5), Hh = hh + rr(-4, 4);
+      const grd = ctx.createLinearGradient(x0, y0, x1, y1);
+      grd.addColorStop(0, `hsl(${Hh},${ss}%,${L + 5}%)`); grd.addColorStop(1, `hsl(${Hh},${ss + 2}%,${L - 6}%)`);
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y0 + j()); ctx.lineTo(x1 + j(), y1); ctx.lineTo(x0 + j(), y1 + j()); ctx.closePath();
+      ctx.fillStyle = grd; ctx.fill();
+      ctx.save(); ctx.clip();
+      for (let i = 0, n = (x1 - x0) * (y1 - y0) / 45; i < n; i++) {
+        ctx.fillStyle = R() < .6 ? `rgba(0,0,0,${rr(.05, .16)})` : `rgba(255,235,200,${rr(.03, .09)})`;
+        const s = rr(.6, 1.8); ctx.fillRect(rr(x0, x1), rr(y0, y1), s, s);
+      }
+      if (R() < .35) {
+        const sl = rr(.4, 1) * (y1 - y0), sg = ctx.createLinearGradient(0, y0, 0, y0 + sl);
+        sg.addColorStop(0, 'rgba(0,0,0,.22)'); sg.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = sg; ctx.fillRect(rr(x0, x1 - 8), y0, rr(6, 22), sl);
+      }
+      ctx.fillStyle = 'rgba(255,235,200,.13)'; ctx.fillRect(x0, y0, x1 - x0, 1.5);
+      ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.fillRect(x0, y1 - 2.5, x1 - x0, 2.5);
+      ctx.restore();
+      if (R() < .14) {
+        let cx = rr(x0 + 8, x1 - 8), cy = y0 + 2;
+        ctx.beginPath(); ctx.moveTo(cx, cy);
+        for (let k = 0; k < 4; k++) { cx += rr(-9, 9); cy += (y1 - y0) / 4; ctx.lineTo(cx, cy); }
+        ctx.strokeStyle = 'rgba(0,0,0,.55)'; ctx.lineWidth = 1.1; ctx.stroke();
+      }
+    });
+
+    function moss(cx, cy, s) {
+      const sh = ctx.createRadialGradient(cx, cy, 0, cx, cy, s * 1.25);
+      sh.addColorStop(0, 'rgba(6,20,3,.5)'); sh.addColorStop(1, 'rgba(6,20,3,0)');
+      ctx.fillStyle = sh; ctx.fillRect(cx - s * 1.3, cy - s * 1.3, s * 2.6, s * 2.6);
+      const n = Math.round(s * s / 8) + 12;
+      const pass = (count, spread, cols, rmin, rmax) => {
+        for (let i = 0; i < count; i++) {
+          const a = R() * 6.283, d = Math.pow(R(), .65) * s * spread;
+          const r = rr(rmin, rmax) * (1 - .55 * d / (s * spread + 1));
+          ctx.fillStyle = pick(cols); ctx.beginPath();
+          ctx.arc(cx + Math.cos(a) * d, cy + Math.sin(a) * d * .72 - (spread < .7 ? s * .08 : 0), Math.max(.5, r), 0, 6.283); ctx.fill();
+        }
+      };
+      pass(n, 1.0, ['rgba(28,50,15,.95)', 'rgba(40,68,20,.95)'], 2, 5);
+      pass(n * .8, .85, ['rgba(58,98,30,.92)', 'rgba(74,116,36,.92)'], 1.6, 4.2);
+      pass(n * .5, .65, ['rgba(104,150,52,.9)', 'rgba(128,170,64,.88)'], 1, 3);
+      pass(n * .22, .5, ['rgba(176,204,104,.85)', 'rgba(206,220,140,.75)'], .6, 1.6);
+    }
+    bricks.forEach(({ x, y, w, h }) => {
+      const f = (y + h / 2) / H;
+      if (R() < .04 + .55 * f * f * f)
+        for (let i = 0, k = 1 + Math.floor(R() * 3); i < k; i++)
+          moss(x + rr(.1, .9) * w, R() < .7 ? y + h - 1 : y + rr(.2, .9) * h, rr(9, 26) * S);
+    });
+    for (let i = 0; i < Math.round(H / 70); i++) {
+      const ry = rows[Math.min(rows.length - 1, Math.floor(rows.length * Math.sqrt(R())))], x0 = rr(0, W), len = rr(120, 320) * S;
+      for (let x = x0; x < x0 + len; x += 9 * S) moss(x, ry, rr(5, 10) * S);
+    }
+    for (let x = -10; x < W + 10; x += Math.max(9, 11 * S)) {
+      const hgt = H * (.04 + .12 * R() * R() + .05 * (.5 + .5 * Math.sin(x / (90 * S))));
+      for (let i = 0, c = 1 + Math.floor(R() * 3); i < c; i++) moss(x + rr(-8, 8), H - rr(0, hgt), rr(12, 30) * S);
+    }
+    for (let i = 0; i < Math.round(H / 90); i++) moss(R() < .5 ? rr(-5, 12) : W - rr(-5, 12), rr(H * .3, H), rr(12, 28) * S);
+    for (let i = 0; i < Math.round(W / 160); i++) moss(rr(0, W), rr(-4, 14), rr(10, 22) * S);
+
+    const vg = ctx.createRadialGradient(W / 2, H * .38, Math.min(W, H) * .15, W / 2, H * .5, Math.max(W, H) * .85);
+    vg.addColorStop(0, 'rgba(255,196,120,.07)'); vg.addColorStop(.45, 'rgba(0,0,0,.32)'); vg.addColorStop(1, 'rgba(0,0,0,.78)');
+    ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+  }
+
+  let t; addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(() => { if (innerWidth !== lastW || Math.abs(innerHeight - lastH) > 150) draw(); }, 200);
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
