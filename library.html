@@ -118,7 +118,7 @@ button.chapter-card {
 .kotoba-panel .chapter-title { font-size: 16px; }
 .kotoba-panel .chapter-desc { font-size: 13px; }
 .kotoba-caret { transition: transform 0.2s; }
-#btnKotoba[aria-expanded="true"] .kotoba-caret { transform: rotate(90deg); }
+.chapter-card[aria-expanded="true"] .kotoba-caret { transform: rotate(90deg); }
 footer {
     text-align: center;
     color: var(--text-muted);
@@ -266,6 +266,28 @@ footer {
     </a>
     </div>
 
+    <button class="chapter-card" id="btnDokkai" aria-expanded="false" aria-controls="dokkaiList">
+        <div class="chapter-meta">
+            <span class="chapter-tag">1 deck</span>
+            <span class="chapter-tag">読解</span>
+            <span class="chapter-arrow kotoba-caret">&rarr;</span>
+        </div>
+        <div class="chapter-title">Dokkai</div>
+        <div class="chapter-desc">読解 &middot; bacaan JLPT N3 dengan terjemahan Indonesia &mdash; klik untuk membuka daftar bacaan.</div>
+    </button>
+
+    <div class="kotoba-panel" id="dokkaiList" hidden>
+    <a class="chapter-card" href="dokkai/dokkai%20november.html">
+        <div class="chapter-meta">
+            <span class="chapter-tag">11月</span>
+            <span class="chapter-tag">4 読解</span>
+            <span class="chapter-arrow">&rarr;</span>
+        </div>
+        <div class="chapter-title">Dokkai November</div>
+        <div class="chapter-desc">4 bacaan + 6 soal &middot; bahasa Jepang/Indonesia bisa diganti per kalimat &amp; tombol show answer tiap soal.</div>
+    </a>
+    </div>
+
     <a class="chapter-card" href="semuasoal.html">
         <div class="chapter-meta">
             <span class="chapter-tag">150 soal</span>
@@ -316,12 +338,15 @@ footer {
 </div>
     <script>
     (function () {
-        const btn = document.getElementById('btnKotoba');
-        const list = document.getElementById('kotobaList');
-        btn.addEventListener('click', () => {
-            const open = btn.getAttribute('aria-expanded') === 'true';
-            btn.setAttribute('aria-expanded', String(!open));
-            list.hidden = open;
+        [['btnKotoba', 'kotobaList'], ['btnDokkai', 'dokkaiList']].forEach(([btnId, listId]) => {
+            const btn = document.getElementById(btnId);
+            const list = document.getElementById(listId);
+            if (!btn || !list) return;
+            btn.addEventListener('click', () => {
+                const open = btn.getAttribute('aria-expanded') === 'true';
+                btn.setAttribute('aria-expanded', String(!open));
+                list.hidden = open;
+            });
         });
     })();
     </script>

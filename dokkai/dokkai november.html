@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>読解 11月 — Dokkai November</title>
+<style>
+:root{
+  --green:#4b9b62; --green-d:#285d37; --pale:#eff8e9; --line:#d9e6d2;
+  --ink:#26332a; --muted:#68766b; --paper:#fff;
+  --gold:#c9a94a; --gold-l:#fff6db; --gold-d:#8a7420;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:#f5f7f3;color:var(--ink);line-height:1.9;
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+main{max-width:960px;margin:28px auto 130px;padding:0 18px}
+header{margin-bottom:18px}
+h1{font-size:1.5rem;margin:0 0 6px;color:var(--green-d)}
+.subtitle{color:var(--muted);font-size:.93rem}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px;margin:18px 0;box-shadow:0 3px 14px #1c3a1b0a}
+.panel-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.tag{background:var(--green);color:#fff;font-weight:700;border-radius:5px;padding:2px 10px;font-size:.9rem}
+h2{font-size:1.02rem;margin:0;font-weight:750}
+
+/* ---------- Bacaan ---------- */
+.reading{background:var(--pale);border-radius:10px;padding:18px 20px;font-size:1.04rem}
+.reading p{margin:0 0 12px}
+.reading p:last-child{margin:0}
+.meta-line{font-size:.95rem;color:#41524a;border-bottom:1px dashed #b9cbb4;padding-bottom:10px;margin-bottom:12px}
+.meta-line b{font-weight:750}
+
+/* Kalimat yang bisa diklik */
+.sent{
+  cursor:pointer;border-radius:6px;padding:1px 4px;margin:0 -1px;
+  transition:background-color .2s ease,color .2s ease,box-shadow .2s ease;
+  text-decoration:underline;text-decoration-color:transparent;text-underline-offset:4px;
+  transition:background-color .2s,text-decoration-color .2s,box-shadow .2s,transform .2s;
+}
+.sent:hover{
+  background:linear-gradient(transparent 62%,#ffe9a8 62%);
+  text-decoration-color:var(--gold);text-decoration-thickness:2px;
+  box-shadow:0 2px 0 -1px #fff, 0 0 0 1px #e6d59b inset;
+}
+.sent::after{
+  content:"ID";font-family:system-ui,sans-serif;font-size:.58rem;font-weight:800;letter-spacing:.04em;
+  color:#fff;background:var(--gold);border-radius:4px;padding:1px 4px;margin-left:7px;vertical-align:super;
+  opacity:0;transform:translateY(-2px);transition:opacity .18s,transform .18s;display:inline-block;
+}
+.sent:hover::after{opacity:1;transform:none}
+.sent.is-id::after{content:"JP";background:var(--green)}
+.sent .jp,.sent .id{transition:opacity .2s}
+.sent .id{display:none;color:#2f5a3c}
+.sent.is-id .jp{display:none}
+.sent.is-id .id{display:inline}
+.sent.a .id,.sent.a .jp{animation:swapIn .3s cubic-bezier(.2,.8,.2,1)}
+@keyframes swapIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+/* Mode 両方: dua bahasa bertumpuk */
+body.dual .sent{display:block;cursor:default;text-decoration:none}
+body.dual .sent .jp,body.dual .sent .id{display:block}
+body.dual .sent .id{padding-left:1.2em;font-size:.96rem;border-left:2px solid #cfe0c6;margin-left:.15em}
+body.dual .sent:hover{background:#fdf7e0}
+body.dual .sent::after{display:none}
+
+.notes{font-size:.9rem;color:var(--muted);margin-top:12px;line-height:1.8}
+.notes b{color:#41524a}
+
+/* ---------- Soal ---------- */
+.questions{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}
+.q{margin-bottom:18px}
+.q:last-child{margin-bottom:0}
+.q-title{font-weight:750;margin-bottom:8px}
+.q-title small{display:block;font-weight:600;color:var(--muted);font-size:.85rem}
+.opt{
+  display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid transparent;border-radius:9px;
+  cursor:pointer;transition:background .18s,border-color .18s,transform .18s;
+}
+.opt:hover{background:#f4f9f0;border-color:#dfeada;transform:translateX(2px)}
+.opt input{margin-top:8px;accent-color:var(--green);flex:none}
+.opt-jp{font-size:1rem}
+.opt-id{display:block;font-size:.86rem;color:var(--muted);line-height:1.5}
+.opt.correct{background:#e8f6e2;border-color:#8bc47a}
+.opt.correct .opt-jp{font-weight:750;color:#237341}
+.opt.correct::after{content:"✓";margin-left:auto;color:#237341;font-weight:900}
+.opt.picked-wrong{background:#fdeeea;border-color:#e0a898}
+
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+button{font:inherit;border:0;border-radius:9px;padding:9px 16px;font-weight:750;cursor:pointer;transition:transform .15s,filter .15s,background .2s}
+button:active{transform:translateY(1px)}
+.show{background:linear-gradient(#557a3a,#243a1a);color:#f6ecc0;border:1px solid #7d6a26;box-shadow:0 3px 0 #14240d}
+.show:hover{filter:brightness(1.12)}
+.show.open{background:linear-gradient(#a58c3a,#7d6a26);border-color:#c9a94a;box-shadow:0 3px 0 #4b370b}
+.ans{
+  display:none;margin-top:12px;padding:12px 15px;border-radius:10px;
+  background:#fffdf1;border:1px solid var(--gold);font-size:.94rem;
+}
+.ans.show{display:block;animation:swapIn .3s ease}
+.ans .key{font-weight:800;color:#7d6a26;letter-spacing:.02em}
+.ans ul{margin:8px 0 0;padding-left:20px}
+.ans li{margin:3px 0}
+
+/* ---------- Tombol bahasa ---------- */
+.floating{position:fixed;right:18px;bottom:18px;z-index:9;display:flex;gap:4px;background:#203d2a;padding:5px;border-radius:999px;box-shadow:0 6px 24px #0003}
+.floating button{background:transparent;color:#dce9dd;padding:10px 15px;border-radius:999px;font-weight:700}
+.floating button:hover{filter:none;background:#2c5237}
+.floating button.active{background:#fff;color:var(--green-d)}
+.hint{font-size:.84rem;color:var(--muted);margin-top:8px}
+@media(max-width:640px){
+  main{margin:16px auto 120px;padding:0 12px}
+  .panel{padding:15px}
+  .reading{padding:14px 15px}
+  .floating{right:10px;bottom:10px}
+  .floating button{padding:9px 12px;font-size:.9rem}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="lang-jp">
+<main>
+<header>
+  <h1>日本語読解 ・ 11月 — Dokkai November</h1>
+  <div class="subtitle">Klik kalimat mana pun untuk berganti Jepang ⇄ Indonesia. Tombol bahasa di kanan bawah mengganti seluruh bacaan.</div>
+</header>
+
+<!-- ================== SECTION 1 ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題1</span><h2>次の会話を読んで、あとの文から正しいものを選びなさい。</h2></div>
+
+  <div class="reading">
+    <p><span class="sent"><span class="jp">母：明、由美ちゃんって覚えてる？</span><span class="id">Ibu: Akira, kamu masih ingat Yumi?</span></span></p>
+    <p><span class="sent"><span class="jp">去年の夏、一緒にザリガニ（※1）とりに行ったり、花火をしたりした子。</span><span class="id">Anak yang tahun lalu, musim panas, ikut menangkap udang air tawar（※1）dan main kembang api bersama kita.</span></span></p>
+    <p><span class="sent"><span class="jp">明：ああ、ザリガニ見て泣いたあの子？</span><span class="id">Akira: Ah, anak yang menangis waktu melihat udang itu, ya?</span></span></p>
+    <p><span class="sent"><span class="jp">母：そうそう、またお盆休み（※2）に来るんだって。</span><span class="id">Ibu: Betul, betul. Katanya dia mau datang lagi saat libur Obon（※2）.</span></span></p>
+    <p><span class="sent"><span class="jp">今度は赤ちゃんも一緒よ。</span><span class="id">Kali ini bayinya juga ikut, lho.</span></span></p>
+    <p><span class="sent"><span class="jp">健一君っていうのよ。</span><span class="id">Namanya Kenichi.</span></span></p>
+    <p><span class="sent"><span class="jp">あの由美ちゃんがお姉ちゃんになったのよ。</span><span class="id">Yumi yang dulu itu sekarang sudah jadi kakak perempuan, lho.</span></span></p>
+    <p><span class="sent"><span class="jp">明：ふーん、あんなに小さくてもお姉ちゃんなかぁ。</span><span class="id">Akira: Hmm, sekecil itu sudah jadi kakak, ya.</span></span></p>
+  </div>
+
+  <div class="notes">
+    <b>（※1）ザリガニ</b>：udang air tawar / crayfish　／　<b>（※2）お盆休み（おぼんやすみ）</b>：libur masa Obon, sekitar 12–15 Agustus.
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="2,5">
+      <div class="q-title">あとの文から正しいものを選びなさい。<small>Pilih pernyataan yang sesuai dengan isi percakapan (jawaban bisa lebih dari satu).</small></div>
+      <label class="opt"><input type="checkbox" name="s1q" value="1"><span><span class="opt-jp">由美は明より年上である。</span><span class="opt-id">Yumi lebih tua daripada Akira.</span></span></label>
+      <label class="opt"><input type="checkbox" name="s1q" value="2"><span><span class="opt-jp">明と由美は去年の夏、一緒に遊んだ。</span><span class="opt-id">Akira dan Yumi bermain bersama pada musim panas tahun lalu.</span></span></label>
+      <label class="opt"><input type="checkbox" name="s1q" value="3"><span><span class="opt-jp">由美は健一の妹である。</span><span class="opt-id">Yumi adalah adik perempuan Kenichi.</span></span></label>
+      <label class="opt"><input type="checkbox" name="s1q" value="4"><span><span class="opt-jp">明は去年の夏、健一に会った。</span><span class="opt-id">Akira bertemu Kenichi pada musim panas tahun lalu.</span></span></label>
+      <label class="opt"><input type="checkbox" name="s1q" value="5"><span><span class="opt-jp">由美はザリガニをこわがった。</span><span class="opt-id">Yumi takut pada udang air tawar itu.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 2 dan 5</div>
+        <ul>
+          <li><b>1 ✗</b> — Yumi masih kecil, justru Akira yang lebih tua («あんなに小さくても»).</li>
+          <li><b>2 ✓</b> — Tahun lalu mereka menangkap udang dan main kembang api bersama.</li>
+          <li><b>3 ✗</b> — Yumi adalah <i>kakak</i> Kenichi (お姉ちゃん), bukan adik.</li>
+          <li><b>4 ✗</b> — Kenichi baru ikut kali ini; Akira belum pernah bertemu.</li>
+          <li><b>5 ✓</b> — Yumi menangis saat melihat udang itu, artinya dia takut.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SECTION 2 ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題2</span><h2>次の手紙を読んで、あとの問いに答えなさい。</h2></div>
+
+  <div class="reading">
+    <div class="meta-line">
+      <b><span class="sent"><span class="jp">七月十日</span><span class="id">10 Juli</span></span></b><br>
+      <span class="sent"><span class="jp">松田 ゆき様</span><span class="id">Kepada Ibu Matsuda Yuki</span></span>　
+      <span class="sent"><span class="jp">中村 まり</span><span class="id">Nakamura Mari</span></span>
+    </div>
+
+    <p><span class="sent"><span class="jp">毎日暑い日が続いておりますが、みなさまその後、いかがお過ごしでしょうか。</span><span class="id">Hari-hari panas masih terus berlanjut, bagaimana kabar Anda sekalian setelah itu?</span></span></p>
+    <p><span class="sent"><span class="jp">（ ① ）お母様が退院なさったそうですね。</span><span class="id">( ① ) Saya dengar ibu Anda sudah keluar dari rumah sakit, ya.</span></span></p>
+    <p><span class="sent"><span class="jp">良くなられて本当によかったです。</span><span class="id">Saya benar-benar senang beliau sudah membaik.</span></span></p>
+    <p><span class="sent"><span class="jp">こちらも、おかげさまでみんな（ ② ）。</span><span class="id">Di sini pun, berkat doa Anda, semua orang ( ② ).</span></span></p>
+    <p><span class="sent"><span class="jp">去年の今ごろは、大きなおなかを抱えてふうふう言っていた私ですが、今は早くも歩き出した健一の後を追いかけるのに忙しく、やはりふうふう言っています。</span><span class="id">Sekitar waktu ini tahun lalu saya sedang menggendong perut besar dan terengah-engah, tetapi sekarang saya sibuk mengejar Kenichi yang sudah cepat bisa berjalan — dan tetap saja terengah-engah.</span></span></p>
+    <p><span class="sent"><span class="jp">ところで、お盆には一家そろって実家（※3）へ帰る予定です。</span><span class="id">Ngomong-ngomong, pada masa Obon kami sekeluarga berencana pulang ke rumah orang tua（※3）.</span></span></p>
+    <p><span class="sent"><span class="jp">そのころ、お宅のほうにもお伺いしたいと思いますが、ご都合はいかがでしょうか。</span><span class="id">Sekitar waktu itu saya juga ingin berkunjung ke rumah Anda, bagaimana kesediaan Anda?</span></span></p>
+    <p><span class="sent"><span class="jp">由美は明君に遊んでもらったことをよく覚えていて、「お兄ちゃんと花火するんだ。」と楽しみにしています。</span><span class="id">Yumi masih ingat betul saat diajak bermain oleh Akira, dan dia menantikannya sambil berkata, “Aku mau main kembang api dengan Kak Akira.”</span></span></p>
+    <p><span class="sent"><span class="jp">では、実家より、またご連絡いたします。</span><span class="id">Baiklah, dari rumah orang tua saya akan menghubungi Anda lagi.</span></span></p>
+    <p><span class="sent"><span class="jp">どうか、まだまだこれからが夏本番（※4）です。</span><span class="id">Tolong, puncak musim panas（※4）justru baru akan dimulai.</span></span></p>
+    <p><span class="sent"><span class="jp">くれぐれもお体に気をつけてお過ごしください。</span><span class="id">Jaga kesehatan Anda baik-baik.</span></span></p>
+  </div>
+
+  <div class="notes">
+    <b>（※1）ふうふう言う</b>：terengah-engah (to puff and pant)　／　<b>（※2）早くも</b>：cepat sekali, sudah saja (quickly, already)<br>
+    <b>（※3）実家（じっか）</b>：rumah orang tua (parents' home)　／　<b>（※4）夏本番（なつほんばん）</b>：puncak musim panas (the really hot weather)
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="2">
+      <div class="q-title">問1　（ ① ）（ ② ）に入る言葉の組み合わせで最も適当なものはどれか。<small>Kombinasi kata yang paling tepat untuk （ ① ） dan （ ② ） adalah …</small></div>
+      <label class="opt"><input type="radio" name="s2q1" value="1"><span><span class="opt-jp">①お元気でおりますか　②元気でございます</span><span class="opt-id">① Apakah Anda sehat?　② (saya) sehat.</span></span></label>
+      <label class="opt"><input type="radio" name="s2q1" value="2"><span><span class="opt-jp">①お元気でいらっしゃいますか　②元気にしております</span><span class="opt-id">① Apakah Anda sehat? (bentuk hormat)　② (saya) sehat-sehat saja (rendah hati).</span></span></label>
+      <label class="opt"><input type="radio" name="s2q1" value="3"><span><span class="opt-jp">①お元気でなさいますか　②元気にしております</span><span class="opt-id">① (bentuk tidak tepat untuk keadaan orang lain)　② (saya) sehat-sehat saja.</span></span></label>
+      <label class="opt"><input type="radio" name="s2q1" value="4"><span><span class="opt-jp">①お元気でいらっしゃいますか　②元気にいたしてございます</span><span class="opt-id">① Apakah Anda sehat? (hormat)　② (bentuk rendah hati yang tidak lazim).</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 2</div>
+        <ul>
+          <li><b>①</b> untuk keadaan orang yang dihormati → <b>お元気でいらっしゃいますか</b> (いらっしゃる = bentuk hormat dari いる).</li>
+          <li><b>②</b> untuk diri sendiri → <b>元気にしております</b> (bentuk rendah hati dari している).</li>
+          <li><b>1 ✗</b> 「おる」tidak dipakai untuk keadaan lawan bicara. <b>3 ✗</b> 「なさる」untuk tindakan, bukan keadaan 元気. <b>4 ✗</b> 「いたしてございます」bukan bentuk yang dipakai.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q" data-answer="4">
+      <div class="q-title">問2　中村さんは何のためにこの手紙を書いたのか。<small>Untuk apa Nakamura menulis surat ini?</small></div>
+      <label class="opt"><input type="radio" name="s2q2" value="1"><span><span class="opt-jp">季節のあいさつをするため。</span><span class="opt-id">Untuk menyampaikan salam musim.</span></span></label>
+      <label class="opt"><input type="radio" name="s2q2" value="2"><span><span class="opt-jp">松田さんの家族の健康状態を聞くため。</span><span class="opt-id">Untuk menanyakan kesehatan keluarga Matsuda.</span></span></label>
+      <label class="opt"><input type="radio" name="s2q2" value="3"><span><span class="opt-jp">赤ちゃんが生まれたことを知らせるため。</span><span class="opt-id">Untuk memberi tahu bahwa bayinya sudah lahir.</span></span></label>
+      <label class="opt"><input type="radio" name="s2q2" value="4"><span><span class="opt-jp">お盆に実家に帰ることを松田さんに知らせるため。</span><span class="opt-id">Untuk memberi tahu Matsuda bahwa ia akan pulang ke kampung saat Obon.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 4</div>
+        <ul>
+          <li>Inti surat ada di 「ところで…お盆には一家そろって実家へ帰る予定です」＋「お宅のほうにもお伺いしたい」→ memberi tahu rencana pulang saat Obon sekaligus ingin berkunjung.</li>
+          <li><b>1 ✗</b> hanya salam pembuka. <b>2 ✗</b> kesehatan memang ditanyakan, tetapi itu basa-basi. <b>3 ✗</b> Kenichi sudah lahir tahun lalu, bukan berita baru.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SECTION 3 ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題3</span><h2>次の会話を読んで、あとの文から正しいものを選びなさい。</h2></div>
+
+  <div class="reading">
+    <p><span class="sent"><span class="jp">夫：桜、あと2週間くらいかかるかな。</span><span class="id">Suami: Sakuranya kira-kira masih butuh dua minggu lagi, ya.</span></span></p>
+    <p><span class="sent"><span class="jp">うちは庭が狭くて木なんて植えられないけど、裏が立派な公園で本当によかったね。</span><span class="id">Rumah kita tamannya sempit sampai tidak mungkin menanam pohon, tapi untung sekali di belakang ada taman yang bagus.</span></span></p>
+    <p><span class="sent"><span class="jp">この窓からの眺めは最高だし。</span><span class="id">Pemandangan dari jendela ini juga luar biasa.</span></span></p>
+    <p><span class="sent"><span class="jp">妻：そうだ。大学時代の友だちに家に来てもらったらどう？</span><span class="id">Istri: Oh iya. Bagaimana kalau kita undang teman-teman zaman kuliah ke rumah?</span></span></p>
+    <p><span class="sent"><span class="jp">転居通知（※1）を出すときに、誘ったらいいんじゃない？</span><span class="id">Saat mengirim pemberitahuan pindah rumah（※1）, sekalian kita ajak, ya?</span></span></p>
+    <p><span class="sent"><span class="jp">夫：そうだね。</span><span class="id">Suami: Iya, ya.</span></span></p>
+    <p><span class="sent"><span class="jp">家は新築（※2）といっても大したことはない（※3）けど、ここから花火が見られるしね。</span><span class="id">Rumahnya memang baru（※2）, walau tidak istimewa（※3）, tapi dari sini bisa melihat kembang api.</span></span></p>
+    <p><span class="sent"><span class="jp">何人くらい来るかなぁ。</span><span class="id">Kira-kira berapa orang yang akan datang, ya.</span></span></p>
+  </div>
+
+  <div class="notes">
+    <b>（※1）転居通知（てんきょつうち）</b>：surat pemberitahuan pindah rumah (a notification of a change of address)　／　<b>（※2）新築（しんちく）</b>：rumah baru (a new house)<br>
+    <b>（※3）大したことはない</b>：tidak istimewa, tidak seberapa (nothing special)
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="3,4">
+      <div class="q-title">あとの文から正しいものを選びなさい。<small>Pilih pernyataan yang sesuai dengan isi percakapan (jawaban bisa lebih dari satu).</small></div>
+      <label class="opt"><input type="checkbox" name="s3q" value="1"><span><span class="opt-jp">この夫婦の庭に桜の木がある。</span><span class="opt-id">Di taman rumah pasangan ini ada pohon sakura.</span></span></label>
+      <label class="opt"><input type="checkbox" name="s3q" value="2"><span><span class="opt-jp">今、この夫婦は公園を散歩している。</span><span class="opt-id">Saat ini pasangan ini sedang berjalan-jalan di taman.</span></span></label>
+      <label class="opt"><input type="checkbox" name="s3q" value="3"><span><span class="opt-jp">この夫婦は、最近この家に引っ越した。</span><span class="opt-id">Pasangan ini baru saja pindah ke rumah ini.</span></span></label>
+      <label class="opt"><input type="checkbox" name="s3q" value="4"><span><span class="opt-jp">この夫婦は引っ越しを知らせるはがきを出す予定である。</span><span class="opt-id">Pasangan ini berencana mengirim kartu pemberitahuan pindah rumah.</span></span></label>
+      <label class="opt"><input type="checkbox" name="s3q" value="5"><span><span class="opt-jp">桜は2週間前に咲き始めた。</span><span class="opt-id">Sakuranya mulai berbunga dua minggu yang lalu.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 3 dan 4</div>
+        <ul>
+          <li><b>1 ✗</b> — 「庭が狭くて木なんて植えられない」: tamannya sempit, tidak ada pohon sakura di rumah mereka.</li>
+          <li><b>2 ✗</b> — mereka menikmati pemandangan dari jendela (「この窓からの眺め」), bukan sedang berjalan di taman.</li>
+          <li><b>3 ✓</b> — 家は新築 dan akan mengirim 転居通知 → baru saja pindah.</li>
+          <li><b>4 ✓</b> — 「転居通知を出すときに、誘ったらいいんじゃない？」: rencana mengirim kartu pemberitahuan pindah.</li>
+          <li><b>5 ✗</b> — 「桜、あと2週間くらいかかる」: bunganya baru akan mekar sekitar dua minggu lagi, bukan sudah mekar dua minggu lalu.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SECTION 4 ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題4</span><h2>次のはがきを読んで、あとの問いに答えなさい。</h2></div>
+
+  <div class="reading">
+    <p><span class="sent"><span class="jp">拝啓（※1）</span><span class="id">Dengan hormat（※1）</span></span></p>
+    <p><span class="sent"><span class="jp">このところ、毎日暖かい日が続いていますが、皆様、いかがお過ごしでしょうか。</span><span class="id">Belakangan ini setiap hari cuacanya hangat terus, bagaimana kabar Anda sekalian?</span></span></p>
+    <p><span class="sent"><span class="jp">さて、このたび、去年より建築中だった家がやっと完成し、下記の住所へ引っ越しました。</span><span class="id">Nah, kali ini rumah yang sejak tahun lalu sedang dibangun akhirnya selesai, dan kami pindah ke alamat di bawah ini.</span></span></p>
+    <p><span class="sent"><span class="jp">平凡な家ですが、すぐ裏が桜で有名な野川公園で、窓からの眺めはなかなか気に入っております。</span><span class="id">Rumahnya biasa saja, tetapi tepat di belakang ada Taman Nogawa yang terkenal dengan sakuranya, dan saya cukup menyukai pemandangan dari jendelanya.</span></span></p>
+    <p><span class="sent"><span class="jp">つきましては（※2）、皆様にもぜひ見ていただきたく、わが家で花見の会を開くことにいたしました。</span><span class="id">Maka dari itu（※2）, karena ingin Anda sekalian melihatnya, kami memutuskan mengadakan acara hanami di rumah kami.</span></span></p>
+    <p><span class="sent"><span class="jp">これを機会に（※3）、東都大学野球部同期生（※4）で集まりませんか。</span><span class="id">Memanfaatkan kesempatan ini（※3）, bagaimana kalau kita para angkatan yang sama di klub bisbol Universitas Tōto（※4）berkumpul?</span></span></p>
+    <p><span class="sent"><span class="jp">3月30日（日）のお昼ごろお待ちしておりますので、ぜひお越しください。</span><span class="id">Kami menunggu sekitar tengah hari tanggal 30 Maret (Minggu), jadi silakan datang.</span></span></p>
+    <p><span class="sent"><span class="jp">なお、電車でいらっしゃる場合には駅まで迎えに参ります。</span><span class="id">Selain itu, kalau Anda datang dengan kereta, saya akan menjemput di stasiun.</span></span></p>
+    <p><span class="sent"><span class="jp">お車でおいでになる場合は公園の駐車場をご利用ください。</span><span class="id">Kalau datang dengan mobil, silakan gunakan parkir taman.</span></span></p>
+    <p><span class="sent"><span class="jp">ご連絡お待ちしています。</span><span class="id">Saya menunggu kabar dari Anda.</span></span></p>
+    <p><span class="sent"><span class="jp">敬具（※5）</span><span class="id">Hormat saya（※5）</span></span></p>
+    <div class="meta-line">
+      <span class="sent"><span class="jp">〒155-XXXX　三鷹市○町 3-32-20</span><span class="id">〒155-XXXX, Mitaka-shi, ○chō 3-32-20</span></span><br>
+      TEL&amp;FAX：042-333-XXXX<br>
+      E-mail：masaotani@XXXX.ne.jp<br>
+      <b><span class="sent"><span class="jp">谷　正雄</span><span class="id">Tani Masao</span></span></b>
+    </div>
+  </div>
+
+  <div class="notes">
+    <b>（※1）拝啓（はいけい）</b>：salam pembuka surat (kepada …) 「拝啓」「前略」　／　<b>（※2）つきましては</b>：maka dari itu (therefore)<br>
+    <b>（※3）これを機会に</b>：memanfaatkan kesempatan ini (take this opportunity)　／　<b>（※4）同期生（どうきせい）</b>：angkatan yang sama (those who entered a school/company in the same year)<br>
+    <b>（※5）敬具（けいぐ）</b>：salam penutup (hormat saya) 「敬具」「草々」
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="4">
+      <div class="q-title">問1　谷さんはなぜこのはがきを出したのか。<small>Mengapa Tani mengirim kartu pos ini?</small></div>
+      <label class="opt"><input type="radio" name="s4q1" value="1"><span><span class="opt-jp">新しい家が気に入っていることを知らせたいから。</span><span class="opt-id">Karena ingin memberi tahu bahwa ia menyukai rumah barunya.</span></span></label>
+      <label class="opt"><input type="radio" name="s4q1" value="2"><span><span class="opt-jp">もうすぐ家が完成するということを知らせたいから。</span><span class="opt-id">Karena ingin memberi tahu bahwa rumahnya hampir selesai.</span></span></label>
+      <label class="opt"><input type="radio" name="s4q1" value="3"><span><span class="opt-jp">野川公園を一緒に散歩したいから。</span><span class="opt-id">Karena ingin berjalan-jalan bersama di Taman Nogawa.</span></span></label>
+      <label class="opt"><input type="radio" name="s4q1" value="4"><span><span class="opt-jp">新しい家に招待したいから。</span><span class="opt-id">Karena ingin mengundang ke rumah barunya.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 4</div>
+        <ul>
+          <li>Inti surat: 「わが家で花見の会を開くことにいたしました」＋「ぜひお越しください」→ mengundang ke rumah baru.</li>
+          <li><b>1 ✗</b> hanya pengantar. <b>2 ✗</b> rumahnya <i>sudah</i> selesai (「やっと完成し」), bukan hampir selesai. <b>3 ✗</b> taman hanya disebut sebagai pemandangan, bukan ajakan berjalan-jalan.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q" data-answer="3">
+      <div class="q-title">問2　おいでになるのは、だれか。<small>Siapa yang dimaksud datang (おいでになる)?</small></div>
+      <label class="opt"><input type="radio" name="s4q2" value="1"><span><span class="opt-jp">谷さんの先生</span><span class="opt-id">Guru Tani.</span></span></label>
+      <label class="opt"><input type="radio" name="s4q2" value="2"><span><span class="opt-jp">谷さんの上司</span><span class="opt-id">Atasan Tani.</span></span></label>
+      <label class="opt"><input type="radio" name="s4q2" value="3"><span><span class="opt-jp">谷さんの友人</span><span class="opt-id">Teman Tani.</span></span></label>
+      <label class="opt"><input type="radio" name="s4q2" value="4"><span><span class="opt-jp">谷さんの親せき</span><span class="opt-id">Kerabat Tani.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 3</div>
+        <ul>
+          <li>Yang diundang adalah 「東都大学野球部同期生」= rekan satu angkatan di klub bisbol kampus → teman (友人).</li>
+          <li><b>1 ✗</b>, <b>2 ✗</b>, <b>4 ✗</b> tidak disebutkan dalam kartu pos.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<p class="hint">Catatan: gambar bacaan yang ketiga isinya sama dengan gambar pertama (potongan yang sama), jadi tidak dibuat section duplikat. Tombol bahasa: 日本語 / Indonesia / 両方 (dua bahasa bertumpuk).</p>
+</main>
+
+<div class="floating" aria-label="Pilih bahasa">
+  <button id="btnJp" class="active" type="button">日本語</button>
+  <button id="btnId" type="button">Indonesia</button>
+  <button id="btnBoth" type="button">両方</button>
+</div>
+
+<script>
+/* ---------- 1. klik kalimat: Jepang ⇄ Indonesia ---------- */
+document.querySelectorAll('.sent').forEach(s => {
+  s.setAttribute('role', 'button');
+  s.setAttribute('tabindex', '0');
+  s.setAttribute('aria-label', 'Ganti bahasa kalimat ini');
+  const toggle = () => {
+    if (document.body.classList.contains('dual')) return;   // mode 両方: dua bahasa tampil sekaligus
+    s.classList.remove('a');
+    s.classList.toggle('is-id');
+    void s.offsetWidth;
+    s.classList.add('a');
+    setTimeout(() => s.classList.remove('a'), 340);
+  };
+  s.addEventListener('click', toggle);
+  s.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+  });
+});
+
+/* ---------- 2. tombol bahasa seluruh halaman ---------- */
+const body = document.body;
+const btns = { jp: document.getElementById('btnJp'), id: document.getElementById('btnId'), both: document.getElementById('btnBoth') };
+function setLang(mode) {
+  body.classList.toggle('dual', mode === 'both');
+  if (mode !== 'both') {
+    document.querySelectorAll('.sent').forEach(s => s.classList.toggle('is-id', mode === 'id'));
+  }
+  Object.entries(btns).forEach(([k, b]) => b.classList.toggle('active', k === mode));
+}
+btns.jp.onclick = () => setLang('jp');
+btns.id.onclick = () => setLang('id');
+btns.both.onclick = () => setLang('both');
+
+/* ---------- 3. Show answer ---------- */
+document.querySelectorAll('.q').forEach(q => {
+  const key = (q.dataset.answer || '').split(',').map(s => s.trim()).filter(Boolean);
+  const btn = q.querySelector('.show');
+  const ans = q.querySelector('.ans');
+  btn.addEventListener('click', () => {
+    const open = ans.classList.toggle('show');
+    btn.classList.toggle('open', open);
+    btn.textContent = open ? 'Sembunyikan jawaban' : 'Show answer';
+    q.querySelectorAll('.opt').forEach(o => {
+      const input = o.querySelector('input');
+      const right = key.includes(input.value);
+      o.classList.toggle('correct', open && right);
+      o.classList.toggle('picked-wrong', open && input.checked && !right);
+    });
+  });
+});
+</script>
+</body>
+</html>
