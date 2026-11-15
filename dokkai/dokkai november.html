@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>読解 11月 — Dokkai November</title>
+<title>読解 — Dokkai 3</title>
 <style>
 :root{
   --green:#4b9b62; --green-d:#285d37; --pale:#eff8e9; --line:#d9e6d2;
@@ -71,8 +71,26 @@ body.dual .sent::after{display:none}
 .questions{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}
 .q{margin-bottom:18px}
 .q:last-child{margin-bottom:0}
-.q-title{font-weight:750;margin-bottom:8px}
-.q-title small{display:block;font-weight:600;color:var(--muted);font-size:.85rem}
+.q-title{font-weight:750;margin-bottom:8px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.q-title small{display:none;flex:1 0 100%;font-weight:600;color:var(--muted);font-size:.85rem}
+.q.reveal-id .q-title small{display:block;animation:swapIn .25s ease}
+/* tombol switch per pilihan: hanya pilihan itu yang diterjemahkan */
+.peek-opt{
+  flex:none;margin-left:auto;align-self:center;
+  font-family:system-ui,sans-serif;font-size:.64rem;font-weight:800;letter-spacing:.06em;
+  padding:2px 8px;border-radius:999px;background:var(--gold-l);color:#6b5714;border:1px solid var(--gold);
+  box-shadow:none;cursor:pointer;transition:background .2s,color .2s,border-color .2s;
+}
+.peek-opt:hover{background:var(--gold);color:#fff}
+.peek-opt.open{background:var(--green);border-color:var(--green-d);color:#fff}
+/* tombol ID per soal: terjemahan disembunyikan sampai diklik */
+.peek{
+  margin-left:auto;font-family:system-ui,sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.06em;
+  padding:3px 10px;border-radius:999px;background:var(--gold-l);color:#6b5714;border:1px solid var(--gold);
+  box-shadow:none;cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .15s;
+}
+.peek:hover{background:var(--gold);color:#fff;transform:none}
+.peek.open{background:var(--green);border-color:var(--green-d);color:#fff}
 .opt{
   display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid transparent;border-radius:9px;
   cursor:pointer;transition:background .18s,border-color .18s,transform .18s;
@@ -80,10 +98,11 @@ body.dual .sent::after{display:none}
 .opt:hover{background:#f4f9f0;border-color:#dfeada;transform:translateX(2px)}
 .opt input{margin-top:8px;accent-color:var(--green);flex:none}
 .opt-jp{font-size:1rem}
-.opt-id{display:block;font-size:.86rem;color:var(--muted);line-height:1.5}
+.opt-id{display:none;font-size:.86rem;color:var(--muted);line-height:1.5}
+.opt.reveal .opt-id{display:block;animation:swapIn .25s ease}
 .opt.correct{background:#e8f6e2;border-color:#8bc47a}
 .opt.correct .opt-jp{font-weight:750;color:#237341}
-.opt.correct::after{content:"✓";margin-left:auto;color:#237341;font-weight:900}
+.opt.correct::after{content:"✓";margin-left:6px;color:#237341;font-weight:900}
 .opt.picked-wrong{background:#fdeeea;border-color:#e0a898}
 
 .tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
@@ -120,13 +139,224 @@ button:active{transform:translateY(1px)}
 <body class="lang-jp">
 <main>
 <header>
-  <h1>日本語読解 ・ 11月 — Dokkai November</h1>
+  <h1>日本語読解 ・ Dokkai 3</h1>
   <div class="subtitle">Klik kalimat mana pun untuk berganti Jepang ⇄ Indonesia. Tombol bahasa di kanan bawah mengganti seluruh bacaan.</div>
 </header>
 
-<!-- ================== SECTION 1 ================== -->
+<!-- ================== SECTION 1 (めぐみ・りんご) ================== -->
 <section class="panel">
   <div class="panel-head"><span class="tag">問題1</span><h2>次の会話を読んで、あとの文から正しいものを選びなさい。</h2></div>
+
+  <div class="reading">
+    <p><span class="sent"><span class="jp">めぐみ：お母様、お友達がりんごを送ってくれたので少し持ってまいりました。</span><span class="id">Megumi: Ibu, teman saya mengirimkan apel, jadi saya membawa sedikit.</span></span></p>
+    <p><span class="sent"><span class="jp">夫の母：あら、あの青森の方でしょ？</span><span class="id">Ibu mertua: Oh, orang yang dari Aomori itu, ya?</span></span></p>
+    <p><span class="sent"><span class="jp">台風はどうだったのかしら。</span><span class="id">Bagaimana keadaan di sana setelah topan?</span></span></p>
+    <p><span class="sent"><span class="jp">めぐみ：ええ、私も心配していたんですけれど、大丈夫だったみたいですよ。</span><span class="id">Megumi: Ya, saya juga sempat khawatir, tetapi sepertinya baik-baik saja.</span></span></p>
+    <p><span class="sent"><span class="jp">あの、これ、すごくおいしいですよ。</span><span class="id">Ngomong-ngomong, apel ini enak sekali.</span></span></p>
+    <p><span class="sent"><span class="jp">お母様、もっと召し上がれる（※）ようならまた持ってきますので、おっしゃってくださいね。</span><span class="id">Ibu, kalau ingin makan lebih banyak, saya akan membawakannya lagi, jadi beri tahu saya, ya.</span></span></p>
+    <p><span class="sent"><span class="jp">夫の母：そうねえ、お隣にも差し上げようかしら。</span><span class="id">Ibu mertua: Begitu, ya. Mungkin kita berikan juga kepada tetangga.</span></span></p>
+    <p><span class="sent"><span class="jp">お世話になっているから。</span><span class="id">Karena mereka sudah banyak membantu kita.</span></span></p>
+  </div>
+
+  <div class="notes">
+    <b>（※）召し上がる（めしあがる）</b>：makan (bentuk hormat / polite form of 食べる・飲む).
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="2,5">
+      <div class="q-title">あとの文から正しいものを選びなさい。<small>Pilih pernyataan yang sesuai dengan isi percakapan (jawaban bisa lebih dari satu).</small></div>
+      <label class="opt"><input type="checkbox" name="n1q" value="1"><span><span class="opt-jp">めぐみは夫の母と一緒に住んでいる。</span><span class="opt-id">Megumi tinggal bersama ibu mertuanya.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n1q" value="2"><span><span class="opt-jp">めぐみの友達は青森に住んでいる。</span><span class="opt-id">Teman Megumi tinggal di Aomori.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n1q" value="3"><span><span class="opt-jp">青森に今台風が来ている。</span><span class="opt-id">Saat ini topan sedang melanda Aomori.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n1q" value="4"><span><span class="opt-jp">めぐみの友だちは病気だった。</span><span class="opt-id">Teman Megumi sedang sakit.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n1q" value="5"><span><span class="opt-jp">夫の母はりんごを隣の人にあげたい。</span><span class="opt-id">Ibu mertua ingin memberikan apel kepada tetangga.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 2 dan 5</div>
+        <ul>
+          <li><b>1 ✗</b> — tidak disebutkan bahwa mereka tinggal serumah; hanya ada 「お母様」 (ibu mertua).</li>
+          <li><b>2 ✓</b> — 「あの青森の方でしょ？」: temannya orang Aomori.</li>
+          <li><b>3 ✗</b> — topan sudah lewat; 「大丈夫だったみたいですよ」.</li>
+          <li><b>4 ✗</b> — tidak ada keterangan temannya sakit.</li>
+          <li><b>5 ✓</b> — 「お隣にも差し上げようかしら」: ingin memberi juga ke tetangga.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SECTION 2 (メール・りんご) ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題2</span><h2>次のメールを読んで、あとの問いに答えなさい。</h2></div>
+
+  <div class="reading">
+    <p><b><span class="sent"><span class="jp">ありがとうございました。</span><span class="id">Terima kasih banyak.</span></span></b></p>
+    <div class="meta-line">
+      <span class="sent"><span class="jp">高橋めぐみ &lt;megumi@black.abc-net.com&gt;</span><span class="id">Takahashi Megumi &lt;megumi@black.abc-net.com&gt;</span></span><br>
+      <span class="sent"><span class="jp">To　田中ゆり &lt;yuri_ta@lemon.ask-net.ne.jp&gt;</span><span class="id">Kepada　Tanaka Yuri &lt;yuri_ta@lemon.ask-net.ne.jp&gt;</span></span>
+    </div>
+    <p><span class="sent"><span class="jp">田中 ゆり様</span><span class="id">Yth. Ibu Yuri Tanaka,</span></span></p>
+    <p><span class="sent"><span class="jp">お久しぶりです。</span><span class="id">Lama tidak berjumpa.</span></span></p>
+    <p><span class="sent"><span class="jp">先ほど、宅配便（※1）を受け取りました。</span><span class="id">Saya baru saja menerima paket（※1）.</span></span></p>
+    <p><span class="sent"><span class="jp">りんごをたくさん送ってくださってありがとうございました。</span><span class="id">Terima kasih banyak telah mengirimkan begitu banyak apel.</span></span></p>
+    <p><span class="sent"><span class="jp">実は先日、台風が青森に上陸した（※2）というニュースを見て、「田中さんの家のほうは大丈夫かしら」と家族と話していたのです。</span><span class="id">Sebenarnya beberapa hari lalu saya melihat berita bahwa topan mendarat（※2） di Aomori, dan saya sempat membicarakannya dengan keluarga, “Apakah daerah rumah Ibu Tanaka baik-baik saja?”</span></span></p>
+    <p><span class="sent"><span class="jp">でも、①安心しました。</span><span class="id">Namun, ① saya lega.</span></span></p>
+    <p><span class="sent"><span class="jp">大きくてりっぱなりんごですね。</span><span class="id">Apelnya besar dan bagus sekali, ya.</span></span></p>
+    <p><span class="sent"><span class="jp">箱を開ける前から、とてもいいにおいがしてきました。</span><span class="id">Bahkan sebelum kotaknya dibuka, aromanya sudah sangat harum.</span></span></p>
+    <p><span class="sent"><span class="jp">さっそく、ひとつ（ ② ）のですが、本当においしくて、田中さんの「元気ですよ」という声が伝わってくるようでした。</span><span class="id">Saya langsung ( ② ) satu buah, dan rasanya benar-benar enak — seolah-olah saya bisa mendengar suara Ibu Tanaka yang berkata “Saya baik-baik saja”.</span></span></p>
+    <p><span class="sent"><span class="jp">真紀も明日の遠足に持っていって友だちにもあげるんだ、と大喜びです。</span><span class="id">Maki juga sangat senang dan berkata akan membawanya ke karyawisata besok untuk diberikan kepada teman-temannya.</span></span></p>
+    <p><span class="sent"><span class="jp">主人の母や妹の家にも分けて、みんなで楽しもうと思っています。</span><span class="id">Saya juga akan membagikannya ke rumah ibu mertua dan adik saya, supaya kami semua bisa menikmatinya bersama.</span></span></p>
+    <p><span class="sent"><span class="jp">本当にありがとうございました。</span><span class="id">Terima kasih banyak.</span></span></p>
+    <div class="meta-line"><b><span class="sent"><span class="jp">高橋 めぐみ</span><span class="id">Takahashi Megumi</span></span></b></div>
+  </div>
+
+  <div class="notes">
+    <b>（※1）宅配便（たくはいびん）</b>：layanan kurir / paket (a courier service)　／　<b>（※2）上陸する（じょうりくする）</b>：mendarat (to land, tentang topan).
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="2">
+      <div class="q-title">問1　①安心しましたとあるが、なぜか。<small>Mengapa Megumi merasa lega (①安心しました)?</small></div>
+      <label class="opt"><input type="radio" name="n2q1" value="1"><span><span class="opt-jp">台風が青森には来なかったから。</span><span class="opt-id">Karena topan tidak sampai ke Aomori.</span></span></label>
+      <label class="opt"><input type="radio" name="n2q1" value="2"><span><span class="opt-jp">田中さんは台風の被害を受けなかったようだから。</span><span class="opt-id">Karena sepertinya Ibu Tanaka tidak terkena dampak topan.</span></span></label>
+      <label class="opt"><input type="radio" name="n2q1" value="3"><span><span class="opt-jp">りんごが多かったから。</span><span class="opt-id">Karena jumlah apelnya banyak.</span></span></label>
+      <label class="opt"><input type="radio" name="n2q1" value="4"><span><span class="opt-jp">りんごがりっぱでおいしかったから。</span><span class="opt-id">Karena apelnya bagus dan enak.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 2</div>
+        <ul>
+          <li>Kekhawatirannya adalah 「田中さんの家のほうは大丈夫かしら」— jadi lega karena keluarga Tanaka tampaknya tidak terdampak.</li>
+          <li><b>1 ✗</b> topan tetap datang (「台風が青森に上陸した」). <b>3 ✗</b> / <b>4 ✗</b> soal apel dijelaskan setelahnya, bukan alasan 安心.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q" data-answer="4">
+      <div class="q-title">問2　（ ② ）に入る言葉として最も適当なものはどれか。<small>Kata yang paling tepat untuk （ ② ） adalah …</small></div>
+      <label class="opt"><input type="radio" name="n2q2" value="1"><span><span class="opt-jp">くださった</span><span class="opt-id">— memberi (bentuk hormat, untuk tindakan orang lain).</span></span></label>
+      <label class="opt"><input type="radio" name="n2q2" value="2"><span><span class="opt-jp">めしあがった</span><span class="opt-id">— makan (bentuk hormat untuk orang lain).</span></span></label>
+      <label class="opt"><input type="radio" name="n2q2" value="3"><span><span class="opt-jp">さしあげた</span><span class="opt-id">— memberikan (kepada orang yang dihormati).</span></span></label>
+      <label class="opt"><input type="radio" name="n2q2" value="4"><span><span class="opt-jp">いただいた</span><span class="opt-id">— menerima / menyantap (bentuk rendah hati).</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 4</div>
+        <ul>
+          <li>「ひとついただいた」= (saya) menyantap satu buah — いただく adalah bentuk rendah hati dari もらう／食べる, tepat untuk diri sendiri.</li>
+          <li><b>1 ✗</b> / <b>2 ✗</b> bentuk hormat untuk tindakan orang lain, bukan diri sendiri. <b>3 ✗</b> さしあげる = memberi kepada orang lain, bukan menerima.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SECTION 3 (同窓会の会話) ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題3</span><h2>次の会話を読んで、あとの文から正しいものを選びなさい。</h2></div>
+
+  <div class="reading">
+    <p><span class="sent"><span class="jp">Aさん：ねえ、同窓会（※1）のウェブサイト（※2）を作る話だけど、私たちでやらない？</span><span class="id">A: Eh, soal rencana membuat situs web reuni（※1）, bagaimana kalau kita yang mengerjakannya?</span></span></p>
+    <p><span class="sent"><span class="jp">Bさん：いいね。</span><span class="id">B: Bagus, ya.</span></span></p>
+    <p><span class="sent"><span class="jp">写真とか入れると、パーティーに来られなかった人にも当日のようすが伝えられるしね。</span><span class="id">Kalau foto-foto dimasukkan, orang yang tidak bisa datang ke pesta juga bisa tahu suasana hari itu.</span></span></p>
+    <p><span class="sent"><span class="jp">でも、私たちにできるかな。</span><span class="id">Tapi, apa kita bisa, ya?</span></span></p>
+    <p><span class="sent"><span class="jp">Aさん：簡単だよ。</span><span class="id">A: Gampang, kok.</span></span></p>
+    <p><span class="sent"><span class="jp">いろんなソフト（※3）があるから結構きれいなものができるよ。</span><span class="id">Ada berbagai macam software（※3）, jadi bisa membuat yang lumayan bagus.</span></span></p>
+    <p><span class="sent"><span class="jp">Bさん：そっか。</span><span class="id">B: Oh, begitu.</span></span></p>
+    <p><span class="sent"><span class="jp">あ、山本先生がスマホでたくさん写真撮っていらっしゃったよね。</span><span class="id">Ah, Pak Yamamoto waktu itu banyak memotret dengan smartphone, kan?</span></span></p>
+    <p><span class="sent"><span class="jp">先生にお願いして写真を送ってもらおうよ。</span><span class="id">Kita minta beliau mengirimkan foto-fotonya, yuk.</span></span></p>
+  </div>
+
+  <div class="notes">
+    <b>（※1）同窓会（どうそうかい）</b>：reuni / pertemuan alumni (an alumni association)　／　<b>（※2）ウェブサイト</b>：situs web (website)　／　<b>（※3）ソフト</b>：software (perangkat lunak).
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="1,3">
+      <div class="q-title">あとの文から正しいものを選びなさい。<small>Pilih pernyataan yang sesuai dengan isi percakapan (jawaban bisa lebih dari satu).</small></div>
+      <label class="opt"><input type="checkbox" name="n3q" value="1"><span><span class="opt-jp">AさんとBさんは写真入りのウェブサイトを作りたい。</span><span class="opt-id">A dan B ingin membuat situs web yang berisi foto.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n3q" value="2"><span><span class="opt-jp">ソフトを使ったのできれいなウェブサイトができた。</span><span class="opt-id">Karena memakai software, situs web yang bagus sudah jadi.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n3q" value="3"><span><span class="opt-jp">山本先生は同窓会に出席した。</span><span class="opt-id">Pak Yamamoto menghadiri reuni.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n3q" value="4"><span><span class="opt-jp">山本先生はスマホでウェブサイト用の写真を撮っていた。</span><span class="opt-id">Pak Yamamoto memotret foto-foto untuk situs web dengan smartphone.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n3q" value="5"><span><span class="opt-jp">Bさんは山本先生に写真を撮ってほしいと思っている。</span><span class="opt-id">B ingin Pak Yamamoto memotretkan fotonya.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 1 dan 3</div>
+        <ul>
+          <li><b>1 ✓</b> — 「写真とか入れると…」: ingin membuat situs berisi foto.</li>
+          <li><b>2 ✗</b> — situsnya <i>belum</i> dibuat; 「できるよ」baru rencana/kemungkinan.</li>
+          <li><b>3 ✓</b> — 山本先生 memotret “di tempat pesta”, artinya beliau hadir di reuni.</li>
+          <li><b>4 ✗</b> — beliau memotret suasana pesta, bukan “foto untuk situs web”.</li>
+          <li><b>5 ✗</b> — B meminta foto <i>dikirim</i> (送ってもらおう), bukan minta dipotretkan.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SECTION 4 (近藤のメール) ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題4</span><h2>次のメールを読んで、あとの問いに答えなさい。</h2></div>
+
+  <div class="reading">
+    <p><b><span class="sent"><span class="jp">お願い</span><span class="id">Permohonan</span></span></b></p>
+    <div class="meta-line">
+      <span class="sent"><span class="jp">近藤美香 &lt;mika@apple.coolmail.com&gt;</span><span class="id">Kondo Mika &lt;mika@apple.coolmail.com&gt;</span></span><br>
+      <span class="sent"><span class="jp">To　山本先生 &lt;yamamoto1222@white.abc-net.ne.jp&gt;</span><span class="id">Kepada　Pak Yamamoto &lt;yamamoto1222@white.abc-net.ne.jp&gt;</span></span>
+    </div>
+    <p><span class="sent"><span class="jp">山本先生、近藤（旧姓（※1）竹下）美香です。</span><span class="id">Pak Yamamoto, saya Kondo (nama gadis（※1）: Takeshita) Mika.</span></span></p>
+    <p><span class="sent"><span class="jp">先日の同窓会では、15年ぶりに（※2）先生にお会いできて、本当に楽しかったです。</span><span class="id">Pada reuni beberapa hari lalu, saya sangat senang bisa bertemu Bapak untuk pertama kalinya dalam 15 tahun（※2）.</span></span></p>
+    <p><span class="sent"><span class="jp">先生はちょっともお変わりなく（※3）、高校生に戻ったような気がしました。</span><span class="id">Bapak sama sekali tidak berubah（※3）, rasanya seperti kembali menjadi siswa SMA.</span></span></p>
+    <p><span class="sent"><span class="jp">ところで、今日はお願いがあってメールいたしました。</span><span class="id">Ngomong-ngomong, hari ini saya mengirim email karena ada satu permintaan.</span></span></p>
+    <p><span class="sent"><span class="jp">あのパーティー会場で、私たちのクラスのウェブサイトを作ろうという話が出たのを覚えていらっしゃいますか。</span><span class="id">Apakah Bapak ingat pembicaraan tentang membuat situs web kelas kita di tempat pesta itu?</span></span></p>
+    <p><span class="sent"><span class="jp">実は、私と木村（旧姓 吉本）さんが中心になって作ろうと思っています。</span><span class="id">Sebenarnya, saya dan Ibu Kimura (nama gadis: Yoshimoto) yang berencana menjadi pusat pengerjaannya.</span></span></p>
+    <p><span class="sent"><span class="jp">それで、山本先生が会場で撮っていらっしゃった写真を使わせて（　　）。</span><span class="id">Karena itu, bolehkah saya memakai foto-foto yang Bapak ambil di tempat acara?（　　）</span></span></p>
+    <p><span class="sent"><span class="jp">もしよろしければ、メールに添付（※4）して送ってくださると助かります（※5）。</span><span class="id">Kalau tidak keberatan, akan sangat membantu bila Bapak melampirkan（※4）nya di email dan mengirimkannya（※5）.</span></span></p>
+    <p><span class="sent"><span class="jp">同窓会に来られなかった人にも見てもらえますし、私たちにも思い出となりますので、ご面倒をおかけしますがどうぞよろしくお願いいたします。</span><span class="id">Orang yang tidak bisa datang ke reuni juga bisa melihatnya, dan ini akan menjadi kenangan bagi kami juga, jadi mohon maaf telah merepotkan Bapak, terima kasih banyak.</span></span></p>
+    <div class="meta-line"><b><span class="sent"><span class="jp">近藤 美香</span><span class="id">Kondo Mika</span></span></b></div>
+  </div>
+
+  <div class="notes">
+    <b>（※1）旧姓（きゅうせい）</b>：nama gadis / nama sebelum menikah (a birth name, previous name)　／　<b>（※2）15年ぶりに</b>：untuk pertama kali dalam 15 tahun　／　<b>（※3）ちょっともお変わりなく</b>：sama sekali tidak berubah<br>
+    <b>（※4）添付（てんぷ）</b>：lampiran (an attachment)　／　<b>（※5）〜と助かります</b>：sangat membantu bila … (be a great help)
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="4">
+      <div class="q-title">問1　（　　）に入る言葉として最も適当なものはどれか。<small>Kata yang paling tepat untuk mengisi bagian kosong adalah …</small></div>
+      <label class="opt"><input type="radio" name="n4q1" value="1"><span><span class="opt-jp">あげましょうか</span><span class="opt-id">— (saya) berikan, ya?</span></span></label>
+      <label class="opt"><input type="radio" name="n4q1" value="2"><span><span class="opt-jp">いただきましょうか</span><span class="opt-id">— (saya) terima, ya?</span></span></label>
+      <label class="opt"><input type="radio" name="n4q1" value="3"><span><span class="opt-jp">くださいましょうか</span><span class="opt-id">— bentuk yang tidak baku.</span></span></label>
+      <label class="opt"><input type="radio" name="n4q1" value="4"><span><span class="opt-jp">いただけませんでしょうか</span><span class="opt-id">— tidak bisakah (saya) diberi izin …?</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 4</div>
+        <ul>
+          <li>「使わせて＋いただけませんでしょうか」= permintaan izin yang sangat sopan: “bolehkah saya memakai …”.</li>
+          <li><b>1 ✗</b> / <b>3 ✗</b> tidak membentuk pola izin 使わせて. <b>2 ✗</b> 「いただきましょうか」berarti “(saya) terima, ya?”, bukan meminta izin memakai.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q" data-answer="3">
+      <div class="q-title">問2　近藤さんはなぜ山本先生にこのメールを書いたのか。<small>Mengapa Kondo menulis email ini kepada Pak Yamamoto?</small></div>
+      <label class="opt"><input type="radio" name="n4q2" value="1"><span><span class="opt-jp">同窓会で楽しかったことを伝えたいから。</span><span class="opt-id">Karena ingin menyampaikan bahwa reuninya menyenangkan.</span></span></label>
+      <label class="opt"><input type="radio" name="n4q2" value="2"><span><span class="opt-jp">ウェブサイトを作ることを知らせたいから。</span><span class="opt-id">Karena ingin memberi tahu bahwa mereka akan membuat situs web.</span></span></label>
+      <label class="opt"><input type="radio" name="n4q2" value="3"><span><span class="opt-jp">山本先生に写真を送ってもらいたいから。</span><span class="opt-id">Karena ingin Pak Yamamoto mengirimkan foto-fotonya.</span></span></label>
+      <label class="opt"><input type="radio" name="n4q2" value="4"><span><span class="opt-jp">山本先生にまた同窓会に来てもらいたいから。</span><span class="opt-id">Karena ingin Pak Yamamoto datang lagi ke reuni.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 3</div>
+        <ul>
+          <li>Inti permintaan: 「写真を使わせて…メールに添付して送ってくださると助かります」→ ingin fotonya dikirim.</li>
+          <li><b>1 ✗</b> hanya pembuka. <b>2 ✗</b> situs web hanya menjadi latar permintaan. <b>4 ✗</b> tidak diminta datang lagi.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SECTION 5 (母・明の会話) ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題5</span><h2>次の会話を読んで、あとの文から正しいものを選びなさい。</h2></div>
 
   <div class="reading">
     <p><span class="sent"><span class="jp">母：明、由美ちゃんって覚えてる？</span><span class="id">Ibu: Akira, kamu masih ingat Yumi?</span></span></p>
@@ -168,7 +398,7 @@ button:active{transform:translateY(1px)}
 
 <!-- ================== SECTION 2 ================== -->
 <section class="panel">
-  <div class="panel-head"><span class="tag">問題2</span><h2>次の手紙を読んで、あとの問いに答えなさい。</h2></div>
+  <div class="panel-head"><span class="tag">問題6</span><h2>次の手紙を読んで、あとの問いに答えなさい。</h2></div>
 
   <div class="reading">
     <div class="meta-line">
@@ -233,7 +463,7 @@ button:active{transform:translateY(1px)}
 
 <!-- ================== SECTION 3 ================== -->
 <section class="panel">
-  <div class="panel-head"><span class="tag">問題3</span><h2>次の会話を読んで、あとの文から正しいものを選びなさい。</h2></div>
+  <div class="panel-head"><span class="tag">問題7</span><h2>次の会話を読んで、あとの文から正しいものを選びなさい。</h2></div>
 
   <div class="reading">
     <p><span class="sent"><span class="jp">夫：桜、あと2週間くらいかかるかな。</span><span class="id">Suami: Sakuranya kira-kira masih butuh dua minggu lagi, ya.</span></span></p>
@@ -276,7 +506,7 @@ button:active{transform:translateY(1px)}
 
 <!-- ================== SECTION 4 ================== -->
 <section class="panel">
-  <div class="panel-head"><span class="tag">問題4</span><h2>次のはがきを読んで、あとの問いに答えなさい。</h2></div>
+  <div class="panel-head"><span class="tag">問題8</span><h2>次のはがきを読んで、あとの問いに答えなさい。</h2></div>
 
   <div class="reading">
     <p><span class="sent"><span class="jp">拝啓（※1）</span><span class="id">Dengan hormat（※1）</span></span></p>
@@ -339,7 +569,333 @@ button:active{transform:translateY(1px)}
   </div>
 </section>
 
-<p class="hint">Catatan: gambar bacaan yang ketiga isinya sama dengan gambar pertama (potongan yang sama), jadi tidak dibuat section duplikat. Tombol bahasa: 日本語 / Indonesia / 両方 (dua bahasa bertumpuk).</p>
+<!-- ================== SECTION 9 (陽子・犬の会話) ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題9</span><h2>次の会話を読んで、あとの文から正しいものを選びなさい。</h2></div>
+
+  <div class="reading">
+    <p><span class="sent"><span class="jp">近所の人：あら、陽子ちゃん、腕どうしたの？</span><span class="id">Tetangga: Eh, Yōko, lengannya kenapa?</span></span></p>
+    <p><span class="sent"><span class="jp">陽子の母：転んじゃってすりむいた（※1）の。</span><span class="id">Ibu Yōko: Dia jatuh dan lecet（※1）.</span></span></p>
+    <p><span class="sent"><span class="jp">大きい犬にほえられてね。</span><span class="id">Gara-gara digonggongi anjing besar, ya.</span></span></p>
+    <p><span class="sent"><span class="jp">近所の人：あらー、それはびっくりしたでしょうね。</span><span class="id">Tetangga: Ya ampun, pasti dia kaget sekali, ya.</span></span></p>
+    <p><span class="sent"><span class="jp">陽子の母：ええ、この子、「あ、ワンワン（※2）だー」って言って近寄っていったの。</span><span class="id">Ibu Yōko: Iya. Anak ini malah berkata, “Ah, guguk（※2）!” lalu mendekatinya.</span></span></p>
+    <p><span class="sent"><span class="jp">そうしたら、犬が驚いたらしくって……。</span><span class="id">Lalu sepertinya anjingnya terkejut…….</span></span></p>
+    <p><span class="sent"><span class="jp">近所の人：あら、そう。</span><span class="id">Tetangga: Oh, begitu.</span></span></p>
+    <p><span class="sent"><span class="jp">でも大したことがなくて（※3）よかったわね。</span><span class="id">Tapi syukurlah tidak sampai serius（※3）.</span></span></p>
+  </div>
+
+  <div class="notes">
+    <b>（※1）すりむく</b>：tergores / lecet (to scrape)　／　<b>（※2）ワンワン</b>：kata bayi untuk “anjing” (bow wow)　／　<b>（※3）大したことがない</b>：tidak serius, tidak seberapa (not serious).
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="3,4">
+      <div class="q-title">あとの文から正しいものを選びなさい。<small>Pilih pernyataan yang sesuai dengan isi percakapan (jawaban bisa lebih dari satu).</small></div>
+      <label class="opt"><input type="checkbox" name="n9q" value="1"><span><span class="opt-jp">陽子は犬が嫌いだった。</span><span class="opt-id">Yōko tidak suka anjing.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n9q" value="2"><span><span class="opt-jp">陽子は犬を驚かせようと思って近づいた。</span><span class="opt-id">Yōko mendekati anjing itu dengan niat membuatnya kaget.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n9q" value="3"><span><span class="opt-jp">陽子のけがは軽かった。</span><span class="opt-id">Luka Yōko ringan.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n9q" value="4"><span><span class="opt-jp">陽子にほえた犬は陽子の家の犬ではない。</span><span class="opt-id">Anjing yang menggonggongi Yōko bukan anjing keluarganya.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n9q" value="5"><span><span class="opt-jp">犬は陽子をかんだ。</span><span class="opt-id">Anjing itu menggigit Yōko.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 3 dan 4</div>
+        <ul>
+          <li><b>1 ✗</b> — Yōko justru mendekati anjingnya dengan gembira (「ワンワンだー」), jadi bukan benci.</li>
+          <li><b>2 ✗</b> — dia mendekat karena tertarik, bukan berniat mengejutkan; anjingnya yang terkejut.</li>
+          <li><b>3 ✓</b> — hanya すりむいた (lecet) dan 「大したことがなくてよかった」: lukanya ringan.</li>
+          <li><b>4 ✓</b> — yang menggonggong adalah 大きい犬 (anjing orang lain), bukan anjing keluarga Yōko.</li>
+          <li><b>5 ✗</b> — anjing itu <i>menggonggong</i> (ほえる), bukan menggigit (かむ).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SECTION 10 (林幸男の手紙) ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題10</span><h2>次の手紙を読んで、あとの問いに答えなさい。</h2></div>
+
+  <div class="reading">
+    <p><b><span class="sent"><span class="jp">山本様</span><span class="id">Yth. Bapak Yamamoto</span></span></b></p>
+    <p><span class="sent"><span class="jp">先日は、わが家の犬がほえたことで、お嬢様におけがをさせてしまいまして、本当に申し訳ございませんでした。</span><span class="id">Beberapa hari lalu, karena anjing kami menggonggong sehingga putri Bapak terluka, saya benar-benar minta maaf.</span></span></p>
+    <p><span class="sent"><span class="jp">深くおわび申し上げます。</span><span class="id">Saya menyampaikan permohonan maaf yang sedalam-dalamnya.</span></span></p>
+    <p><span class="sent"><span class="jp">ふだんはおとなしい犬なのですが、あの時はどういうわけか（※1）興奮して（※2）いたようです。</span><span class="id">Anjing itu biasanya tenang, tetapi waktu itu entah kenapa（※1）sepertinya dia terlalu bersemangat（※2）.</span></span></p>
+    <p><span class="sent"><span class="jp">決して攻撃するということはないのですが、何しろ声が大きいもので、お嬢様がびっくりなさったのも当然です（※3）。</span><span class="id">Dia sama sekali tidak menyerang, tetapi suaranya memang besar, jadi wajar（※3）kalau putri Bapak terkejut.</span></span></p>
+    <p><span class="sent"><span class="jp">転んだときに頭を打たれたのではないかと心配しましたが、腕のすり傷（※4）だけで、それももうよくなられたということでほっといたしました。</span><span class="id">Saya khawatir kepalanya terbentur saat jatuh, tetapi ternyata hanya lecet（※4）di lengan, dan itu pun sudah membaik — saya lega.</span></span></p>
+    <p><span class="sent"><span class="jp">でも、歩き始めたばかりの小さいお子さまに怖い思いをさせてしまったこと、本当に申し訳なく思っております。</span><span class="id">Namun, saya benar-benar menyesal telah membuat anak kecil yang baru bisa berjalan merasakan ketakutan.</span></span></p>
+    <p><span class="sent"><span class="jp">今後は、こういうことのないように注意いたしますので、どうかお許しくださいませ。</span><span class="id">Ke depannya saya akan berhati-hati agar hal ini tidak terjadi lagi, mohon maafkan saya.</span></span></p>
+    <p><span class="sent"><span class="jp">よろしくお願い申し上げます。</span><span class="id">Terima kasih banyak atas perhatiannya.</span></span></p>
+    <p><span class="sent"><span class="jp">追伸（※5）</span><span class="id">Tambahan (PS)（※5）</span></span></p>
+    <p><span class="sent"><span class="jp">別便で（※6）、クッキーをお送りいたしました。</span><span class="id">Saya mengirimkan kue kering dengan kiriman terpisah（※6）.</span></span></p>
+    <p><span class="sent"><span class="jp">おやつのときにでも、お召し上がりください。</span><span class="id">Silakan dinikmati saat waktu camilan.</span></span></p>
+    <div class="meta-line"><b><span class="sent"><span class="jp">林　幸男</span><span class="id">Hayashi Yukio</span></span></b></div>
+  </div>
+
+  <div class="notes">
+    <b>（※1）どういうわけか</b>：entah kenapa (for some reason)　／　<b>（※2）興奮する（こうふんする）</b>：terlalu bersemangat / terangsang (to get excited)　／　<b>（※3）当然だ（とうぜんだ）</b>：wajar (naturally)<br>
+    <b>（※4）すり傷（すりきず）</b>：luka lecet (a scratch)　／　<b>（※5）追伸（ついしん）</b>：tambahan surat, PS　／　<b>（※6）別便で（べつびんで）</b>：dengan kiriman terpisah (by separate mail).
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="3">
+      <div class="q-title">問1　犬にほえられて女の子はどうなったのか。<small>Apa yang terjadi pada anak perempuan itu setelah digonggongi anjing?</small></div>
+      <label class="opt"><input type="radio" name="n10q1" value="1"><span><span class="opt-jp">転んで頭を打った。</span><span class="opt-id">Jatuh dan kepalanya terbentur.</span></span></label>
+      <label class="opt"><input type="radio" name="n10q1" value="2"><span><span class="opt-jp">興奮して大きい声で泣いた。</span><span class="opt-id">Terlalu bersemangat lalu menangis keras.</span></span></label>
+      <label class="opt"><input type="radio" name="n10q1" value="3"><span><span class="opt-jp">転んで腕に軽いけがをした。</span><span class="opt-id">Jatuh dan mendapat luka ringan di lengan.</span></span></label>
+      <label class="opt"><input type="radio" name="n10q1" value="4"><span><span class="opt-jp">びっくりしたが、すぐに歩き始めた。</span><span class="opt-id">Terkejut, tetapi langsung mulai berjalan.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 3</div>
+        <ul>
+          <li>「腕のすり傷だけで、それももうよくなられた」= hanya lecet ringan di lengan, sudah membaik.</li>
+          <li><b>1 ✗</b> kekhawatiran itu ternyata tidak terjadi (「心配しましたが」). <b>2 ✗</b> dan <b>4 ✗</b> tidak disebutkan dalam surat.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q" data-answer="4">
+      <div class="q-title">問2　この手紙からわかることはどれか。<small>Apa yang dapat diketahui dari surat ini?</small></div>
+      <label class="opt"><input type="radio" name="n10q2" value="1"><span><span class="opt-jp">山本さんの子どもは、クッキーを喜んで食べた。</span><span class="opt-id">Anak Pak Yamamoto senang memakan kue kering itu.</span></span></label>
+      <label class="opt"><input type="radio" name="n10q2" value="2"><span><span class="opt-jp">林幸男さんの犬は、だれにでもよくほえる犬である。</span><span class="opt-id">Anjing Hayashi Yukio sering menggonggongi siapa saja.</span></span></label>
+      <label class="opt"><input type="radio" name="n10q2" value="3"><span><span class="opt-jp">山本さんの子どもは、林さんの犬にほえられて、犬が嫌いになった。</span><span class="opt-id">Anak Pak Yamamoto jadi tidak suka anjing setelah digonggongi anjing Hayashi.</span></span></label>
+      <label class="opt"><input type="radio" name="n10q2" value="4"><span><span class="opt-jp">林幸男さんは、山本さんの子どものけがが大したことがなくて安心した。</span><span class="opt-id">Hayashi Yukio lega karena luka anak Pak Yamamoto tidak serius.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 4</div>
+        <ul>
+          <li>「腕のすり傷だけで…ほっといたしました」= dia lega karena lukanya tidak serius.</li>
+          <li><b>1 ✗</b> kue baru dikirim, belum ada kabar dimakan. <b>2 ✗</b> 「ふだんはおとなしい犬」: biasanya justru tenang. <b>3 ✗</b> tidak ada keterangan anak itu jadi membenci anjing.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SECTION 11 (旅行代金の電話) ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題11</span><h2>次の会話を読んで、あとの文から正しいものを選びなさい。</h2></div>
+
+  <div class="reading">
+    <p><span class="sent"><span class="jp">男の人：もしもし、こちらフジ旅行社の黒川と申しますが、中井まい様はいらっしゃいますでしょうか。</span><span class="id">Pria: Halo, saya Kurokawa dari Fuji Travel. Apakah Ibu Mai Nakai ada?</span></span></p>
+    <p><span class="sent"><span class="jp">女の人：はい、私ですが……。</span><span class="id">Wanita: Ya, saya sendiri…….</span></span></p>
+    <p><span class="sent"><span class="jp">男の人：あのー、12月23日にご出発の旅行代金をまだお振り込み（※1）いただいていないようですが……。</span><span class="id">Pria: Begini, sepertinya biaya perjalanan untuk keberangkatan 23 Desember belum Anda transfer（※1）…….</span></span></p>
+    <p><span class="sent"><span class="jp">女の人：あっ、すみません。</span><span class="id">Wanita: Ah, maaf.</span></span></p>
+    <p><span class="sent"><span class="jp">すぐ振り込みます。</span><span class="id">Saya segera transfer.</span></span></p>
+    <p><span class="sent"><span class="jp">えーと、いくらでしたっけ？</span><span class="id">Ehm, berapa jumlahnya tadi, ya?</span></span></p>
+    <p><span class="sent"><span class="jp">あのー、書類なくしちゃったみたいで、口座番号（※2）もわからなくて……。</span><span class="id">Begini, sepertinya dokumennya hilang, jadi nomor rekening（※2） pun saya tidak tahu…….</span></span></p>
+  </div>
+
+  <div class="notes">
+    <b>（※1）振り込み（ふりこみ）</b>：transfer uang (a money transfer)　／　<b>（※2）口座番号（こうざばんごう）</b>：nomor rekening (an account number).
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="1,2">
+      <div class="q-title">あとの文から正しいものを選びなさい。<small>Pilih pernyataan yang sesuai dengan isi percakapan (jawaban bisa lebih dari satu).</small></div>
+      <label class="opt"><input type="checkbox" name="n11q" value="1"><span><span class="opt-jp">女の人は、旅行に行く予定である。</span><span class="opt-id">Wanita itu berencana pergi berwisata.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n11q" value="2"><span><span class="opt-jp">女の人は、フジ旅行社に旅行を申し込んでいた。</span><span class="opt-id">Wanita itu sudah mendaftar perjalanan ke Fuji Travel.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n11q" value="3"><span><span class="opt-jp">女の人は、12月23日に旅行代金を払うことにしていた。</span><span class="opt-id">Wanita itu sudah menetapkan akan membayar biaya perjalanan pada 23 Desember.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n11q" value="4"><span><span class="opt-jp">女の人は、フジ旅行社から旅行についての書類をもらわなかった。</span><span class="opt-id">Wanita itu tidak menerima dokumen perjalanan dari Fuji Travel.</span></span></label>
+      <label class="opt"><input type="checkbox" name="n11q" value="5"><span><span class="opt-jp">女の人は、旅行代金を払うつもりはなかった。</span><span class="opt-id">Wanita itu tidak berniat membayar biaya perjalanan.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 1 dan 2</div>
+        <ul>
+          <li><b>1 ✓</b> — 「12月23日にご出発の旅行代金」: keberangkatan sudah dijadwalkan.</li>
+          <li><b>2 ✓</b> — biaya perjalanan ditagih, artinya dia sudah 申し込む (mendaftar).</li>
+          <li><b>3 ✗</b> — 12月23日 adalah tanggal <i>keberangkatan</i>, bukan tanggal pembayaran.</li>
+          <li><b>4 ✗</b> — dokumennya <i>diberikan</i> tetapi hilang (「書類なくしちゃった」).</li>
+          <li><b>5 ✗</b> — dia berkata 「すぐ振り込みます」: memang berniat membayar.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SECTION 12 (代金未納のメール) ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題12</span><h2>次のメールを読んで、あとの問いに答えなさい。</h2></div>
+
+  <div class="reading">
+    <p><b><span class="sent"><span class="jp">代金未納の件（※1）</span><span class="id">Perihal biaya yang belum dibayar（※1）</span></span></b></p>
+    <div class="meta-line">
+      <span class="sent"><span class="jp">フジ旅行社　黒川真一 &lt;shkurokawa@ftb.co.jp&gt;</span><span class="id">Fuji Travel, Kurokawa Shin'ichi &lt;shkurokawa@ftb.co.jp&gt;</span></span><br>
+      <span class="sent"><span class="jp">To　中井まい &lt;my-nakai@e-net.ne.jp&gt;</span><span class="id">Kepada　Nakai Mai &lt;my-nakai@e-net.ne.jp&gt;</span></span><br>
+      <span class="sent"><span class="jp">日時：20XX年12月2日 15：41</span><span class="id">Waktu: 2 Desember 20XX, 15.41</span></span>
+    </div>
+    <p><span class="sent"><span class="jp">中井まい 様</span><span class="id">Yth. Ibu Mai Nakai</span></span></p>
+    <p><span class="sent"><span class="jp">いつもご利用いただき、ありがとうございます。</span><span class="id">Terima kasih telah selalu menggunakan layanan kami.</span></span></p>
+    <p><span class="sent"><span class="jp">先ほど、お電話でお話しした件ですが、お申し込みいただいた旅行代金が未納（※2）になっております。</span><span class="id">Mengenai hal yang tadi kita bicarakan lewat telepon, biaya perjalanan yang Anda daftarkan belum dibayar（※2）.</span></span></p>
+    <p><span class="sent"><span class="jp">請求書の控え（※3）をメールに添付させていただきますので、金額をご確認の上、指定の口座にお振り込みいただきますようお願い申し上げます。</span><span class="id">Kami lampirkan salinan faktur（※3） di email ini, jadi mohon periksa jumlahnya lalu transfer ke rekening yang ditentukan.</span></span></p>
+    <p><span class="sent"><span class="jp">なお、お振り込み期限は12月8日とさせていただきます。</span><span class="id">Adapun batas waktu transfer adalah 8 Desember.</span></span></p>
+    <div class="meta-line"><b><span class="sent"><span class="jp">フジ旅行社　黒川 真一</span><span class="id">Fuji Travel, Kurokawa Shin'ichi</span></span></b></div>
+  </div>
+
+  <div class="notes">
+    <b>（※1）〜件（けん）</b>：perihal / mengenai (subject, regarding)　／　<b>（※2）未納（みのう）</b>：belum dibayar (not yet paid)　／　<b>（※3）請求書の控え（せいきゅうしょのひかえ）</b>：salinan faktur (a copy of the invoice).
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="1">
+      <div class="q-title">問1　中井さんがしなければならないことは何か。<small>Apa yang harus dilakukan Ibu Nakai?</small></div>
+      <label class="opt"><input type="radio" name="n12q1" value="1"><span><span class="opt-jp">12月8日までに代金を振り込む。</span><span class="opt-id">Transfer biaya paling lambat 8 Desember.</span></span></label>
+      <label class="opt"><input type="radio" name="n12q1" value="2"><span><span class="opt-jp">請求書の控えを田中さんに送る。</span><span class="opt-id">Mengirim salinan faktur kepada Tanaka.</span></span></label>
+      <label class="opt"><input type="radio" name="n12q1" value="3"><span><span class="opt-jp">12月8日に代金を振り込む。</span><span class="opt-id">Transfer biaya pada tanggal 8 Desember.</span></span></label>
+      <label class="opt"><input type="radio" name="n12q1" value="4"><span><span class="opt-jp">旅行社に電話をする。</span><span class="opt-id">Menelepon agen travel.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 1</div>
+        <ul>
+          <li>「お振り込み期限は12月8日」→ batas waktunya <b>sampai</b> 8 Desember, jadi harus transfer sebelum/sebelumnya.</li>
+          <li><b>3 ✗</b> “pada tanggal 8” berbeda dari “paling lambat 8”. <b>2 ✗</b> faktur dikirim <i>oleh</i> agen, bukan oleh Nakai. <b>4 ✗</b> telepon sudah dilakukan (「先ほど、お電話でお話しした件」).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q" data-answer="3">
+      <div class="q-title">問2　このメールの内容について正しいものはどれか。<small>Pernyataan mana yang benar tentang isi email ini?</small></div>
+      <label class="opt"><input type="radio" name="n12q2" value="1"><span><span class="opt-jp">旅行代金に変更があった。</span><span class="opt-id">Ada perubahan biaya perjalanan.</span></span></label>
+      <label class="opt"><input type="radio" name="n12q2" value="2"><span><span class="opt-jp">旅行代金を申込者に知らせていなかった。</span><span class="opt-id">Biaya perjalanan belum diberitahukan kepada pendaftar.</span></span></label>
+      <label class="opt"><input type="radio" name="n12q2" value="3"><span><span class="opt-jp">旅行代金の請求書の控えを送った。</span><span class="opt-id">Mengirim salinan faktur biaya perjalanan.</span></span></label>
+      <label class="opt"><input type="radio" name="n12q2" value="4"><span><span class="opt-jp">旅行代金の支払方法は決まっていない。</span><span class="opt-id">Cara pembayaran biaya perjalanan belum ditentukan.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 3</div>
+        <ul>
+          <li>「請求書の控えをメールに添付させていただきます」→ salinan faktur dikirim lewat email.</li>
+          <li><b>1 ✗</b> tidak ada perubahan biaya. <b>2 ✗</b> biayanya sudah diketahui, hanya belum dibayar. <b>4 ✗</b> caranya jelas: transfer ke rekening yang ditentukan.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SECTION 13 (講演のお願いのメール) ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題13</span><h2>次のメールを読んで、あとの問いに答えなさい。</h2></div>
+
+  <div class="reading">
+    <p><b><span class="sent"><span class="jp">件名：（　　）</span><span class="id">Subjek: （　　）</span></span></b></p>
+    <div class="meta-line">
+      <span class="sent"><span class="jp">武田健一 &lt;k-takeda@takaracity.jp&gt;</span><span class="id">Takeda Ken'ichi &lt;k-takeda@takaracity.jp&gt;</span></span><br>
+      <span class="sent"><span class="jp">To　中村進先生 &lt;s_nakamura@XXX.ne.jp&gt;</span><span class="id">Kepada　Pak Nakamura Susumu &lt;s_nakamura@XXX.ne.jp&gt;</span></span><br>
+      <span class="sent"><span class="jp">日時：20XX年3月10日 11：12</span><span class="id">Waktu: 10 Maret 20XX, 11.12</span></span>
+    </div>
+    <p><span class="sent"><span class="jp">中村 進 先生</span><span class="id">Yth. Bapak Nakamura Susumu</span></span></p>
+    <p><span class="sent"><span class="jp">ごぶさたしております。</span><span class="id">Sudah lama tidak berjumpa.</span></span></p>
+    <p><span class="sent"><span class="jp">たから市役所市民生活課の武田です。</span><span class="id">Saya Takeda dari Bagian Kehidupan Warga, Kantor Pemerintah Kota Takara.</span></span></p>
+    <p><span class="sent"><span class="jp">昨年の講演の際には、大変お世話になりました。</span><span class="id">Terima kasih banyak atas bantuan Bapak pada ceramah tahun lalu.</span></span></p>
+    <p><span class="sent"><span class="jp">先生の講演はとても評判がよく、次回もぜひという声が多く上がっております。</span><span class="id">Ceramah Bapak sangat dipuji, dan banyak yang bersuara, “Lain kali kami ingin lagi.”</span></span></p>
+    <p><span class="sent"><span class="jp">つきましては、本年もまたお願いいたしたく、ご連絡申し上げました。</span><span class="id">Oleh karena itu, kami menghubungi Bapak karena ingin meminta lagi tahun ini.</span></span></p>
+    <p><span class="sent"><span class="jp">場所は昨年と同じく、たから市民会館ホール、日時は5月3日午後3時よりを予定しておりますが、先生のご都合はいかがでしょうか。</span><span class="id">Tempatnya sama seperti tahun lalu, Aula Balai Warga Takara, waktunya direncanakan 3 Mei pukul 15.00 — bagaimana kesediaan Bapak?</span></span></p>
+    <p><span class="sent"><span class="jp">今回は「50歳からの生き方について」という内容でお願いしたいと思います。</span><span class="id">Kali ini kami ingin meminta dengan topik “Tentang cara hidup sejak usia 50”.</span></span></p>
+    <p><span class="sent"><span class="jp">よろしくご検討くださいますよう（※）お願い申し上げます。</span><span class="id">Mohon kiranya Bapak mempertimbangkannya.</span></span></p>
+    <div class="meta-line">
+      <span class="sent"><span class="jp">たから市役所市民生活課　武田健一</span><span class="id">Bagian Kehidupan Warga, Kantor Pemerintah Kota Takara — Takeda Ken'ichi</span></span><br>
+      k-takeda@takaracity.jp<br>
+      tel. 012-345-6789
+    </div>
+  </div>
+
+  <div class="notes">
+    <b>（※）〜くださいますようお願い申し上げます</b>：mohon kiranya … (permintaan sopan dalam surat resmi).
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="1">
+      <div class="q-title">問1　件名の（　　）に入る言葉として最も適当なものはどれか。<small>Subjek yang paling tepat untuk （　　） adalah …</small></div>
+      <label class="opt"><input type="radio" name="n13q1" value="1"><span><span class="opt-jp">講演のお願い</span><span class="opt-id">Permohonan ceramah.</span></span></label>
+      <label class="opt"><input type="radio" name="n13q1" value="2"><span><span class="opt-jp">講演のお礼</span><span class="opt-id">Ucapan terima kasih atas ceramah.</span></span></label>
+      <label class="opt"><input type="radio" name="n13q1" value="3"><span><span class="opt-jp">講演スケジュールの変更</span><span class="opt-id">Perubahan jadwal ceramah.</span></span></label>
+      <label class="opt"><input type="radio" name="n13q1" value="4"><span><span class="opt-jp">講演内容の確認</span><span class="opt-id">Konfirmasi isi ceramah.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 1</div>
+        <ul>
+          <li>Isi email adalah meminta kembali Bapak Nakamura berceramah (「またお願いいたしたく」) → subjek yang tepat “Permohonan ceramah”.</li>
+          <li><b>2 ✗</b> terima kasih hanya basa-basi pembuka. <b>3 ✗</b> tidak ada jadwal yang diubah. <b>4 ✗</b> isi ceramah baru diusulkan, bukan dikonfirmasi.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q" data-answer="2">
+      <div class="q-title">問2　この文章の内容と合っているものはどれか。<small>Pernyataan mana yang sesuai dengan isi email?</small></div>
+      <label class="opt"><input type="radio" name="n13q2" value="1"><span><span class="opt-jp">中村先生は武田さんに会ったことがない。</span><span class="opt-id">Pak Nakamura belum pernah bertemu Takeda.</span></span></label>
+      <label class="opt"><input type="radio" name="n13q2" value="2"><span><span class="opt-jp">中村先生は、前にたから市で講演をしたことがある。</span><span class="opt-id">Pak Nakamura pernah berceramah di Kota Takara sebelumnya.</span></span></label>
+      <label class="opt"><input type="radio" name="n13q2" value="3"><span><span class="opt-jp">今回の講演の内容は、前回と同じである。</span><span class="opt-id">Topik ceramah kali ini sama dengan sebelumnya.</span></span></label>
+      <label class="opt"><input type="radio" name="n13q2" value="4"><span><span class="opt-jp">中村先生は、ぜひまた、たから市で講演をしたいと思っている。</span><span class="opt-id">Pak Nakamura sangat ingin berceramah lagi di Kota Takara.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 2</div>
+        <ul>
+          <li>「昨年の講演の際には、大変お世話になりました」→ tahun lalu beliau sudah berceramah di Takara.</li>
+          <li><b>1 ✗</b> mereka sudah pernah bertemu tahun lalu. <b>3 ✗</b> topiknya baru: 「50歳からの生き方について」. <b>4 ✗</b> keinginan itu belum diketahui; email ini masih menanyakan kesediaan.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SECTION 14 (GTSの手紙) ================== -->
+<section class="panel">
+  <div class="panel-head"><span class="tag">問題14</span><h2>次の手紙を読んで、あとの問いに答えなさい。</h2></div>
+
+  <div class="reading">
+    <div class="meta-line">
+      <span class="sent"><span class="jp">20XX年8月3日</span><span class="id">3 Agustus 20XX</span></span><br>
+      <b><span class="sent"><span class="jp">高橋 光一様</span><span class="id">Yth. Bapak Kōichi Takahashi</span></span></b><br>
+      <span class="sent"><span class="jp">株式会社GTS　カスタマーサービス　木村 健</span><span class="id">PT GTS, Layanan Pelanggan — Kimura Ken</span></span>
+    </div>
+    <p><span class="sent"><span class="jp">先日お買い上げいただいたノートパソコンの画面（※1）に問題がありご迷惑をおかけいたしまして、大変申し訳ございませんでした。</span><span class="id">Kami sangat menyesal telah merepotkan Bapak karena masalah pada layar（※1） laptop yang Bapak beli beberapa hari lalu.</span></span></p>
+    <p><span class="sent"><span class="jp">ご返品（※2）いただいたものを調べましたところ、ライトがうまく作動して（※3）いなかったことで画面が暗く見にくかったということでした。</span><span class="id">Setelah kami periksa barang yang Bapak kembalikan（※2）, ternyata lampunya tidak bekerja（※3）dengan baik sehingga layarnya tampak gelap dan sulit dilihat.</span></span></p>
+    <p><span class="sent"><span class="jp">早速、修理いたしまして別便でお送りさせていただきました。</span><span class="id">Kami segera memperbaikinya dan mengirimkannya kembali dengan kiriman terpisah.</span></span></p>
+    <p><span class="sent"><span class="jp">今後は二度とこのようなことが起きないよう製品のチェックを強化いたします。</span><span class="id">Ke depannya kami akan memperkuat pemeriksaan produk agar hal seperti ini tidak terjadi lagi.</span></span></p>
+    <p><span class="sent"><span class="jp">本当に申し訳ございませんでした。</span><span class="id">Kami benar-benar minta maaf.</span></span></p>
+    <p><span class="sent"><span class="jp">なお、おわびの印（※4）として商品割引券を同封させて（※5）いただきました。</span><span class="id">Selain itu, sebagai tanda permohonan maaf（※4）, kami menyertakan（※5）kupon diskon produk.</span></span></p>
+    <p><span class="sent"><span class="jp">お使いいただければ幸いです。</span><span class="id">Kami akan senang jika Bapak dapat menggunakannya.</span></span></p>
+  </div>
+
+  <div class="notes">
+    <b>（※1）画面（がめん）</b>：layar, bagian tempat huruf muncul　／　<b>（※2）返品（へんぴん）</b>：mengembalikan barang yang dibeli　／　<b>（※3）作動する（さどうする）</b>：bekerja (tentang mesin)<br>
+    <b>（※4）おわびの印（しるし）</b>：barang/tanda sebagai ungkapan “maaf”　／　<b>（※5）同封する（どうふうする）</b>：menyertakan di dalam surat.
+  </div>
+
+  <div class="questions">
+    <div class="q" data-answer="4">
+      <div class="q-title">問3　この手紙は何を伝えるために書かれたか。<small>Untuk menyampaikan apa surat ini ditulis?</small></div>
+      <label class="opt"><input type="radio" name="n14q1" value="1"><span><span class="opt-jp">おわびの印を別に送ることを知らせるため。</span><span class="opt-id">Memberi tahu bahwa tanda permohonan maaf dikirim terpisah.</span></span></label>
+      <label class="opt"><input type="radio" name="n14q1" value="2"><span><span class="opt-jp">製品のチェックをすることを知らせるため。</span><span class="opt-id">Memberi tahu bahwa mereka akan memeriksa produk.</span></span></label>
+      <label class="opt"><input type="radio" name="n14q1" value="3"><span><span class="opt-jp">ノートパソコンの画面が暗かったことを伝えるため。</span><span class="opt-id">Menyampaikan bahwa layar laptopnya gelap.</span></span></label>
+      <label class="opt"><input type="radio" name="n14q1" value="4"><span><span class="opt-jp">ノートパソコンを修理して送ったことを伝えるため。</span><span class="opt-id">Memberi tahu bahwa laptopnya sudah diperbaiki dan dikirim.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 4</div>
+        <ul>
+          <li>Inti surat: 「早速、修理いたしまして別便でお送りさせていただきました」→ memberi tahu laptop sudah diperbaiki dan dikirim.</li>
+          <li><b>1 ✗</b> kupon justru <i>disertakan</i> (同封), bukan dikirim terpisah. <b>2 ✗</b> hanya janji tambahan. <b>3 ✗</b> itu penyebab masalah, bukan tujuan surat.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q" data-answer="2">
+      <div class="q-title">問4　この手紙を読んでわかることはどれか。<small>Apa yang dapat diketahui dari surat ini?</small></div>
+      <label class="opt"><input type="radio" name="n14q2" value="1"><span><span class="opt-jp">高橋さんは株式会社GTSのノートパソコンを買ったことを後悔している。</span><span class="opt-id">Takahashi menyesal membeli laptop dari PT GTS.</span></span></label>
+      <label class="opt"><input type="radio" name="n14q2" value="2"><span><span class="opt-jp">高橋さんのノートパソコンは、ライトに問題があった。</span><span class="opt-id">Laptop Takahashi bermasalah pada lampunya.</span></span></label>
+      <label class="opt"><input type="radio" name="n14q2" value="3"><span><span class="opt-jp">ノートパソコンは、画面が暗くて見にくいという問題がよく起きる。</span><span class="opt-id">Laptop sering bermasalah layarnya gelap dan sulit dilihat.</span></span></label>
+      <label class="opt"><input type="radio" name="n14q2" value="4"><span><span class="opt-jp">株式会社GTSは製品チェックをしないでノートパソコンを売っていた。</span><span class="opt-id">PT GTS menjual laptop tanpa memeriksa produknya.</span></span></label>
+      <div class="tools"><button class="show" type="button">Show answer</button></div>
+      <div class="ans">
+        <div class="key">Jawaban: 2</div>
+        <ul>
+          <li>「ライトがうまく作動していなかった」→ lampunyalah yang bermasalah.</li>
+          <li><b>1 ✗</b> tidak ada pernyataan menyesal. <b>3 ✗</b> kejadian ini dianggap khusus, bukan sering. <b>4 ✗</b> justru dikatakan akan <i>memperkuat</i> pemeriksaan produk.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<p class="hint">Catatan: tombol bahasa di kanan bawah mengganti seluruh bacaan — 日本語 (semua Jepang), Indonesia (semua Indonesia), 両方 (Jepang dan Indonesia bertumpuk). Klik satu kalimat untuk menggantinya sendiri tanpa mengubah kalimat lain.</p>
 </main>
 
 <div class="floating" aria-label="Pilih bahasa">
@@ -387,6 +943,40 @@ document.querySelectorAll('.q').forEach(q => {
   const key = (q.dataset.answer || '').split(',').map(s => s.trim()).filter(Boolean);
   const btn = q.querySelector('.show');
   const ans = q.querySelector('.ans');
+
+  /* tombol ID: tampilkan/sembunyikan terjemahan soal ini (default tersembunyi) */
+  const peek = document.createElement('button');
+  peek.type = 'button';
+  peek.className = 'peek';
+  peek.textContent = 'ID';
+  peek.title = 'Tampilkan terjemahan instruksi soal';
+  peek.setAttribute('aria-pressed', 'false');
+  q.querySelector('.q-title').appendChild(peek);
+  peek.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    const open = q.classList.toggle('reveal-id');
+    peek.classList.toggle('open', open);
+    peek.setAttribute('aria-pressed', String(open));
+    peek.textContent = open ? 'Tutup' : 'ID';
+  });
+
+  /* switch per pilihan jawaban: klik untuk melihat arti pilihan itu saja */
+  q.querySelectorAll('.opt').forEach(opt => {
+    const sw = document.createElement('button');
+    sw.type = 'button';
+    sw.className = 'peek-opt';
+    sw.textContent = 'ID';
+    sw.title = 'Terjemahkan pilihan ini';
+    opt.appendChild(sw);
+    sw.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      const open = opt.classList.toggle('reveal');
+      sw.classList.toggle('open', open);
+      sw.textContent = open ? 'JP' : 'ID';
+    });
+  });
   btn.addEventListener('click', () => {
     const open = ans.classList.toggle('show');
     btn.classList.toggle('open', open);
